@@ -42,7 +42,7 @@ class Player(pg.sprite.Sprite):
         
         if keys[pg.K_SPACE] or keys[pg.K_UP] or keys[pg.K_w]:
             self.jump()
-            
+        
         self.apply_gravity()
         
         #keep rect in screen
