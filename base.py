@@ -20,6 +20,11 @@ rect_x = (screen_width - rect_width) // 2
 rect_y = (screen_height - rect_height) // 2
 rect_speed = 5
 
+#gravity properties
+gravity = 0.5
+vertical_velocity = 0
+jump_strength = -15  #negative value to move upwards
+
 clock = pygame.time.Clock()
 
 #main game loop
@@ -40,10 +45,15 @@ while running:
         rect_x -= rect_speed
     if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         rect_x += rect_speed
-    if keys[pygame.K_UP] or keys[pygame.K_w]:
-        rect_y -= rect_speed
-    if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-        rect_y += rect_speed
+
+    #jump
+    if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
+        if rect_y == screen_height - rect_height:  #check if the character is on the ground
+            vertical_velocity = jump_strength
+
+    # Apply gravity
+    vertical_velocity += gravity
+    rect_y += vertical_velocity
 
     #keep rect in screen
     rect_x = max(0, min(screen_width - rect_width, rect_x))
