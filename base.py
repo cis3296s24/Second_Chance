@@ -13,14 +13,6 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 #color
 RED = (255, 0, 0)
 
-#character properties
-rect_width = 50
-rect_height = 50
-rect_x = (screen_width - rect_width) // 2
-rect_y = (screen_height - rect_height) // 2
-rect_speed = 5
-player = Player(rect_x, rect_y, rect_width, rect_height, rect_speed, RED)
-
 # Platforms
 platform_group = pygame.sprite.Group()
 platform_group.add(
@@ -30,6 +22,14 @@ platform_group.add(
     Platform(400, 400),
     Platform(500, 500)
 )
+
+#character properties
+rect_width = 50
+rect_height = 50
+rect_x = (screen_width - rect_width) // 2
+rect_y = (screen_height - rect_height) // 2
+rect_speed = 5
+player = Player(rect_x, rect_y, rect_width, rect_height, rect_speed, RED, platform_group)
 
 #gravity properties
 gravity = 0.5
@@ -49,10 +49,6 @@ while running:
             running = False
 
     player.update()
-    
-    for platform in platform_group:
-        if pygame.sprite.collide_rect(player, platform):
-            player.rect.bottom = platform.rect.top
 
     platform_group.draw(screen)
     player.draw()
