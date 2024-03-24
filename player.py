@@ -1,4 +1,5 @@
 import pygame as pg
+import math
 from platforms import Platform
 
 class Player(pg.sprite.Sprite):
@@ -35,7 +36,11 @@ class Player(pg.sprite.Sprite):
             self.on_ground = False
         
     def check_collision(self):
-        player_rect_after = pg.Rect(self.rect.x, self.rect.y + self.vertical_velocity, self.rect.width, self.rect.height)
+        # Check if rect (after being updated) collides with platform
+        player_rect_after = pg.Rect(
+            self.rect.x, self.rect.y + math.ceil(self.vertical_velocity), 
+            self.rect.width, self.rect.height
+        )
         for platform in self.platform_group:
             if platform.rect.colliderect(player_rect_after):
                 if self.vertical_velocity > 0: # if currently falling
@@ -77,7 +82,8 @@ class Player(pg.sprite.Sprite):
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
         
-        self.debug()
+        # Display player info for debugging purposes
+        # self.debug()
         
         
     def draw(self):
