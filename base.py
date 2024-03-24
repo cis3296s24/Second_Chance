@@ -29,7 +29,7 @@ rect_height = 50
 rect_x = (screen_width - rect_width) // 2
 rect_y = (screen_height - rect_height) // 2
 rect_speed = 5
-player = Player(rect_x, rect_y, rect_width, rect_height, rect_speed, RED, platform_group)
+player = Player(rect_x, rect_y, rect_width, rect_height, RED, platform_group)
 
 #gravity properties
 gravity = 0.5
