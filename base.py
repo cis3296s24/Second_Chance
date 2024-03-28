@@ -9,7 +9,13 @@ pygame.init()
 screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
-bg = pygame.image.load('back.png')
+try:
+    bg = pygame.image.load(open("images/back.png"))
+
+except:
+    print("file not found")
+
+
 
 #color
 RED = (255, 0, 0)
