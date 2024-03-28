@@ -3,25 +3,32 @@ This is a platformer-style video game with a mechanic of always giving the user 
 
 # How to run
 
-To run the game, clone the repository:
+- Download and extract the `SecondChance.zip` file from the latest
+[release](https://github.com/cis3296s24/02_Second_Chance/releases).
+- Run the `base.exe` executable to launch the game.
 
-- `git clone https://github.com/cis3296s24/02_Second_Chance.git`
+## Controls
 
-Install any dependencies listed in `requirements.txt`:
-
-- `pip install -r requirements.txt`
-
-Then run `main.py`:
-
-- `python main.py`
+- `LeftArrow`/`a`: Move left
+- `RightArrow`/`d`: Move right
+- `UpArrow`/`Spacebar`/`w`: Jump 
 
 # How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
+Follow this project board to know the latest status of the project: https://github.com/orgs/cis3296s24/projects/71
+
+### Requirements
+
+Requires Python 3.0+, Pygame, and Git.
+
+Download the latest version of Python [here](https://www.python.org/downloads/)
+and the latest version of git [here](https://git-scm.com/downloads).
 
 ### How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+- Use this github repository: https://github.com/cis3296s24/02_Second_Chance
+- Fork from the `main` branch for the most stable
+  release, or clone this repository with:
+  - `git clone https://github.com/cis3296s24/02_Second_Chance.git`
+- Open the project in your IDE.
+- Run `pip install -r requirements.txt` to install `pygame` and other necessary dependencies.
+- Run `python base.py` to launch the game. 
+- Afterwards, the game window opens and you can control your character. 
