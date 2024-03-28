@@ -9,6 +9,7 @@ pygame.init()
 screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
+bg = pygame.image.load('back.png')
 
 #color
 RED = (255, 0, 0)
@@ -41,7 +42,7 @@ clock = pygame.time.Clock()
 #main game loop
 running = True
 while running:
-    screen.fill((0, 0, 0))  #black backgrund
+    screen.blit(bg,(0,0)) #black backgrund
 
     #handle events, this will contain more in future
     for event in pygame.event.get():
