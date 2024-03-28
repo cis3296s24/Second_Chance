@@ -12,6 +12,12 @@ class Player(pg.sprite.Sprite):
         self.color = color
         self.platform_group = platform_group
         self.on_ground = False
+        self.scale_factor = 2
+        
+        #Path for character image
+        self.character_image = pg.image.load("character.png")
+        
+        self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
         self.font = pg.font.Font(None, 36) # TODO
         
@@ -87,7 +93,9 @@ class Player(pg.sprite.Sprite):
         
         
     def draw(self):
-        self.screen.fill(self.color, self.rect)
+        image_x = self.rect.x - (self.rect.width * (self.scale_factor - 1)) / 2
+        image_y = self.rect.y - (self.rect.height * (self.scale_factor - 1)) / 2
+        self.screen.blit(self.character_image, (image_x, image_y))
 
     def debug(self):
         text = f"""
