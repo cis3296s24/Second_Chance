@@ -1,6 +1,6 @@
 import pygame as pg
 import math
-from platforms import Platform
+from src.objects.platforms import Platform
 
 class Player(pg.sprite.Sprite):
     def __init__(self, x, y, width, height, color, platform_group):

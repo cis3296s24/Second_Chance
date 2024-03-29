@@ -1,7 +1,7 @@
 import pygame
 import sys
-from player import Player
-from platforms import Platform
+from src.entities.player import Player
+from src.objects.platforms import Platform
 
 pygame.init()
 
