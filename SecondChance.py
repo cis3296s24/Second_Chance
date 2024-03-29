@@ -11,6 +11,15 @@ screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 
+# Load background music
+pygame.mixer.music.load('assets/music/TestSong.mp3')
+
+# Set initial volume
+volume = 0.5  # Initial volume level (between 0 and 1)
+pygame.mixer.music.set_volume(volume)
+
+pygame.mixer.music.play(-1)  # Start playing background music on a loop
+
 #color
 RED = (255, 0, 0)
 
@@ -20,13 +29,64 @@ def main_menu():
 
     # Add buttons to the menu
     menu.add.button('Start Game', game_loop)
-    menu.add.button("Instructions")
-    menu.add.button("Leaderboard")
-    menu.add.button("Options")
+    menu.add.button("Instructions", instructions_menu)
+    menu.add.button("Leaderboard", leaderboard_menu)
+    menu.add.button("Options", options_menu)
     menu.add.button('Quit', pygame_menu.events.EXIT)
 
     # Run menu
     menu.mainloop(screen)
+
+def instructions_menu():
+    instructions_menu = pygame_menu.Menu('Instructions', screen_width, screen_height, theme=pygame_menu.themes.THEME_BLUE)
+
+    # Add game instructions
+    instructions_text = "To move, use left and right arrow keys, or a and d\nTo jump, use up arrow key, or spacebar"
+    instructions_menu.add.label(instructions_text, max_char=-1, font_size=20)
+
+    # Add back button
+    instructions_menu.add.button('Back', main_menu)
+
+    instructions_menu.mainloop(screen)
+
+def leaderboard_menu():
+    leaderboard_menu = pygame_menu.Menu('Leaderboard', screen_width, screen_height, theme=pygame_menu.themes.THEME_BLUE)
+
+    # Add game instructions
+    instructions_text = "Work in progress"
+    leaderboard_menu.add.label(instructions_text, max_char=-1, font_size=20)
+
+    # Add back button
+    leaderboard_menu.add.button('Back', main_menu)
+
+    leaderboard_menu.mainloop(screen)
+
+def options_menu():
+    # Create options menu
+    options_menu = pygame_menu.Menu('Options', screen_width, screen_height, theme=pygame_menu.themes.THEME_BLUE)
+
+    # Add volume control buttons
+    volume_label = options_menu.add.label('Volume: {}'.format(int(volume * 100)))
+    volume_label.update_font({'size': 30})  # Set font size for the label
+
+    options_menu.add.button('Increase Volume', increase_volume)
+    options_menu.add.button('Decrease Volume', decrease_volume)
+
+    # Add back button
+    options_menu.add.button('Back', main_menu)
+
+    # Run options menu
+    options_menu.mainloop(screen)
+
+def increase_volume():
+    global volume
+    volume = min(volume + 0.1, 1.0)  # Increase volume by 0.1, but ensure it doesn't exceed 1.0
+    pygame.mixer.music.set_volume(volume)
+
+def decrease_volume():
+    global volume
+    volume = max(volume - 0.1, 0.0)  # Decrease volume by 0.1, but ensure it doesn't go below 0.0
+    pygame.mixer.music.set_volume(volume)
 
 def game_loop():
     # Platforms
