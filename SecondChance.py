@@ -19,11 +19,11 @@ def main_menu():
     menu = pygame_menu.Menu('Second Chance', screen_width, screen_height, theme=pygame_menu.themes.THEME_BLUE)
 
     # Add buttons to the menu
-    menu.add.button('Start Game')
+    menu.add.button('Start Game', game_loop)
     menu.add.button("Instructions")
     menu.add.button("Leaderboard")
     menu.add.button("Options")
-    menu.add.button('Quit')
+    menu.add.button('Quit', pygame_menu.events.EXIT)
 
     # Run menu
     menu.mainloop(screen)
