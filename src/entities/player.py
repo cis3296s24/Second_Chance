@@ -15,7 +15,7 @@ class Player(pg.sprite.Sprite):
         self.scale_factor = 2
         
         #Path for character image
-        self.character_image = pg.image.load("character.png")
+        self.character_image = pg.image.load("assets/characters/character.png")
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
