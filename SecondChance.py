@@ -1,9 +1,9 @@
 import pygame as pg
 import sys
 
-from constants import *
-from states.state_manager import StateManager
-from states.state import State
+from src.constants import *
+from src.states.state_manager import StateManager
+from src.states.state import State
 
 class Game:
     """The Game class contains the main game loop.
@@ -12,11 +12,13 @@ class Game:
     def __init__(self):
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pg.time.Clock()
-        self.manager = StateManager()
         self.running = True
+        self.load_assets()
+        
         # Associate all States created afterward with this game object instance
         # and the game's state manager
         setattr(State, "game", self)
+        self.manager = StateManager()
         setattr(State, "manager", self.manager)
 
     def run(self):
@@ -35,7 +37,9 @@ class Game:
             self.clock.tick(FRAME_RATE)
             
     def load_assets(self):
-        pass
+        self.assets_dir = os.path.join("assets")
+        self.character_dir = os.path.join(self.assets_dir, "characters")
+        self.background_dir = os.path.join(self.assets_dir, "backgrounds")
             
 if __name__ == "__main__":
     pg.init()
