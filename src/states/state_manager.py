@@ -1,4 +1,4 @@
-from .title_screen import TitleScreen
+from .menu.title_screen import TitleScreen
 from .state import State
 
 class StateManager:
@@ -14,3 +14,4 @@ class StateManager:
         :param state: The class name for the state to switch to.
         """
         self.state = state()
+        print(self.state) # Used to show states changing # TODO remove
