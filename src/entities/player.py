@@ -3,19 +3,18 @@ import math
 from src.objects.platforms import Platform
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, x, y, width, height, color, platform_group):
+    def __init__(self, x, y, platform_group):
         super().__init__()
         self.screen = pg.display.get_surface()
-        self.image = pg.Surface((width, height))
+        self.image = pg.Surface((50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.color = color
         self.platform_group = platform_group
         self.on_ground = False
         self.scale_factor = 2
         
         #Path for character image
-        self.character_image = pg.image.load("character.png")
+        self.character_image = pg.image.load("assets/characters/character.png")
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
@@ -90,7 +89,6 @@ class Player(pg.sprite.Sprite):
         
         # Display player info for debugging purposes
         # self.debug()
-        
         
     def draw(self):
         image_x = self.rect.x - (self.rect.width * (self.scale_factor - 1)) / 2
