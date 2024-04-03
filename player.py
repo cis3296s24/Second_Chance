@@ -3,6 +3,8 @@ import math
 from platforms import Platform
 
 class Player(pg.sprite.Sprite):
+
+    
     def __init__(self, x, y, width, height, color, platform_group):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -12,6 +14,12 @@ class Player(pg.sprite.Sprite):
         self.color = color
         self.platform_group = platform_group
         self.on_ground = False
+        self.scale_factor = 2
+        
+        #Path for character image
+        self.character_image = pg.image.load(open("images/character/stand.png"))
+        
+        self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
         self.font = pg.font.Font(None, 36) # TODO
         
@@ -87,7 +95,9 @@ class Player(pg.sprite.Sprite):
         
         
     def draw(self):
-        self.screen.fill(self.color, self.rect)
+        image_x = self.rect.x - (self.rect.width * (self.scale_factor - 1)) / 2
+        image_y = self.rect.y - (self.rect.height * (self.scale_factor - 1)) / 2
+        self.screen.blit(self.character_image, (image_x, image_y))
 
     def debug(self):
         text = f"""
@@ -97,4 +107,8 @@ class Player(pg.sprite.Sprite):
         | {self.rect.bottom}, {self.screen.get_height()}"""
         text_surface = self.font.render(text, True, "red")
         self.screen.blit(text_surface, (0,20))
+    
+    def characteropen(imageName):
+        return open("images/character/" + imageName)
+        
         
