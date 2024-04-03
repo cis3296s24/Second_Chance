@@ -9,7 +9,7 @@ class Player(pg.sprite.Sprite):
         return imageLoad
 
     animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
-    animationLeft = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
+    animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
 
     def __init__(self, x, y, width, height, color, platform_group):
         super().__init__()
@@ -43,6 +43,8 @@ class Player(pg.sprite.Sprite):
         
         if keys[pg.K_LEFT] or keys[pg.K_a]:
             self.rect.x -= self.speed
+            self.isRight = False
+            self.isLeft = True
         elif keys[pg.K_RIGHT] or keys[pg.K_d]:
             self.rect.x += self.speed
             self.isRight = True
@@ -121,8 +123,11 @@ class Player(pg.sprite.Sprite):
             self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
             self.screen.blit(self.character_image,(image_x,image_y))
             self.walkcount += 1
-        # elif self.isLeft:
-        #     self.screen.blit(self.animationRight[self.walkcount // 3],self.rect.center)
+        elif self.isLeft:
+            self.character_image = self.animationLeft[self.walkcount//3]
+            self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
+            self.screen.blit(self.character_image,(image_x,image_y))
+            self.walkcount += 1        
         else:
             self.character_image = pg.image.load(open("images/character/stand.png"))
             self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
