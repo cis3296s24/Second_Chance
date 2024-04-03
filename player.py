@@ -4,7 +4,13 @@ from platforms import Platform
 
 class Player(pg.sprite.Sprite):
 
-    
+    def characteropen(imageName):
+        imageLoad = pg.image.load(open("images/character/" + imageName + ".png")) 
+        return imageLoad
+
+    animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
+    animationLeft = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
+
     def __init__(self, x, y, width, height, color, platform_group):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -18,7 +24,6 @@ class Player(pg.sprite.Sprite):
         
         #Path for character image
         self.character_image = pg.image.load(open("images/character/stand.png"))
-        
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
         self.font = pg.font.Font(None, 36) # TODO
@@ -28,14 +33,24 @@ class Player(pg.sprite.Sprite):
         self.vertical_velocity = 0
         self.jump_strength = -15
 
+    walkcount = 0
+    isRight = False
+    isLeft = False
     def move(self):
-        #move as specified
+        #move as specified   
         keys = pg.key.get_pressed()
+             
         
         if keys[pg.K_LEFT] or keys[pg.K_a]:
             self.rect.x -= self.speed
-        if keys[pg.K_RIGHT] or keys[pg.K_d]:
+        elif keys[pg.K_RIGHT] or keys[pg.K_d]:
             self.rect.x += self.speed
+            self.isRight = True
+            self.isLeft = False
+        else:
+            self.isLeft = False
+            self.isRight = False
+            self.walkcount = 0
 
     def jump(self):
         #check if the character is on the ground        
@@ -75,7 +90,7 @@ class Player(pg.sprite.Sprite):
             
         # Check collision with platforms
         self.check_collision()
-            
+    
         # Movement
         self.move()
 
@@ -97,7 +112,21 @@ class Player(pg.sprite.Sprite):
     def draw(self):
         image_x = self.rect.x - (self.rect.width * (self.scale_factor - 1)) / 2
         image_y = self.rect.y - (self.rect.height * (self.scale_factor - 1)) / 2
-        self.screen.blit(self.character_image, (image_x, image_y))
+        # self.screen.blit(self.character_image, (image_x, image_y))
+
+        if self.walkcount + 1 >= 27 :
+            self.walkcount = 0
+        if self.isRight:
+            self.character_image = self.animationRight[self.walkcount//3]
+            self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
+            self.screen.blit(self.character_image,(image_x,image_y))
+            self.walkcount += 1
+        # elif self.isLeft:
+        #     self.screen.blit(self.animationRight[self.walkcount // 3],self.rect.center)
+        else:
+            self.character_image = pg.image.load(open("images/character/stand.png"))
+            self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
+            self.screen.blit(self.character_image,(image_x,image_y))
 
     def debug(self):
         text = f"""
@@ -108,7 +137,6 @@ class Player(pg.sprite.Sprite):
         text_surface = self.font.render(text, True, "red")
         self.screen.blit(text_surface, (0,20))
     
-    def characteropen(imageName):
-        return open("images/character/" + imageName)
+
         
         

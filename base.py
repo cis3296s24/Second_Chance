@@ -23,6 +23,9 @@ RED = (255, 0, 0)
 platform_group = pygame.sprite.Group()
 platform_group.add(
     Platform(100, 100),
+    Platform(200,100),
+    Platform(300,100),
+    Platform(400,100),
     Platform(200, 200),
     Platform(300, 300),
     Platform(400, 400),
