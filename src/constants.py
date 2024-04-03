@@ -2,7 +2,6 @@ import os
 
 FRAME_RATE = 60
 
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 270
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
-ASSETS_DIR = os.path.join("assets")

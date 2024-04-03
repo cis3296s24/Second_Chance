@@ -1,72 +1,76 @@
 import pygame as pg
+import pygame_menu
 
-from ..state import State
+from src.states.state import State
 from src.constants import *
+from ..levels.level1_1 import Level1_1
 
+# Not using relative import to handle circular import issue when importing TitleScreen
+# TODO Fix this later
+import src.states.menu.title_screen as ts
 
-class Menu(State):
-    """A Menu is a type of state where the user can select from two or more
-    options on the screen."""
-    def __init__(self, options_img, options, header_text=None):
-        super().__init__(options_img)
-        self.font = pg.font.SysFont("georgia", 30)
-        self.cursor_index = 0
-        self.options_surface = pg.image.load(os.path.join(
-            ASSETS_DIR, options_img))
-    
-        if header_text is not None:
-            self.header_surface = self.font.render(header_text, False, "Black")
-
-    def update_cursor(self):
-        pass
-
-
-class PlayMenu(Menu):
+class StartMenu(State):
     def __init__(self):
-        super().__init__("PlaYOpTiOns.png", options=["Play", "Options"])
+        super().__init__("background.png") # Change to start menu background
+        self.main_menu()
         
-    def handle_events(self, event):
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_RIGHT:
-                self.manager.set_state(OptionsMenu())
+    def handle_events(self, events):
+        for event in events:
+            if event.type != pg.KEYDOWN:
+                return
+            if event.key == pg.K_ESCAPE:
+                self.manager.set_state(ts.TitleScreen)
+            # Update menu here because pg.KEYDOWN event only occurs once, so
+            # holding 'Enter' does not skip past the menu
+            if self.menu.is_enabled():
+                self.menu.update(events)
                 
-
-class OptionsMenu(Menu):
-    def __init__(self):
-        super().__init__("Options.png", ["Video", "Audio"])
-
-    def handle_events(self, event):
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_LEFT:
-                self.manager.set_state(PlayMenu())
-
-    def update(self):
-        pass
-
-
-class SelectMode(Menu):
-    def __init__(self):
-        pass
-
-    def handle_events(self):
-        pass
-
-    def update(self):
-        pass
-
     def draw(self):
-        pass
+        self.menu.draw(self.screen)
+    
+    def main_menu(self):
+        # Create menu
+        self.menu = pygame_menu.Menu('Second Chance', SCREEN_WIDTH, SCREEN_HEIGHT, 
+                                theme=pygame_menu.themes.THEME_BLUE)
 
+        # Add buttons to the menu
+        self.menu.add.button('Start Game', self.manager.set_state, Level1_1)
+        self.menu.add.button("Instructions", self.instructions_menu)
+        self.menu.add.button("Leaderboard", self.leaderboard_menu)
+        self.menu.add.button("Options", self.options_menu)
+        self.menu.add.button('Quit', pygame_menu.events.EXIT)
 
-class Party(Menu):
-    def __init__(self):
-        pass
+    def instructions_menu(self):
+        self.menu = pygame_menu.Menu('Instructions', SCREEN_WIDTH, SCREEN_HEIGHT, 
+                                             theme=pygame_menu.themes.THEME_BLUE)
 
-    def handle_events(self):
-        pass
+        # Add game instructions
+        instructions_text = "To move, use left and right arrow keys, or a and d\nTo jump, use up arrow key, or spacebar"
+        self.menu.add.label(instructions_text, max_char=-1, font_size=20)
 
-    def update(self):
-        pass
+        # Add back button
+        self.menu.add.button('Back', self.main_menu)
 
-    def draw(self):
-        pass
+    def leaderboard_menu(self):
+        self.menu = pygame_menu.Menu('Leaderboard', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
+
+        # Add game instructions
+        instructions_text = "Work in progress"
+        self.menu.add.label(instructions_text, max_char=-1, font_size=20)
+
+        # Add back button
+        self.menu.add.button('Back', self.main_menu)
+
+    def options_menu(self):
+        # Create options menu
+        self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
+
+        # Add volume control buttons
+        volume_label = self.menu.add.label('Volume: {}'.format(int(self.game.volume * 100)))
+        volume_label.update_font({'size': 30})  # Set font size for the label
+
+        self.menu.add.button('Increase Volume', self.game.increase_volume)
+        self.menu.add.button('Decrease Volume', self.game.decrease_volume)
+
+        # Add back button
+        self.menu.add.button('Back', self.main_menu)
