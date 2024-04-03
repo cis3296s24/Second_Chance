@@ -13,3 +13,10 @@ class TitleScreen(State):
                 return
             if event.key == pg.K_RETURN:
                 self.manager.set_state(StartMenu)
+
+    def draw(self):
+        super().draw()
+        self.screen.blit(
+            pg.font.Font(None, 36).render("Press 'Enter' to start", True, "black"),
+            (self.screen.get_width()/2, self.screen.get_height()-100)   
+        )
