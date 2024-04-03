@@ -15,15 +15,14 @@ class StartMenu(State):
         self.main_menu()
         
     def handle_events(self, events):
+        if self.menu.is_enabled():
+            self.menu.update(events)
+        
         for event in events:
             if event.type != pg.KEYDOWN:
                 return
             if event.key == pg.K_ESCAPE:
                 self.manager.set_state(ts.TitleScreen)
-            # Update menu here because pg.KEYDOWN event only occurs once, so
-            # holding 'Enter' does not skip past the menu
-            if self.menu.is_enabled():
-                self.menu.update(events)
                 
     def draw(self):
         self.menu.draw(self.screen)
