@@ -34,9 +34,13 @@ class Player(pg.sprite.Sprite):
         if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0:
             self.rect.x -= self.speed
             self.scroll -= 3
+            for platform in self.platform_group:
+                platform.rect.x += 3  # Move platforms with player
         if (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
             self.rect.x += self.speed
             self.scroll += 3
+            for platform in self.platform_group:
+                platform.rect.x -= 3  # Move platforms with player
 
     def jump(self):
         #check if the character is on the ground        
