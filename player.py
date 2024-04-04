@@ -3,7 +3,11 @@ import math
 from platforms import Platform
 
 class Player(pg.sprite.Sprite):
+<<<<<<< Updated upstream:player.py
     def __init__(self, x, y, width, height, color, platform_group, scroll):
+=======
+    def __init__(self, x, y, platform_group, scroll):
+>>>>>>> Stashed changes:src/entities/player.py
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((width, height))
