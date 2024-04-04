@@ -33,22 +33,25 @@ class Player(pg.sprite.Sprite):
     walkcount = 0
     isRight = False
     isLeft = False
+    prevPress = ""
     def move(self):
         #move as specified
         keys = pg.key.get_pressed()
 #         check player is facing right or left
-        if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0: 
+        if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0:
             self.rect.x -= self.speed
             self.scroll -= 3
             self.isRight = False
             self.isLeft = True
+            self.prevPress = "left"
             for platform in self.platform_group:
                 platform.rect.x += 3  # Move platforms with player
-        if (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
+        elif (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
             self.rect.x += self.speed
             self.scroll += 3
             self.isRight = True
             self.isLeft = False
+            self.prevPress = "right"
             for platform in self.platform_group:
                 platform.rect.x -= 3  # Move platforms with player
         else:
@@ -115,23 +118,29 @@ class Player(pg.sprite.Sprite):
     def draw(self):
         image_x = self.rect.x - (self.rect.width * (self.scale_factor - 1)) / 2
         image_y = self.rect.y - (self.rect.height * (self.scale_factor - 1)) / 2
-        # self.screen.blit(self.character_image, (image_x, image_y))
-        if self.walkcount + 1 >= 27 :
-            self.walkcount = 0
+
         if self.isRight:
             self.character_image = self.animationRight[self.walkcount//3]
             self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
             self.screen.blit(self.character_image,(image_x,image_y))
             self.walkcount += 1
+            
         elif self.isLeft:
             self.character_image = self.animationLeft[self.walkcount//3]
             self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
             self.screen.blit(self.character_image,(image_x,image_y))
-            self.walkcount += 1        
+            self.walkcount += 1 
+
         else:
-            self.character_image = pg.image.load(open("asssets/characters/stand.png"))
+            if (self.prevPress == "left"):
+                self.character_image = pg.image.load(open("assets/characters/stand_L.png"))
+            else:
+                self.character_image = pg.image.load(open("assets/characters/stand.png"))
             self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
             self.screen.blit(self.character_image,(image_x,image_y))
+
+        if self.walkcount + 1 >= 27 :
+            self.walkcount = 0
 
     def debug(self):
         text = f"""
