@@ -18,12 +18,13 @@ class LeaderboardManager:
         # Load font
         self.FONT = pygame.font.SysFont(None, 30)
 
-        # Firebase initialization
-        json_file_path = os.path.join(game.resources_dir, "second-chance-64b66-firebase-adminsdk-etkn4-2927af9e64.json")
-        cred = credentials.Certificate(json_file_path)
-        firebase_admin.initialize_app(cred, {
-            'databaseURL': 'https://second-chance-64b66-default-rtdb.firebaseio.com/'
-        })
+        #Firebase initialization
+        if not firebase_admin._apps:  #check that firebase has not been initialized
+            json_file_path = os.path.join(game.resources_dir, "second-chance-64b66-firebase-adminsdk-etkn4-2927af9e64.json")
+            cred = credentials.Certificate(json_file_path)
+            firebase_admin.initialize_app(cred, {
+                'databaseURL': 'https://second-chance-64b66-default-rtdb.firebaseio.com/'
+            })
 
     def update_leaderboard(self, player_name, score):
         ref = db.reference('/leaderboard')
@@ -49,19 +50,9 @@ class LeaderboardManager:
                 text_y += 30
 
         pygame.display.flip()  # Update display
+        
 
-    def run(self):
-        # Main loop
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
 
-            leaderboard = self.fetch_leaderboard()
-            self.display_leaderboard(leaderboard)
-
-        pygame.quit()
 
 # Testing purposes
 #if __name__ == "__main__":
