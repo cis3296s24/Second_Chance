@@ -15,7 +15,7 @@ class StartMenu(State):
     def __init__(self):
         super().__init__("background.png") # Change to start menu background
 
-        self.leaderboard = LeaderboardManager()
+        self.leaderboard = LeaderboardManager(self.game)
         
         self.main_menu()
         

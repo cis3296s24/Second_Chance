@@ -49,6 +49,7 @@ class Game:
         self.assets_dir = os.path.join("assets")
         self.character_dir = os.path.join(self.assets_dir, "characters")
         self.background_dir = os.path.join(self.assets_dir, "backgrounds")
+        self.resources_dir = os.path.join("resources")
             
     def increase_volume(self):
         self.volume = min(self.volume + 0.1, 1.0)  # Increase self.volume by 0.1, but ensure it doesn't exceed 1.0

@@ -4,7 +4,7 @@ from cx_Freeze import setup, Executable
 # fine tuning.
 build_options = {
     'packages': [],
-    'include_files': ["assets/"],
+    'include_files': ["assets/", "resources/"],
     'excludes': []
 }
 

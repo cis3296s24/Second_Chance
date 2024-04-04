@@ -5,7 +5,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 
 class LeaderboardManager:
-    def __init__(self):
+    def __init__(self, game):
         # Initialize Pygame
         pygame.init()
 
@@ -19,8 +19,7 @@ class LeaderboardManager:
         self.FONT = pygame.font.SysFont(None, 30)
 
         # Firebase initialization
-        current_directory = os.path.dirname(__file__)
-        json_file_path = os.path.join(current_directory, "second-chance-64b66-firebase-adminsdk-etkn4-2927af9e64.json")
+        json_file_path = os.path.join(game.resources_dir, "second-chance-64b66-firebase-adminsdk-etkn4-2927af9e64.json")
         cred = credentials.Certificate(json_file_path)
         firebase_admin.initialize_app(cred, {
             'databaseURL': 'https://second-chance-64b66-default-rtdb.firebaseio.com/'
