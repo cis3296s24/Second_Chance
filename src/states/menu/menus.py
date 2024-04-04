@@ -5,6 +5,8 @@ from src.states.state import State
 from src.constants import *
 from ..levels.level1_1 import Level1_1
 
+from leaderboard import LeaderboardManager
+
 # Not using relative import to handle circular import issue when importing TitleScreen
 # TODO Fix this later
 import src.states.menu.title_screen as ts
@@ -12,6 +14,9 @@ import src.states.menu.title_screen as ts
 class StartMenu(State):
     def __init__(self):
         super().__init__("background.png") # Change to start menu background
+
+        self.leaderboard = LeaderboardManager()
+        
         self.main_menu()
         
     def handle_events(self, events):
@@ -51,14 +56,22 @@ class StartMenu(State):
         self.menu.add.button('Back', self.main_menu)
 
     def leaderboard_menu(self):
-        self.menu = pygame_menu.Menu('Leaderboard', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
+        # Fetch and display the leaderboard
+        leaderboard_data = self.leaderboard.fetch_leaderboard()
+        self.menu = pygame_menu.Menu('Leaderboard', SCREEN_WIDTH, SCREEN_HEIGHT,
+                                      theme=pygame_menu.themes.THEME_BLUE)
 
-        # Add game instructions
-        instructions_text = "Work in progress"
-        self.menu.add.label(instructions_text, max_char=-1, font_size=20)
+        # Add leaderboard entries to the menu
+        if leaderboard_data:
+            for i, (name, score) in enumerate(leaderboard_data.items(), start=1):
+                entry_text = f"{i}. {name}: {score}"
+                self.menu.add.label(entry_text, max_char=-1, font_size=20)
+        else:
+            self.menu.add.label("Leaderboard is empty", max_char=-1, font_size=20)
 
         # Add back button
         self.menu.add.button('Back', self.main_menu)
+
 
     def options_menu(self):
         # Create options menu
