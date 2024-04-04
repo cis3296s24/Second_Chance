@@ -4,12 +4,11 @@ from src.objects.platforms import Platform
 
 class Player(pg.sprite.Sprite):
     def characteropen(imageName):
-        imageLoad = pg.image.load(open("assests/characters/" + imageName + ".png")) 
+        imageLoad = pg.image.load(open("assets/characters/" + imageName + ".png")) 
         return imageLoad
     animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
     animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
-
-    def __init__(self, x, y, platform_group):
+    def __init__(self, x, y, platform_group, scroll):
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((50, 50))
@@ -18,15 +17,15 @@ class Player(pg.sprite.Sprite):
         self.platform_group = platform_group
         self.on_ground = False
         self.scale_factor = 2
-        
+        self.scroll = 0
         #Path for character image
-        self.character_image = pg.image.load("assets/characters/stand.png")
+        self.character_image = pg.image.load(open("assets/characters/stand.png"))
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
         self.font = pg.font.Font(None, 36) # TODO
         
-        self.speed = 5
+        self.speed = 2
         self.gravity = 0.5
         self.vertical_velocity = 0
         self.jump_strength = -15
@@ -37,20 +36,26 @@ class Player(pg.sprite.Sprite):
     def move(self):
         #move as specified
         keys = pg.key.get_pressed()
-        
-        if keys[pg.K_LEFT] or keys[pg.K_a]:
+#         check player is facing right or left
+        if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0: 
             self.rect.x -= self.speed
+            self.scroll -= 3
             self.isRight = False
             self.isLeft = True
-        if keys[pg.K_RIGHT] or keys[pg.K_d]:
+            for platform in self.platform_group:
+                platform.rect.x += 3  # Move platforms with player
+        if (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
             self.rect.x += self.speed
+            self.scroll += 3
             self.isRight = True
             self.isLeft = False
+            for platform in self.platform_group:
+                platform.rect.x -= 3  # Move platforms with player
         else:
             self.isLeft = False
             self.isRight = False
             self.walkcount = 0
-
+            
     def jump(self):
         #check if the character is on the ground        
         if self.on_ground:
