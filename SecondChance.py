@@ -20,6 +20,7 @@ class Game:
         self.volume = 0.5  # Initial volume level (between 0 and 1)
         pg.mixer.music.set_volume(self.volume)
         pg.mixer.music.play(-1)  # Start playing background music on a loop
+        pg.display.set_caption("Second Chance")
         
         self.load_assets()
         

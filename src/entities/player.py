@@ -3,7 +3,7 @@ import math
 from src.objects.platforms import Platform
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, x, y, platform_group):
+    def __init__(self, x, y, platform_group, scroll):
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((50, 50))
@@ -12,7 +12,7 @@ class Player(pg.sprite.Sprite):
         self.platform_group = platform_group
         self.on_ground = False
         self.scale_factor = 2
-        
+        self.scroll = 0
         #Path for character image
         self.character_image = pg.image.load("assets/characters/character.png")
         
@@ -20,7 +20,7 @@ class Player(pg.sprite.Sprite):
         
         self.font = pg.font.Font(None, 36) # TODO
         
-        self.speed = 5
+        self.speed = 2
         self.gravity = 0.5
         self.vertical_velocity = 0
         self.jump_strength = -15
@@ -29,10 +29,16 @@ class Player(pg.sprite.Sprite):
         #move as specified
         keys = pg.key.get_pressed()
         
-        if keys[pg.K_LEFT] or keys[pg.K_a]:
+        if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0:
             self.rect.x -= self.speed
-        if keys[pg.K_RIGHT] or keys[pg.K_d]:
+            self.scroll -= 3
+            for platform in self.platform_group:
+                platform.rect.x += 3  # Move platforms with player
+        if (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
             self.rect.x += self.speed
+            self.scroll += 3
+            for platform in self.platform_group:
+                platform.rect.x -= 3  # Move platforms with player
 
     def jump(self):
         #check if the character is on the ground        
