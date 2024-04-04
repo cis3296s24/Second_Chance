@@ -3,11 +3,13 @@ import math
 from src.objects.platforms import Platform
 
 class Player(pg.sprite.Sprite):
+  
     def characteropen(imageName):
         imageLoad = pg.image.load(open("assets/characters/" + imageName + ".png")) 
         return imageLoad
     animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
     animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
+    
     def __init__(self, x, y, platform_group, scroll):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -37,6 +39,7 @@ class Player(pg.sprite.Sprite):
     def move(self):
         #move as specified
         keys = pg.key.get_pressed()
+
 #         check player is facing right or left
         if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0:
             self.rect.x -= self.speed
