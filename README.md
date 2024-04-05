@@ -12,12 +12,11 @@ This is a platformer-style video game with a mechanic of always giving the user 
 - Fork from the `main` branch for the most stable
   release, or clone this repository with:
   - `git clone https://github.com/cis3296s24/Second_Chance.git`
-- Open the project in your IDE.
+- Open the Terminal.
+- Change your current directory into the location where you cloned the Second Chance Github repository.
 - Run `pip install -r requirements.txt` to install `pygame` and other necessary dependencies.
-- Open the Terminal
-- Change your current directory into the location where you cloned the Second Chance Github repository
 - Run `python3 SecondChance.py` to launch the game. 
-- Afterwards, the game window opens and you can control your character. 
+- Afterwards, the game window opens and you can play the game. 
 
 ## Controls
 
