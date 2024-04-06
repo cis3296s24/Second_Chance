@@ -21,7 +21,7 @@ class Level1_1(State):
             if event.type != pg.KEYDOWN:
                 return
             if event.key == pg.K_ESCAPE:
-                self.manager.set_state(menus.StartMenu)
+                self.manager.set_state(menus.PauseMenu, save_prev=True)
     
     def update(self, events):
         self.player.update()

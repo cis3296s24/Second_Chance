@@ -86,3 +86,23 @@ class StartMenu(State):
 
         # Add back button
         self.menu.add.button('Back', self.main_menu)
+        
+        
+class PauseMenu(State):
+    def __init__(self):
+        super().__init__()
+        self.menu = pygame_menu.Menu('Paused', 400, 300,
+                                     theme=pygame_menu.themes.THEME_BLUE)
+        self.menu.add.button('Return to game', self.manager.pop_state)
+        self.menu.add.button('Options', self.hi, "Not implemented yet")
+        self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
+
+    def handle_events(self, events):
+        self.menu.update(events)
+
+    def draw(self):
+        self.menu.draw(self.screen)
+
+    # TODO remove, just displaying what's not implemented yet
+    def hi(self, s):
+        print(s)
