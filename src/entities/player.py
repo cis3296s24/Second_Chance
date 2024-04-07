@@ -1,6 +1,8 @@
 import pygame as pg
 import math
+import time
 from src.objects.platforms import Platform
+from src.entities.attack import MeleeAttack
 
 class Player(pg.sprite.Sprite):
     def characteropen(imageName):
@@ -18,8 +20,20 @@ class Player(pg.sprite.Sprite):
         self.on_ground = False
         self.scale_factor = 2
         self.scroll = 0
+
+        self.invincible = False  # Attribute to track player's invincibility state
+        self.invincible_duration = 2  # Duration of invincibility frames in seconds
+        self.last_hit_time = 0  # Time when the player was last hit
+
+        self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
+        self.attack_initiated = False
+        self.prev_x = x  # Store the initial x-coordinate as previous x-coordinate
+        
         #Path for character image
         self.character_image = pg.image.load(open("assets/characters/stand.png"))
+
+        # Load the sound effect
+        self.hit_sound = pg.mixer.Sound("assets/soundeffects/playerhit.mp3")
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
@@ -36,6 +50,9 @@ class Player(pg.sprite.Sprite):
         self.health_bar_length = 100  # Length of the health bar
         self.health_bar_height = 10  # Height of the health bar
         self.health_bar_color = (0, 255, 0)  # Green color for the health bar
+        
+        # Define hitbox
+        self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
 
     walkcount = 0
     isRight = False
@@ -73,22 +90,22 @@ class Player(pg.sprite.Sprite):
             self.on_ground = False
         
     def check_collision(self):
-        # Check if rect (after being updated) collides with platform
-        player_rect_after = pg.Rect(
+        # Check if hitbox (after being updated) collides with platform
+        hitbox_after = pg.Rect(
             self.rect.x, self.rect.y + math.ceil(self.vertical_velocity), 
             self.rect.width, self.rect.height
         )
         for platform in self.platform_group:
-            if platform.rect.colliderect(player_rect_after):
+            if platform.rect.colliderect(hitbox_after):
                 if self.vertical_velocity > 0: # if currently falling
                     self.vertical_velocity = 0 # stop falling
                     self.rect.bottom = platform.rect.top
                     self.on_ground = True
 
     def update(self):
-        #get keys that are pressed
+        # Get keys that are pressed
         keys = pg.key.get_pressed()        
-        
+
         # Apply gravity
         self.vertical_velocity += self.gravity
         
@@ -115,10 +132,57 @@ class Player(pg.sprite.Sprite):
         # Update rect
         self.rect.y += self.vertical_velocity
         
-        #keep rect in screen
+        # Update hitbox
+        self.hitbox.y += self.vertical_velocity
+
+        self.check_invincibility()
+        
+        # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
+
+        # Detect left mouse button click event
+        mouse_buttons = pg.mouse.get_pressed()
         
+        # Update facing direction based on current and previous x-coordinates
+        if self.rect.x > self.prev_x:
+            self.isRight = True
+            self.isLeft = False
+        elif self.rect.x < self.prev_x:
+            self.isRight = False
+            self.isLeft = True
+
+        # Update previous x-coordinate for the next cycle
+        self.prev_x = self.rect.x
+
+        # Determine player direction for melee attack
+        if self.isRight:
+            player_direction = "right"
+        elif self.isLeft:
+            player_direction = "left"
+        else:
+            # Use previous facing direction if not moving
+            if self.prevPress == "left":
+                player_direction = "left"
+            else:
+                player_direction = "right"
+                
+        # Create a melee attack instance at the player's position
+        if player_direction == "right":
+            melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, player_direction, damage_value=25)
+        else:
+            melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
+            
+        # Check for initiating attack
+        if mouse_buttons[0] and not self.attack_initiated:
+            self.melee_attacks.add(melee_attack)
+            self.attack_initiated = True
+            
+        if not mouse_buttons[0]:
+            self.attack_initiated = False
+
+        self.melee_attacks.update()
+
         # Display player info for debugging purposes
         # self.debug()
         
@@ -149,10 +213,25 @@ class Player(pg.sprite.Sprite):
         if self.walkcount + 1 >= 27 :
             self.walkcount = 0
 
+        # Draw melee attacks
+        self.melee_attacks.draw(self.screen)
+
     def decrease_health(self, amount):
-        self.health -= amount
-        if self.health < 0:
-            self.health = 0
+        # Check if the player is currently invincible
+        if not self.invincible:
+            self.health -= amount
+            if self.health < 0:
+                self.health = 0
+            # Set the player to be invincible and record the time of the hit
+            self.invincible = True
+            self.last_hit_time = time.time()
+            # Play the hit sound effect
+            self.hit_sound.play()
+
+    def check_invincibility(self):
+        # Check if the player is currently invincible and if the invincibility duration has elapsed
+        if self.invincible and time.time() - self.last_hit_time > self.invincible_duration:
+            self.invincible = False  # Reset invincibility once the duration has passed
 
     def increase_health(self, amount):
         self.health += amount
@@ -167,4 +246,3 @@ class Player(pg.sprite.Sprite):
         | {self.rect.bottom}, {self.screen.get_height()}"""
         text_surface = self.font.render(text, True, "red")
         self.screen.blit(text_surface, (0,20))
-        
