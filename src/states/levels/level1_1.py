@@ -13,6 +13,8 @@ class Level1_1(State):
         self.platforms = pg.sprite.Group()
         self.player = Player(100, 100, self.platforms, self.scroll)
         self.create_platforms()
+        self.controls = pg.font.Font(None, 36).render(
+            "Press 'Escape' to pause", True, "white")
 
         self.start_time = time.time()  #initialize starting time
     
@@ -21,7 +23,7 @@ class Level1_1(State):
             if event.type != pg.KEYDOWN:
                 return
             if event.key == pg.K_ESCAPE:
-                self.manager.set_state(menus.StartMenu)
+                self.manager.set_state(menus.PauseMenu, save_prev=True)
     
     def update(self, events):
         self.player.update()
@@ -32,7 +34,7 @@ class Level1_1(State):
         super().draw_bg()
         self.platforms.draw(self.screen)
         self.player.draw()
-
+        self.screen.blit(self.controls, (20, 20))
         self.draw_timer()
         
     def create_platforms(self):

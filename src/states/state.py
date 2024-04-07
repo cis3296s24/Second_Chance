@@ -26,7 +26,7 @@ class State:
                 self.bg_images.append(bg_image)
                 self.bg_width = self.bg_images[0].get_width()
         else:
-            self.surface = pg.Surface() 
+            self.surface = pg.Surface((0, 0)) 
         
     def handle_events(self, events):
         for event in events:
