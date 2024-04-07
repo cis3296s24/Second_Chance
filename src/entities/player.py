@@ -30,6 +30,13 @@ class Player(pg.sprite.Sprite):
         self.vertical_velocity = 0
         self.jump_strength = -15
 
+        # Healthbar
+        self.health = 100  # Initial health value
+        self.max_health = 100  # Maximum health value
+        self.health_bar_length = 100  # Length of the health bar
+        self.health_bar_height = 10  # Height of the health bar
+        self.health_bar_color = (0, 255, 0)  # Green color for the health bar
+
     walkcount = 0
     isRight = False
     isLeft = False
@@ -141,6 +148,16 @@ class Player(pg.sprite.Sprite):
 
         if self.walkcount + 1 >= 27 :
             self.walkcount = 0
+
+    def decrease_health(self, amount):
+        self.health -= amount
+        if self.health < 0:
+            self.health = 0
+
+    def increase_health(self, amount):
+        self.health += amount
+        if self.health > self.max_health:
+            self.health = self.max_health
 
     def debug(self):
         text = f"""

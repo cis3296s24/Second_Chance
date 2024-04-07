@@ -34,6 +34,7 @@ class Level1_1(State):
         super().draw_bg()
         self.platforms.draw(self.screen)
         self.player.draw()
+        self.draw_health_bar()
         self.screen.blit(self.controls, (20, 20))
         self.draw_timer()
         
@@ -46,3 +47,14 @@ class Level1_1(State):
         text_surface = font.render(f"Level 1 Time: {int(self.elapsed_time)}", True, (255, 255, 255))  
         text_rect = text_surface.get_rect(topright=(self.screen.get_width() - 10, 10))  #top right of screen
         self.screen.blit(text_surface, text_rect)  
+
+    def draw_health_bar(self):
+        # Calculate the width of the health bar based on current health
+        health_bar_width = (self.player.health / self.player.max_health) * self.player.health_bar_length
+        # Calculate the position of the health bar above the player
+        health_bar_x = self.player.rect.x - (self.player.rect.width * (self.player.scale_factor - 1)) / 2
+        health_bar_y = self.player.rect.y - 20  # Adjust this value to position the health bar properly
+        # Draw the health bar
+        pg.draw.rect(self.screen, (255, 0, 0), (health_bar_x, health_bar_y, self.player.health_bar_length, self.player.health_bar_height))
+        pg.draw.rect(self.screen, self.player.health_bar_color, (health_bar_x, health_bar_y, health_bar_width, self.player.health_bar_height))
+
