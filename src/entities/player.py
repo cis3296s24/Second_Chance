@@ -143,6 +143,8 @@ class Player(pg.sprite.Sprite):
 
         # Detect left mouse button click event
         mouse_buttons = pg.mouse.get_pressed()
+
+        q_pressed = keys[pg.K_q] #Q and click both attack
         
         # Update facing direction based on current and previous x-coordinates
         if self.rect.x > self.prev_x:
@@ -174,11 +176,11 @@ class Player(pg.sprite.Sprite):
             melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
             
         # Check for initiating attack
-        if mouse_buttons[0] and not self.attack_initiated:
+        if (mouse_buttons[0] or q_pressed) and not self.attack_initiated:
             self.melee_attacks.add(melee_attack)
             self.attack_initiated = True
             
-        if not mouse_buttons[0]:
+        if not (mouse_buttons[0] or q_pressed):
             self.attack_initiated = False
 
         self.melee_attacks.update()
