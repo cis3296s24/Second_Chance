@@ -1,7 +1,9 @@
 import pygame as pg
 import time
+import csv
 
 from ..state import State
+from src.constants import *
 from src.entities.player import Player
 from src.objects.platforms import Platform
 import src.states.menu.menus as menus
@@ -9,17 +11,39 @@ from src.entities.enemies.eyeball import Eyeball  # Import the Eyeball class
 from src.entities.enemies.skeleton import Skeleton  # Import the Skeleton class
 
 class Level1_1(State):
-    scroll = 0
     def __init__(self):
+        self.world_data = []
+        self.scroll = 0
+        #load tiles in
+        self.tile_list = []
+        self.screen = pg.display.get_surface()
+        for x in range(TILE_TYPES):
+            img = pg.image.load(f"assets/tiles/{x}.png")
+            img = pg.transform.scale(img, (TILE_SIZE, TILE_SIZE))
+            self.tile_list.append(img)
+        
+        #create empty tile list
+        for row in range(ROWS):
+            r = [-1] * COLS
+            self.world_data.append(r)
+        #load in level data and create world
+        with open(f"assets/csvs/level{1}_data.csv", newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            for x, row in enumerate(reader):
+                for y, tile in enumerate(row):
+                    self.world_data[x][y] = int(tile)
+        
         super().__init__(None, 1)
         self.platforms = pg.sprite.Group()
-        self.player = Player(100, 100, self.platforms, self.scroll)
+        self.world = World(self.tile_list, self.screen, self.scroll)
+        self.player = Player(100, 100, self.platforms, self.world.obstacle_list, self.scroll)
         self.create_platforms()
         self.controls = pg.font.Font(None, 36).render(
             "Press 'Escape' to pause", True, "white")
         self.start_time = time.time()  #initialize starting time
         self.spawn_eyeball()  # Call method to spawn an Eyeball
         self.spawn_skeleton()  # Call method to spawn an Eyeball
+        self.world.process_data(self.world_data)
 
     def handle_events(self, events):
         for event in events:
@@ -55,6 +79,7 @@ class Level1_1(State):
         self.skeleton.draw() # Draw the Skeleton
         self.screen.blit(self.controls, (20, 20))
         self.draw_timer()
+        self.world.draw_tiles()
 
         # Draw player's health value
         font = pg.font.Font(None, 36) 
@@ -93,3 +118,38 @@ class Level1_1(State):
         self.skeleton = Skeleton(500, 600, self.platforms, self.scroll)
         self.skeletons = pg.sprite.Group()  # Create a group to hold the Eyeball instances
         self.skeletons.add(self.skeleton)  # Add the Eyeball instance to the group
+
+
+class World:
+    def __init__(self, tile_list, screen, scroll):
+        self.tile_list = tile_list
+        self.obstacle_list = []
+        self.screen = screen
+        self.scroll = scroll
+
+    def process_data(self, data):
+        #iterate through data file
+        for y, row in enumerate(data):
+            for x, tile in enumerate(row):
+                if tile >= 0:
+                    img = self.tile_list[tile]
+                    img_rect = img.get_rect()
+                    img_rect.x = x * TILE_SIZE
+                    img_rect.y = y * TILE_SIZE
+                    tile_data = (img, img_rect)
+                    if tile >= 0 and tile <= 8:
+                        self.obstacle_list.append(tile_data)
+                    elif tile > 9 and tile <= 10:
+                        pass#water(potentially added later to kill player when colliding)
+                    elif tile >= 11 and tile <= 14:
+                        pass#decoration
+                    elif tile == 15:
+                        pass#create player
+                    elif tile == 16:
+                        pass#create enemy
+                    elif tile == 20:
+                        pass#create exit
+    def draw_tiles(self):
+        for tile in self.obstacle_list:
+            tile[1][0] += self.scroll
+            self.screen.blit(tile[0], tile[1])

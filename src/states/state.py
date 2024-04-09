@@ -1,4 +1,5 @@
 import pygame as pg
+import csv
 
 from src.constants import *
 
@@ -13,11 +14,11 @@ class State:
     game = None
     manager = None
     
-    def __init__(self, img=None, imgArr = None):
+    def __init__(self, IMAGE=None, imgArr = None):
         self.bg_images = []
         self.screen = pg.display.get_surface()
-        if img is not None:
-            self.surface = pg.image.load(os.path.join(self.game.background_dir, img))
+        if IMAGE is not None:
+            self.surface = pg.image.load(os.path.join(self.game.background_dir, IMAGE))
             self.surface = pg.transform.scale(self.surface, ((SCREEN_WIDTH, SCREEN_HEIGHT)))
         elif imgArr is not None:
             for i in range(1,6): 
