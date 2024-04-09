@@ -4,6 +4,8 @@ import time
 from src.objects.platforms import Platform
 from src.entities.attack import MeleeAttack
 
+from src.entities.green_button import GreenButton
+
 class Player(pg.sprite.Sprite):
     def characteropen(imageName):
         imageLoad = pg.image.load(open("assets/characters/" + imageName + ".png")) 
@@ -224,6 +226,11 @@ class Player(pg.sprite.Sprite):
             self.health -= amount
             if self.health < 0:
                 self.health = 0
+                #have the second chance at this point
+                GREEN = (0, 255, 0)
+                demo_chance = GreenButton(self.screen, GREEN, 300, 250, 200, 100)
+                demo_chance.display()
+
             # Set the player to be invincible and record the time of the hit
             self.invincible = True
             self.last_hit_time = time.time()
