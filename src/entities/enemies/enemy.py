@@ -146,3 +146,10 @@ class Enemy(pg.sprite.Sprite):
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
+
+
+class EnemyGroup(pg.sprite.Group):
+    """A group class to override the pygame.sprite.Group draw() method."""
+    def draw(self):
+        for sprite in self.sprites():
+            Enemy.draw(sprite)
