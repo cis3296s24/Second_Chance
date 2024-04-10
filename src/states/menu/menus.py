@@ -16,6 +16,8 @@ class StartMenu(State):
         super().__init__("background.png") # Change to start menu background
 
         self.leaderboard = LeaderboardManager(self.game)
+
+        self.volume = 0.5 # Initial volume level (between 0 and 1)
         
         self.main_menu()
         
@@ -78,14 +80,22 @@ class StartMenu(State):
         self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
         # Add volume control buttons
-        volume_label = self.menu.add.label('Volume: {}'.format(int(self.game.volume * 100)))
+        volume_label = self.menu.add.label('Volume: {}'.format(int(self.volume * 100)))
         volume_label.update_font({'size': 30})  # Set font size for the label
 
-        self.menu.add.button('Increase Volume', self.game.increase_volume)
-        self.menu.add.button('Decrease Volume', self.game.decrease_volume)
+        self.menu.add.button('Increase Volume', self.increase_volume)
+        self.menu.add.button('Decrease Volume', self.decrease_volume)
 
         # Add back button
         self.menu.add.button('Back', self.main_menu)
+
+    def increase_volume(self):
+        self.volume = min(self.volume + 0.1, 1.0)  # Increase self.volume by 0.1, but ensure it doesn't exceed 1.0
+        pg.mixer.music.set_volume(self.volume)
+
+    def decrease_volume(self):
+        self.volume = max(self.volume - 0.1, 0.0)  # Decrease self.volume by 0.1, but ensure it doesn't go below 0.0
+        pg.mixer.music.set_volume(self.volume)
         
         
 class PauseMenu(State):

@@ -36,6 +36,9 @@ class Player(pg.sprite.Sprite):
 
         # Load the sound effect
         self.hit_sound = pg.mixer.Sound("assets/soundeffects/playerhit.mp3")
+
+        # Load the sound effect
+        self.melee_attack_sound = pg.mixer.Sound("assets/soundeffects/meleeattack.mp3")
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
@@ -179,6 +182,7 @@ class Player(pg.sprite.Sprite):
             
         # Check for initiating attack
         if (mouse_buttons[0] or q_pressed) and not self.attack_initiated:
+            self.melee_attack_sound.play()
             self.melee_attacks.add(melee_attack)
             self.attack_initiated = True
             

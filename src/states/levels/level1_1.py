@@ -20,6 +20,13 @@ class Level1_1(State):
         self.controls = pg.font.Font(None, 36).render(
             "Press 'Escape' to pause", True, "white")
         self.start_time = time.time()  #initialize starting time
+
+        # Load background music
+        pg.mixer.music.load('assets/music/levelmusic.mp3')
+        # Set initial volume
+        self.volume = 0.5  # Initial volume level (between 0 and 1)
+        pg.mixer.music.set_volume(self.volume)
+        pg.mixer.music.play(-1)  # Start playing background music on a loop
         
         self.create_platforms()
         self.spawn_enemies()

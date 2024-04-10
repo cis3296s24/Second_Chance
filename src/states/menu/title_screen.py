@@ -6,6 +6,13 @@ from .menus import StartMenu
 class TitleScreen(State):
     def __init__(self):
         super().__init__("background.png")
+
+        # Load background music
+        pg.mixer.music.load('assets/music/titlescreenmusic.mp3')
+        # Set initial volume
+        self.volume = 0.5  # Initial volume level (between 0 and 1)
+        pg.mixer.music.set_volume(self.volume)
+        pg.mixer.music.play(-1)  # Start playing background music on a loop
         
     def handle_events(self, events: list[pg.event.Event]):
         for event in events:
