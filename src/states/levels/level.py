@@ -1,7 +1,8 @@
 import pygame as pg
 import time
 import os
-
+import csv
+from src.constants import *
 from ..state import State
 from src.entities.player import Player
 import src.states.menu.menus as menus
@@ -13,6 +14,7 @@ class Level(State):
         super().__init__()
         self.level = level
         self.scroll = 0
+        self.init_tiles()
         self.init_sprites()
         self.init_attributes()
         self.init_background(imgArr)
@@ -44,14 +46,38 @@ class Level(State):
         self.enemies.draw()
         self.draw_health_bar()
         self.draw_text_surfaces()
+        self.world.draw_tiles()
+    
+    def init_tiles(self):
+        self.world_data = []
+        self.tile_list = []
+
+        for x in range(TILE_TYPES):
+            img = pg.image.load(f"assets/tiles/{x}.png")
+            img = pg.transform.scale(img, (TILE_SIZE, TILE_SIZE))
+            self.tile_list.append(img)
+
+        #create empty tile list
+        for row in range(ROWS):
+            r = [-1] * COLS
+            self.world_data.append(r)
+        #load in level data and create world
+        with open(f"assets/csvs/level{1}_data.csv", newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            for x, row in enumerate(reader):
+                for y, tile in enumerate(row):
+                    self.world_data[x][y] = int(tile)
+
     
     def init_sprites(self):
         self.platforms = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
-        self.player = Player(100, 100, self.platforms, scroll=0)
+        self.world = World(self.tile_list, self.screen, self.scroll)
+        self.player = Player(100, 100, self.platforms, self.world.obstacle_list, self.scroll)
         self.create_platforms()
         self.spawn_enemies()
-    
+        self.world.process_data(self.world_data) #call method to process csv data
+
     def init_attributes(self):
         self.start_time = time.time()  #initialize starting time
         self.elapsed_time = 0
@@ -123,3 +149,39 @@ class Level(State):
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
         self.screen.blit(self.timer, (self.screen.get_width() - 190, 20))
+
+
+
+
+class World:
+    def __init__(self, tile_list, screen, scroll):
+        self.tile_list = tile_list
+        self.obstacle_list = []
+        self.screen = screen
+        self.scroll = scroll
+
+    def process_data(self, data):
+        #iterate through data file
+        for y, row in enumerate(data):
+            for x, tile in enumerate(row):
+                if tile >= 0:
+                    img = self.tile_list[tile]
+                    img_rect = img.get_rect()
+                    img_rect.x = x * TILE_SIZE
+                    img_rect.y = y * TILE_SIZE
+                    tile_data = (img, img_rect)
+                    if tile >= 0 and tile <= 8:
+                        self.obstacle_list.append(tile_data)
+                    elif tile > 9 and tile <= 10:
+                        pass#water(potentially added later to kill player when colliding)
+                    elif tile >= 11 and tile <= 14:
+                        pass#decoration
+                    elif tile == 15:
+                        pass#create player
+                    elif tile == 16:
+                        pass#create enemy
+                    elif tile == 20:
+                        pass#create exit
+    def draw_tiles(self):
+        for tile in self.obstacle_list:
+            self.screen.blit(tile[0], tile[1])
