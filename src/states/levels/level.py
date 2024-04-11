@@ -43,7 +43,7 @@ class Level(State):
         for portal in self.portals:
             if portal.rect.colliderect(self.player.rect):
                 # Transition to the start menu state
-                self.manager.set_state(menus.StartMenu, save_prev=True)
+                self.manager.set_state(menus.StartMenu)
     
     def draw(self):
         self.draw_bg()
