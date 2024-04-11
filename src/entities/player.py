@@ -3,6 +3,7 @@ import math
 import time
 from src.objects.platforms import Platform
 from src.entities.attack import MeleeAttack
+from src.constants import *
 
 class Player(pg.sprite.Sprite):
     def characteropen(imageName):
@@ -71,6 +72,8 @@ class Player(pg.sprite.Sprite):
             self.prevPress = "left"
             for platform in self.platform_group:
                 platform.rect.x += 3  # Move platforms with player
+            for tile in self.obstacle_list:
+                tile[1][0] += 3
         elif (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
             self.rect.x += self.speed
             self.scroll += 3
@@ -79,10 +82,14 @@ class Player(pg.sprite.Sprite):
             self.prevPress = "right"
             for platform in self.platform_group:
                 platform.rect.x -= 3  # Move platforms with player
+            for tile in self.obstacle_list:
+                tile[1][0] -= 3
         else:
             self.isLeft = False
             self.isRight = False
             self.walkcount = 0
+        if self.rect.x > SCROLL_THRESH or self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
+            self.rect.x = self.prev_x
             
     def jump(self):
         #check if the character is on the ground        
@@ -106,7 +113,7 @@ class Player(pg.sprite.Sprite):
             if tile[1].colliderect(hitbox_after):
                 if self.vertical_velocity > 0: # if currently falling
                     self.vertical_velocity = 0 # stop falling
-                    self.rect.bottom = platform.rect.top
+                    self.rect.bottom = tile[1].top
                     self.on_ground = True
                 
 

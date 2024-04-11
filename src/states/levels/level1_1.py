@@ -7,7 +7,7 @@ from src.constants import *
 from src.entities.player import Player
 from src.objects.platforms import Platform
 import src.states.menu.menus as menus
-from src.entities.enemies.eyeball import Eyeball  # Import the Eyeball class
+from src.entities.enemies.eyeball import Eyeball  # Import the Eyeball class 
 from src.entities.enemies.skeleton import Skeleton  # Import the Skeleton class
 
 class Level1_1(State):
@@ -43,7 +43,7 @@ class Level1_1(State):
         self.start_time = time.time()  #initialize starting time
         self.spawn_eyeball()  # Call method to spawn an Eyeball
         self.spawn_skeleton()  # Call method to spawn an Eyeball
-        self.world.process_data(self.world_data)
+        self.world.process_data(self.world_data) #call method to process csv data
 
     def handle_events(self, events):
         for event in events:
@@ -151,5 +151,4 @@ class World:
                         pass#create exit
     def draw_tiles(self):
         for tile in self.obstacle_list:
-            tile[1][0] += self.scroll
             self.screen.blit(tile[0], tile[1])
