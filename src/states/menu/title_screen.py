@@ -2,6 +2,7 @@ import pygame as pg
 
 from ..state import State
 from .menus import StartMenu
+from .menus import UsernamePrompt 
 
 class TitleScreen(State):
     def __init__(self):
@@ -19,7 +20,10 @@ class TitleScreen(State):
             if event.type != pg.KEYDOWN:
                 return
             if event.key == pg.K_RETURN:
-                self.manager.set_state(StartMenu)
+                if self.game.username == "":
+                    self.manager.set_state(UsernamePrompt)
+                else:
+                    self.manager.set_state(StartMenu)
 
     def draw(self):
         super().draw()
