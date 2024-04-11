@@ -13,6 +13,7 @@ class Game:
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pg.time.Clock()
         self.running = True
+        self.username = "" 
         
         pg.display.set_caption("Second Chance")
         
