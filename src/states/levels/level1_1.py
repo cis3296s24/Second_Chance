@@ -23,7 +23,7 @@ class Level1_1(Level):
 
     def add_portal(self):
         # Add portal at specific coordinates
-        self.portal = Portal(900, 500, 50, 50)
+        self.portal = Portal(3500, 500, 50, 50)
         self.portals.add(self.portal)
         
         

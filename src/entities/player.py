@@ -124,12 +124,7 @@ class Player(pg.sprite.Sprite):
             self.vertical_velocity = self.jump_strength
             self.on_ground = False
 
-        for tile in self.obstacle_list:
-            if tile[1].colliderect(hitbox_after):
-                if self.vertical_velocity > 0: # if currently falling
-                    self.vertical_velocity = 0 # stop falling
-                    self.rect.bottom = tile[1].top
-                    self.on_ground = True
+    
         
     def check_collision(self):
         # Check if hitbox (after being updated) collides with platform
