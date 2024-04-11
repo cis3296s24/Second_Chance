@@ -4,7 +4,7 @@ import time
 from src.objects.platforms import Platform
 from src.entities.attack import MeleeAttack
 from src.objects.portal import Portal # Import portal class
-
+from src.constants import *
 from src.entities.green_button import GreenButton
 
 class Player(pg.sprite.Sprite):
@@ -13,7 +13,7 @@ class Player(pg.sprite.Sprite):
         return imageLoad
     animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
     animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
-    def __init__(self, x, y, platform_group, portal_group, scroll):
+    def __init__(self, x, y, platform_group, portal_group, obstacle_list, scroll):
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((50, 50))
@@ -23,7 +23,8 @@ class Player(pg.sprite.Sprite):
         self.portal_group = portal_group
         self.on_ground = False
         self.scale_factor = 2
-        self.scroll = 0
+        self.scroll = scroll
+        self.obstacle_list = obstacle_list
 
         self.invincible = False  # Attribute to track player's invincibility state
         self.invincible_duration = 2  # Duration of invincibility frames in seconds
@@ -77,6 +78,9 @@ class Player(pg.sprite.Sprite):
             self.prevPress = "left"
             for platform in self.platform_group:
                 platform.rect.x += 3  # Move platforms with player
+
+            for tile in self.obstacle_list:
+                tile[1][0] += 3
             
             for portal in self.portal_group:
                 portal.rect.x += 3 # Move portal with player
@@ -89,18 +93,32 @@ class Player(pg.sprite.Sprite):
             self.prevPress = "right"
             for platform in self.platform_group:
                 platform.rect.x -= 3  # Move platforms with player
+
+            for tile in self.obstacle_list:
+                tile[1][0] -= 3
+
             for portal in self.portal_group:
                 portal.rect.x -= 3 # Move portal with player
         else:
             self.isLeft = False
             self.isRight = False
             self.walkcount = 0
+
+        if self.rect.x > SCROLL_THRESH or self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
+            self.rect.x = self.prev_x
             
     def jump(self):
         #check if the character is on the ground        
         if self.on_ground:
             self.vertical_velocity = self.jump_strength
             self.on_ground = False
+
+        for tile in self.obstacle_list:
+            if tile[1].colliderect(hitbox_after):
+                if self.vertical_velocity > 0: # if currently falling
+                    self.vertical_velocity = 0 # stop falling
+                    self.rect.bottom = tile[1].top
+                    self.on_ground = True
         
     def check_collision(self):
         # Check if hitbox (after being updated) collides with platform
