@@ -9,12 +9,11 @@ This is a platformer-style video game with a mechanic of always giving the user 
 
 ### How to run on MacOS
 - Use this github repository: https://github.com/cis3296s24/Second_Chance
-- Fork from the `main` branch for the most stable
-  release, or clone this repository with:
-  - `git clone https://github.com/cis3296s24/Second_Chance.git`
 - Open the Terminal.
-- Change your current directory into the location where you cloned the Second Chance Github repository.
-- Run `pip install -r requirements.txt` to install `pygame` and other necessary dependencies.
+- Clone this repository with:
+  - `git clone https://github.com/cis3296s24/Second_Chance.git`
+- Change your current directory into the Second Chance Github repository you just cloned.
+- Run `pip3 install -r requirements.txt` to install `pygame` and other necessary dependencies.
 - Run `python3 SecondChance.py` to launch the game. 
 - Afterwards, the game window opens and you can play the game. 
 
@@ -22,7 +21,8 @@ This is a platformer-style video game with a mechanic of always giving the user 
 
 - `LeftArrow`/`a`: Move left
 - `RightArrow`/`d`: Move right
-- `UpArrow`/`Spacebar`/`w`: Jump 
+- `UpArrow`/`Spacebar`/`w`: Jump
+- `LeftClick`/`q`: Melee attack
 
 # How to contribute
 Follow this project board to know the latest status of the project: https://github.com/orgs/cis3296s24/projects/71
