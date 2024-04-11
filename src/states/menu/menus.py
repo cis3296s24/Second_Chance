@@ -155,4 +155,6 @@ class UsernamePrompt(State):
         self.screen.fill((30, 30, 30))
         pg.draw.rect(self.screen, (255, 255, 255), self.input_rect, 2)
         self.screen.blit(self.text_prompt, self.text_prompt_rect)
+
         self.screen.blit(self.text_surface, self.text_rect)
+

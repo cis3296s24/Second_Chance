@@ -81,13 +81,19 @@ class Level(State):
         self.portals = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
         self.world = World(self.tile_list, self.screen, self.scroll)
+
         self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, scroll=0)
+
+        self.player = Player(100, 100, self.platforms, self.world.obstacle_list, self.scroll)
+
         self.create_platforms()
         self.spawn_enemies()
         self.world.process_data(self.world_data) #call method to process csv data
 
+
         self.add_portal()
     
+
     def init_attributes(self):
         self.start_time = time.time()  #initialize starting time
         self.elapsed_time = 0
@@ -162,7 +168,8 @@ class Level(State):
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
         self.screen.blit(self.timer, (self.screen.get_width() - 190, 20))
-        self.screen.blit(self.timer, (self.screen.get_width() - 190, 20))
+
+
 
 class World:
     def __init__(self, tile_list, screen, scroll):
