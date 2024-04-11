@@ -123,7 +123,7 @@ class UsernamePrompt(State):
         super().__init__()
         self.input_rect = pg.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 12, 200, 24)
         self.font = pg.font.Font(None, 24)
-        self.active = False
+        self.active = True
         self.text_prompt = self.font.render("Enter your username: ", True, (255, 255, 255))
         self.text_prompt_rect = self.text_prompt.get_rect(midbottom=self.input_rect.topleft)
         self.username = self.game.username
