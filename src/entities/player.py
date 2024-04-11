@@ -3,6 +3,7 @@ import math
 import time
 from src.objects.platforms import Platform
 from src.entities.attack import MeleeAttack
+from src.objects.portal import Portal # Import portal class
 
 from src.entities.green_button import GreenButton
 
@@ -12,13 +13,14 @@ class Player(pg.sprite.Sprite):
         return imageLoad
     animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
     animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
-    def __init__(self, x, y, platform_group, scroll):
+    def __init__(self, x, y, platform_group, portal_group, scroll):
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.platform_group = platform_group
+        self.portal_group = portal_group
         self.on_ground = False
         self.scale_factor = 2
         self.scroll = 0
@@ -75,6 +77,10 @@ class Player(pg.sprite.Sprite):
             self.prevPress = "left"
             for platform in self.platform_group:
                 platform.rect.x += 3  # Move platforms with player
+            
+            for portal in self.portal_group:
+                portal.rect.x += 3 # Move portal with player
+
         elif (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
             self.rect.x += self.speed
             self.scroll += 3
@@ -83,6 +89,8 @@ class Player(pg.sprite.Sprite):
             self.prevPress = "right"
             for platform in self.platform_group:
                 platform.rect.x -= 3  # Move platforms with player
+            for portal in self.portal_group:
+                portal.rect.x -= 3 # Move portal with player
         else:
             self.isLeft = False
             self.isRight = False
@@ -106,6 +114,8 @@ class Player(pg.sprite.Sprite):
                     self.vertical_velocity = 0 # stop falling
                     self.rect.bottom = platform.rect.top
                     self.on_ground = True
+    
+
 
     def update(self):
         # Get keys that are pressed

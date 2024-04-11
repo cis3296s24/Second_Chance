@@ -36,10 +36,16 @@ class Level(State):
         for attack, enemies in collisions.items():
             for enemy in enemies:
                 enemy.decrease_health(attack.damage_value)
+
+        for portal in self.portals:
+            if portal.rect.colliderect(self.player.rect):
+                # Transition to the start menu state
+                self.manager.set_state(menus.StartMenu, save_prev=True)
     
     def draw(self):
         self.draw_bg()
         self.platforms.draw(self.screen)
+        self.portals.draw(self.screen)
         self.player.draw()
         self.enemies.draw()
         self.draw_health_bar()
@@ -47,10 +53,12 @@ class Level(State):
     
     def init_sprites(self):
         self.platforms = pg.sprite.Group()
+        self.portals = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
-        self.player = Player(100, 100, self.platforms, scroll=0)
+        self.player = Player(100, 100, self.platforms, self.portals, scroll=0)
         self.create_platforms()
         self.spawn_enemies()
+        self.add_portal()
     
     def init_attributes(self):
         self.start_time = time.time()  #initialize starting time
@@ -88,6 +96,9 @@ class Level(State):
         pass # Level-specific behavior
             
     def spawn_enemies(self):
+        pass # Level-specific behavior
+
+    def add_portal(self):
         pass # Level-specific behavior
         
     def timer_update(self):
