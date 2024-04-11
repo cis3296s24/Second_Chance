@@ -116,18 +116,18 @@ class PauseMenu(State):
     # TODO remove, just displaying what's not implemented yet
     def hi(self, s):
         print(s)
-        
+
 
 class UsernamePrompt(State):
     def __init__(self):
         super().__init__()
         self.input_rect = pg.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 12, 200, 24)
         self.font = pg.font.Font(None, 24)
-        self.active = False
+        self.active = True
         self.text_prompt = self.font.render("Enter your username: ", True, (255, 255, 255))
         self.text_prompt_rect = self.text_prompt.get_rect(midbottom=self.input_rect.topleft)
         self.username = self.game.username
-    
+
     def handle_events(self, events):
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN:
@@ -145,14 +145,16 @@ class UsernamePrompt(State):
                         self.username = self.username[:-1]
                     else:
                         self.username += event.unicode
-    
+
     def update(self, events):
         # Render the username directly inside the input rectangle
         self.text_surface = self.font.render(self.username, True, (255, 255, 255))
         self.text_rect = self.text_surface.get_rect(center=self.input_rect.center)
-    
+
     def draw(self):
         self.screen.fill((30, 30, 30))
         pg.draw.rect(self.screen, (255, 255, 255), self.input_rect, 2)
         self.screen.blit(self.text_prompt, self.text_prompt_rect)
+
         self.screen.blit(self.text_surface, self.text_rect)
+

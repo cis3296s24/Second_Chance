@@ -45,6 +45,7 @@ class Game:
         self.character_dir = os.path.join(self.assets_dir, "characters")
         self.background_dir = os.path.join(self.assets_dir, "backgrounds")
         self.resources_dir = os.path.join("resources")
+
             
 if __name__ == "__main__":
     pg.init()

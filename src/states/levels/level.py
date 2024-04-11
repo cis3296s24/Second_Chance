@@ -3,6 +3,7 @@ import time
 import os
 import csv
 from src.constants import *
+
 from ..state import State
 from src.entities.player import Player
 import src.states.menu.menus as menus
@@ -38,16 +39,22 @@ class Level(State):
         for attack, enemies in collisions.items():
             for enemy in enemies:
                 enemy.decrease_health(attack.damage_value)
+
+        for portal in self.portals:
+            if portal.rect.colliderect(self.player.rect):
+                # Transition to the start menu state
+                self.manager.set_state(menus.StartMenu)
     
     def draw(self):
         self.draw_bg()
         self.platforms.draw(self.screen)
+        self.portals.draw(self.screen)
         self.player.draw()
         self.enemies.draw()
         self.draw_health_bar()
         self.draw_text_surfaces()
         self.world.draw_tiles()
-    
+
     def init_tiles(self):
         self.world_data = []
         self.tile_list = []
@@ -71,12 +78,20 @@ class Level(State):
     
     def init_sprites(self):
         self.platforms = pg.sprite.Group()
+        self.portals = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
         self.world = World(self.tile_list, self.screen, self.scroll)
-        self.player = Player(100, 100, self.platforms, self.world.obstacle_list, self.scroll)
+
+
+        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, self.scroll)
+
         self.create_platforms()
         self.spawn_enemies()
         self.world.process_data(self.world_data) #call method to process csv data
+
+
+        self.add_portal()
+    
 
     def init_attributes(self):
         self.start_time = time.time()  #initialize starting time
@@ -115,6 +130,9 @@ class Level(State):
             
     def spawn_enemies(self):
         pass # Level-specific behavior
+
+    def add_portal(self):
+        pass # Level-specific behavior
         
     def timer_update(self):
         self.elapsed_time = time.time() - self.start_time
@@ -149,7 +167,6 @@ class Level(State):
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
         self.screen.blit(self.timer, (self.screen.get_width() - 190, 20))
-
 
 
 
