@@ -82,9 +82,8 @@ class Level(State):
         self.enemies = enemy.EnemyGroup()
         self.world = World(self.tile_list, self.screen, self.scroll)
 
-        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, scroll=0)
 
-        self.player = Player(100, 100, self.platforms, self.world.obstacle_list, self.scroll)
+        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, self.scroll)
 
         self.create_platforms()
         self.spawn_enemies()
