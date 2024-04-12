@@ -8,6 +8,7 @@ class StateManager:
         """Create state stack and initialize game state to the title screen."""
         self.state_stack = []
         self.state = None
+       
         self.set_state(TitleScreen)
 
     def set_state(self, state, save_prev=False, clear=False):
@@ -38,3 +39,5 @@ class StateManager:
         if len(self.state_stack) >= 1:
             prev_state = self.state_stack.pop()
             self.set_state(prev_state)
+
+ 
