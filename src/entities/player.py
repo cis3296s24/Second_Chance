@@ -114,7 +114,7 @@ class Player(pg.sprite.Sprite):
             self.walkcount = 0
 
 
-        if self.rect.x > SCROLL_THRESH or self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
+        if self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
             self.rect.x = self.prev_x
             
 
