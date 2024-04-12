@@ -8,6 +8,7 @@ from ..state import State
 from src.entities.player import Player
 import src.states.menu.menus as menus
 import src.entities.enemies.enemy as enemy
+from leaderboard import LeaderboardManager
 
 class Level(State):
     
@@ -43,6 +44,12 @@ class Level(State):
         for portal in self.portals:
             if portal.rect.colliderect(self.player.rect):
                 # Transition to the start menu state
+                
+                timer = LeaderboardManager(self.game)
+                elapsed_time = int(time.time() - self.start_time)  # Assuming start_time is the time when the level started
+               
+                timer.update_leaderboard(self.game.username, elapsed_time)
+        
                 self.manager.set_state(menus.StartMenu)
     
     def draw(self):

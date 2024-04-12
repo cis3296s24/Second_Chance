@@ -132,7 +132,7 @@ class UsernamePrompt(State):
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN:
                 if self.input_rect.collidepoint(event.pos):
-                    self.active = not self.active
+                    self.active = True
                 else:
                     self.active = False
             if event.type == pg.KEYDOWN:
@@ -150,6 +150,7 @@ class UsernamePrompt(State):
         # Render the username directly inside the input rectangle
         self.text_surface = self.font.render(self.username, True, (255, 255, 255))
         self.text_rect = self.text_surface.get_rect(center=self.input_rect.center)
+
 
     def draw(self):
         self.screen.fill((30, 30, 30))
