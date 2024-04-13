@@ -5,7 +5,7 @@ from src.states.state import State
 from src.constants import *
 from ..levels.level1_1 import Level1_1
 
-from leaderboard import LeaderboardManager
+from utils.leaderboard import LeaderboardManager
 
 # Not using relative import to handle circular import issue when importing TitleScreen
 # TODO Fix this later

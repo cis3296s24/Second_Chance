@@ -6,7 +6,7 @@ import pygame as pg
 
 import src.entities.enemies.enemy as enemy
 import src.states.menu.menus as menus
-from leaderboard import LeaderboardManager
+from utils.leaderboard import LeaderboardManager
 from src.constants import *
 from src.entities.player import Player
 from src.states.minigames.minigame import Minigame
