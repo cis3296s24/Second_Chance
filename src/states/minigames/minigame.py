@@ -53,10 +53,10 @@ class MinigameInstructions(State):
             self.menu.draw(self.screen) # pygame_menu needs self.screen parameter for some reason
 
     def create_menu(self, instructions: str):
-        menu = pygame_menu.Menu('Instructions', 400, 300,
+        menu = pygame_menu.Menu('Instructions', 600, 350,
                                 theme=pygame_menu.themes.THEME_BLUE)
 
-        menu.add.label(instructions, max_char=-1, font_size=20)
+        menu.add.label(instructions, max_char=-1, font_size=25, wordwrap=True)
         menu.add.button('Okay', self.manager.set_state, Countdown)
 
         return menu
@@ -70,6 +70,7 @@ class Countdown(State):
     def __init__(self, img=None):
         super().__init__(img)
         self.text = self.get_text_surface(str(3), "white", font_size=72)
+        self.pos = (self.screen.get_width() / 2, self.screen.get_height() / 2)
         self.start_time = time.time() - 1  # initialize starting time
         self.elapsed_time = 0
 
@@ -81,11 +82,12 @@ class Countdown(State):
             self.manager.pop_state() # Go back to minigame
         elif self.elapsed_time > 4:
             text = "GO!"
+            self.pos = ((self.screen.get_width() / 2)-40, self.pos[1]) # Readjust when it displays GO
         elif 4 >= self.elapsed_time >= 1:
             text = str(int(self.elapsed_time))
 
-        self.text = self.get_text_surface(text, "white", font_size=36)
+        self.text = self.get_text_surface(text, "white", font_size=72)
 
     def draw(self):
         self.screen.fill("black")
-        self.screen.blit(self.text, (self.screen.get_width() / 2, self.screen.get_height() / 2))
+        self.screen.blit(self.text, self.pos)
