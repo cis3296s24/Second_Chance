@@ -21,7 +21,7 @@ class Level(State):
         super().__init__()
         self.level = level
         self.scroll = 0
-        self.timer = Timer() # Timer starts when it's instantiated
+        self.timer = Timer(start=True) # Timer starts when it's instantiated
         self.init_tiles()
         self.init_sprites()
         self.init_attributes()

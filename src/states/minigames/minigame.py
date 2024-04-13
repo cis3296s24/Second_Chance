@@ -1,9 +1,9 @@
 import pygame as pg
 import pygame_menu
-import time
 
 import src.states.menu.menus as menu
 from src.states.state import State
+from src.utils.timer import Timer
 
 
 class Minigame(State):
@@ -17,13 +17,16 @@ class Minigame(State):
         self.level_state = self.manager.get_prev_state()
         self.level_timer = self.level_state.timer
         self.level_player = self.level_state.player
+        self.timer = Timer()
+        self.timer_text = self.get_text_surface(
+            f"Time: {self.timer.get_time_milliseconds():.3f}", "white", 36)
 
     def handle_events(self, events):
         for event in events:
             if event.type != pg.KEYDOWN:
                 return
             if event.key == pg.K_ESCAPE:
-                self.manager.set_state(menu.PauseMenu, save_prev=True)
+                self.manager.set_state(menu.PauseMenu(self.timer), save_prev=True)
 
     def update(self, events):
         if self.instructions_enabled:
@@ -32,11 +35,17 @@ class Minigame(State):
         if self.won:
             self.level_timer.resume()
             self.level_player.health = self.level_player.max_health
-            # TODO make player invincible upon re-entering level state
+            # TODO Make player invincible upon re-entering level state
+            # TODO Save minigame time somewhere
             self.manager.pop_state()
-
+            
+        self.timer_text = self.get_text_surface(
+            f"Time: {self.timer.get_time_milliseconds()/1000:.3f}",
+            "white", 36)
+        
     def draw(self):
         super().draw()  # Draw default background passed in as img parameter
+        self.screen.blit(self.timer_text, (self.screen.get_width() - 190, 20))
 
 class MinigameInstructions(State):
     """State that holds and displays a pygame_menu.Menu object, to not interfere
@@ -78,22 +87,23 @@ class Countdown(State):
 
     def __init__(self, img=None):
         super().__init__(img)
+        self.minigame_timer = self.manager.get_prev_state().timer
+        self.timer = Timer(start_time=1, start=True)
         self.text = self.get_text_surface(str(3), "white", font_size=72)
         self.pos = (self.screen.get_width() / 2, self.screen.get_height() / 2)
-        self.start_time = time.time() - 1  # initialize starting time
-        self.elapsed_time = 0
 
     def update(self, events):
-        self.elapsed_time = time.time() - self.start_time
         text = ""
+        time = self.timer.get_time()
 
-        if self.elapsed_time > 5.5:
+        if time > 3.5:
             self.manager.pop_state() # Go back to minigame
-        elif self.elapsed_time > 4:
+            self.minigame_timer.start()
+        elif time > 2:
             text = "GO!"
             self.pos = ((self.screen.get_width() / 2)-40, self.pos[1]) # Readjust when it displays GO
-        elif 4 >= self.elapsed_time >= 1:
-            text = str(int(self.elapsed_time))
+        elif 2 >= time >= 0: 
+            text = str(int(time+1)) # A bad way to make this display normally
 
         self.text = self.get_text_surface(text, "white", font_size=72)
 
