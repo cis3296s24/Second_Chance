@@ -1,16 +1,15 @@
 import csv
 import random
-import time
-
 import pygame as pg
 
 import src.entities.enemies.enemy as enemy
 import src.states.menu.menus as menus
-from utils.leaderboard import LeaderboardManager
+from src.utils.leaderboard import LeaderboardManager
 from src.constants import *
 from src.entities.player import Player
 from src.states.minigames.minigame import Minigame
 from src.states.state import State
+from src.utils.timer import Timer
 
 # Necessary to access minigames from the minigames package
 from src.states.minigames import *
@@ -22,6 +21,7 @@ class Level(State):
         super().__init__()
         self.level = level
         self.scroll = 0
+        self.timer = Timer() # Timer starts when it's instantiated
         self.init_tiles()
         self.init_sprites()
         self.init_attributes()
@@ -33,13 +33,12 @@ class Level(State):
             if event.type != pg.KEYDOWN:  # Ignore all inputs except key presses
                 return
             if event.key == pg.K_ESCAPE:  # Open pause menu
-                self.manager.set_state(menus.PauseMenu, save_prev=True)
+                self.manager.set_state(menus.PauseMenu(self.timer), save_prev=True)
 
     def update(self, events):
         self.player.update()
         self.enemies.update(self.player)
-        self.timer_update()
-        self.health_update()
+        self.update_text()
 
         # Check for collision between player's melee attacks and enemy
         collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False,
@@ -53,15 +52,13 @@ class Level(State):
                 # Transition to the start menu state
 
                 timer = LeaderboardManager(self.game)
-                elapsed_time = int(
-                    time.time() - self.start_time)  # Assuming start_time is the time when the level started
-
-                timer.update_leaderboard(self.game.username, elapsed_time)
+                timer.update_leaderboard(self.game.username, self.timer.get_time())
 
                 self.manager.set_state(menus.StartMenu)
 
         # Check for player death
         if self.player.health <= 0:
+            self.timer.pause()
             self.manager.set_state(
                 globals()[random.choice(self.minigames)], # Select a random minigame
                 save_prev=True)
@@ -110,17 +107,14 @@ class Level(State):
         self.add_portal()
 
     def init_attributes(self):
-        self.start_time = time.time()  # initialize starting time
-        self.elapsed_time = 0
-
         # A list of all current minigames
         self.minigames = [cls.__name__ for cls in Minigame.__subclasses__()]
 
         self.controls = self.get_text_surface(
             "Press 'Escape' to pause", "white", font_size=36
         )
-        self.timer = self.get_text_surface(
-            f"Level {self.level} Time: {int(self.elapsed_time)}", "white",
+        self.timer_text = self.get_text_surface(
+            f"Level {self.level} Time: {self.timer.get_time()}", "white",
             font_size=36
         )
         self.health_text_surface = self.get_text_surface(
@@ -153,18 +147,15 @@ class Level(State):
     def add_portal(self):
         pass  # Level-specific behavior
 
-    def timer_update(self):
-        self.elapsed_time = time.time() - self.start_time
-        self.timer = self.get_text_surface(
-            f"Level {self.level} Time: {int(self.elapsed_time)}", "white",
+    def update_text(self):
+        self.timer_text = self.get_text_surface(
+            f"Level {self.level} Time: {self.timer.get_time()}", "white",
             font_size=36
         )
-
-    def health_update(self):
         self.health_text_surface = self.get_text_surface(
             f"Health: {self.player.health}", "white", font_size=36
         )
-
+        
     def draw_bg(self):
         for x in range(25):
             speed = 1
@@ -187,7 +178,7 @@ class Level(State):
     def draw_text_surfaces(self):
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
-        self.screen.blit(self.timer, (self.screen.get_width() - 190, 20))
+        self.screen.blit(self.timer_text, (self.screen.get_width() - 190, 20))
 
 
 class World:

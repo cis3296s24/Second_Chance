@@ -11,6 +11,7 @@ class Timer:
         self.is_running = False
         self.color = "white"
         self.screen = pg.display.get_surface()
+        self.start()
         
     def handle_events(self, events):
         """This method is called if you want to control the timer in-game 
@@ -53,7 +54,7 @@ class Timer:
             
     def get_time(self):
         """Returns the elapsed time in seconds."""
-        return self.get_elapsed_time // 1000
+        return self.get_time_milliseconds() // 1000
     
     def display_time(self, font, pos=(0, 0)):
         elapsed_time = self.get_time_milliseconds() // 1000

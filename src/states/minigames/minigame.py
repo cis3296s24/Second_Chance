@@ -13,6 +13,10 @@ class Minigame(State):
         super().__init__(img)
         self.instructions = instructions
         self.instructions_enabled = True
+        self.won = False
+        self.level_state = self.manager.get_prev_state()
+        self.level_timer = self.level_state.timer
+        self.level_player = self.level_state.player
 
     def handle_events(self, events):
         for event in events:
@@ -25,6 +29,11 @@ class Minigame(State):
         if self.instructions_enabled:
             self.manager.set_state(MinigameInstructions(self.instructions), save_prev=True)
             self.instructions_enabled = False
+        if self.won:
+            self.level_timer.resume()
+            self.level_player.health = self.level_player.max_health
+            # TODO make player invincible upon re-entering level state
+            self.manager.pop_state()
 
     def draw(self):
         super().draw()  # Draw default background passed in as img parameter

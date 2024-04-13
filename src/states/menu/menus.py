@@ -1,11 +1,12 @@
 import pygame as pg
 import pygame_menu
 
-from src.states.state import State
 from src.constants import *
-from ..levels.level1_1 import Level1_1
+from src.states.state import State
+from src.utils.leaderboard import LeaderboardManager
+from src.utils.timer import Timer
 
-from utils.leaderboard import LeaderboardManager
+from ..levels.level1_1 import Level1_1
 
 # Not using relative import to handle circular import issue when importing TitleScreen
 # TODO Fix this later
@@ -99,19 +100,31 @@ class StartMenu(State):
         
         
 class PauseMenu(State):
-    def __init__(self):
+    
+    def __init__(self, timer: Timer=None):
         super().__init__()
+        self.timer = timer
         self.menu = pygame_menu.Menu('Paused', 400, 300,
                                      theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.button('Return to game', self.manager.pop_state)
+        self.menu.add.button('Return to game', self.resume)
         self.menu.add.button('Options', self.hi, "Not implemented yet")
         self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
+        
+        if self.timer:
+            self.timer.pause()
+    
 
     def handle_events(self, events):
         self.menu.update(events)
 
     def draw(self):
         self.menu.draw(self.screen)
+        
+    def resume(self):
+        if self.timer:
+            self.timer.resume()
+
+        self.manager.pop_state()
 
     # TODO remove, just displaying what's not implemented yet
     def hi(self, s):
