@@ -7,12 +7,12 @@ class Skeleton(Enemy):
             platform_group,
             scroll,
             "skeleton",
-            2,
-            0,
-            0.5,
-            100,
-            100,
-            25
+            speed=2,
+            vertical_speed=0,
+            gravity=0.5,
+            health=100,
+            max_health=100,
+            strength=25
         )
         self.health_bar_offset_x = (self.rect.width - self.health_bar_length) / 2
         self.health_bar_offset_y = self.rect.height / 2 - 35
