@@ -64,9 +64,12 @@ class Timer:
 
         return time
             
-    def get_time(self):
+    def get_time(self, ms=False):
         """Returns the elapsed time in seconds."""
-        return self.get_time_milliseconds() // 1000
+        if ms: # Seconds with 3 decimal precision
+            return self.get_time_milliseconds() / 1000
+        else: # Seconds
+            return self.get_time_milliseconds() // 1000
     
     def display_time(self, font, pos=(0, 0)):
         elapsed_time = self.get_time_milliseconds() // 1000

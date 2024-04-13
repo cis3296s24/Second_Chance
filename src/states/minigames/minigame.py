@@ -19,14 +19,13 @@ class Minigame(State):
         self.level_player = self.level_state.player
         self.timer = Timer()
         self.timer_text = self.get_text_surface(
-            f"Time: {self.timer.get_time_milliseconds():.3f}", "white", 36)
+            f"Time: {self.timer.get_time(ms=True)}", "white", 36)
 
     def handle_events(self, events):
         for event in events:
-            if event.type != pg.KEYDOWN:
-                return
-            if event.key == pg.K_ESCAPE:
-                self.manager.set_state(menu.PauseMenu(self.timer), save_prev=True)
+            if event.type == pg.KEYDOWN:    
+                if event.key == pg.K_ESCAPE:
+                    self.manager.set_state(menu.PauseMenu(self.timer), save_prev=True)
 
     def update(self, events):
         if self.instructions_enabled:
@@ -37,10 +36,11 @@ class Minigame(State):
             self.level_player.health = self.level_player.max_health
             # TODO Make player invincible upon re-entering level state
             # TODO Save minigame time somewhere
+            # TODO Display win state
             self.manager.pop_state()
             
         self.timer_text = self.get_text_surface(
-            f"Time: {self.timer.get_time_milliseconds()/1000:.3f}",
+            f"Time: {self.timer.get_time(ms=True):.3f}",
             "white", 36)
         
     def draw(self):
