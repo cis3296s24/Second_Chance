@@ -2,7 +2,7 @@ import pygame as pg
 import pygame_menu
 
 from src.constants import *
-from src.states.state import State
+from src.states.state import State, TimedState
 from src.utils.leaderboard import LeaderboardManager
 from src.utils.timer import Timer
 
@@ -112,7 +112,6 @@ class PauseMenu(State):
         
         if self.timer:
             self.timer.pause()
-    
 
     def handle_events(self, events):
         self.menu.update(events)
@@ -172,3 +171,38 @@ class UsernamePrompt(State):
 
         self.screen.blit(self.text_surface, self.text_rect)
 
+
+class WinScreen(TimedState):
+    
+    def __init__(self, next_state, extra_text="", timer=None, img=None):
+        super().__init__(time=3, next_state=next_state, timer=timer, img=img)
+        self.win_text = self.get_text_surface(f"You won! {extra_text}", "white", font_size=36)
+        self.win_text_pos = \
+            ((self.screen.get_width() / 2) - 350, (self.screen.get_height() / 2) - 100)  
+    
+    def update(self, events):
+        # Must be called to know when to change state
+        super().update(events) 
+        
+    def draw(self):
+        super().draw()
+        self.manager.get_prev_state().draw()
+        self.screen.blit(self.win_text, self.win_text_pos)
+        
+        
+class LoseScreen(TimedState):
+    def __init__(self, next_state, prev_state, extra_text="", img=None):
+        super().__init__(time=3, next_state=next_state, img=img)
+        self.prev_state = prev_state
+        self.lose_text = self.get_text_surface(f"You lose! :( {extra_text}", "white", font_size=36)
+        self.lose_text_pos = \
+            ((self.screen.get_width() / 2) - 250, (self.screen.get_height() / 2) - 100)
+            
+    def update(self, events):
+        # Must be called to know when to change state
+        super().update(events) 
+        
+    def draw(self):
+        super().draw()
+        self.prev_state.draw()
+        self.screen.blit(self.lose_text, self.lose_text_pos)

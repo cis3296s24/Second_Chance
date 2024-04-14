@@ -178,7 +178,7 @@ class Level(State):
     def draw_text_surfaces(self):
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
-        self.screen.blit(self.timer_text, (self.screen.get_width() - 190, 20))
+        self.screen.blit(self.timer_text, (self.screen.get_width() - 220, 20))
 
 
 class World:
