@@ -1,7 +1,7 @@
 from typing import Any
 import pygame as pg
-import src.entities.player as player
-import src.entities.enemies.enemy as Enemy
+# from src.entities.player import Player as player
+from src.entities.enemies.enemy import Enemy as enemy
 
 arrows_group = pg.sprite.Group()
 class MeleeAttack(pg.sprite.Sprite):
@@ -51,11 +51,10 @@ class RangeAttack(pg.sprite.Sprite):
 
     def update(self):
         self.rect.x += (self.direction * self.speed)
-
-        if pg.sprite.spritecollide(player,arrows_group, False):
-            if player.alive:
-                player.health -= 15
-                self.kill()
+        collide = pg.sprite.spritecollideany(self.rect,enemy.getEnemyRect)
+        if collide:
+            enemy.decrease_health(enemy,15)
+            self.kill()
         
     def draw(self):
         self.screen.blit(self.image,self.rect.topleft)

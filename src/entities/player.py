@@ -22,7 +22,9 @@ class Player(pg.sprite.Sprite):
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((50, 50))
-        self.rect = self.image.get_rect()
+        # self.rect = self.image.get_rect()
+        
+        self.rect = pg.rect.Rect(x,y,50,50)
         self.rect.center = (x, y)
         self.platform_group = platform_group
         self.portal_group = portal_group
@@ -70,6 +72,7 @@ class Player(pg.sprite.Sprite):
         
         # Define hitbox
         self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
+
 
     walkcount = 0
     isRight = False
@@ -150,6 +153,8 @@ class Player(pg.sprite.Sprite):
                     self.vertical_velocity = 0 # stop falling
                     self.rect.bottom = tile[1].top
                     self.on_ground = True
+
+        
 
 
     def update(self):

@@ -64,7 +64,7 @@ class Enemy(pg.sprite.Sprite):
 
         # Load the sound effect
         self.hit_sound = pg.mixer.Sound(os.path.join("assets/soundeffects", f"{image}hit.mp3"))
-
+ 
     def move(self):
         # Apply gravity
         self.vertical_speed += self.gravity
