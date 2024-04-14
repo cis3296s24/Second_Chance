@@ -1,5 +1,9 @@
+from typing import Any
 import pygame as pg
+import src.entities.player as player
+import src.entities.enemies.enemy as Enemy
 
+arrows_group = pg.sprite.Group()
 class MeleeAttack(pg.sprite.Sprite):
     def __init__(self, x, y, player_direction, damage_value=25):
         super().__init__()
@@ -32,3 +36,27 @@ class MeleeAttack(pg.sprite.Sprite):
 
     def draw(self):
         self.screen.blit(self.image, self.rect.topleft)
+
+class RangeAttack(pg.sprite.Sprite):
+    
+    def __init__(self, x, y, player_direction, damage_value=25):
+        super().__init__()
+        self.screen = pg.display.get_surface()
+        self.damage_value = damage_value
+        self.image = pg.image.load(open("assets/enemies/archer/arrow_R.png"))
+        self.rect = self.image.get_rect()
+        self.direction = 1 if player_direction == "right" else -1
+        self.speed = 10
+        self.rect.center = (x, y)
+
+    def update(self):
+        self.rect.x += (self.direction * self.speed)
+
+        if pg.sprite.spritecollide(player,arrows_group, False):
+            if player.alive:
+                player.health -= 15
+                self.kill()
+        
+    def draw(self):
+        self.screen.blit(self.image,self.rect.topleft)
+

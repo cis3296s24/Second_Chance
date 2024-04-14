@@ -3,6 +3,7 @@ import math
 import time
 from src.objects.platforms import Platform
 from src.entities.attack import MeleeAttack
+from src.entities.attack import RangeAttack
 
 from src.objects.portal import Portal # Import portal class
 
@@ -35,7 +36,11 @@ class Player(pg.sprite.Sprite):
         self.last_hit_time = 0  # Time when the player was last hit
 
         self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
+        self.range_attacks = pg.sprite.Group()
+
         self.attack_initiated = False
+        self.rangeAttack_initiated = False
+
         self.prev_x = x  # Store the initial x-coordinate as previous x-coordinate
         
         #Path for character image
@@ -190,6 +195,8 @@ class Player(pg.sprite.Sprite):
         mouse_buttons = pg.mouse.get_pressed()
 
         q_pressed = keys[pg.K_q] #Q and click both attack
+
+        o_pressed = keys[pg.K_o]
         
         # Update facing direction based on current and previous x-coordinates
         if self.rect.x > self.prev_x:
@@ -217,8 +224,11 @@ class Player(pg.sprite.Sprite):
         # Create a melee attack instance at the player's position
         if player_direction == "right":
             melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, player_direction, damage_value=25)
+            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,player_direction,damage_value= 30)
         else:
             melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
+            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,player_direction,damage_value= 30)
+
             
         # Check for initiating attack
         if (mouse_buttons[0] or q_pressed) and not self.attack_initiated:
@@ -230,6 +240,15 @@ class Player(pg.sprite.Sprite):
             self.attack_initiated = False
 
         self.melee_attacks.update()
+
+        if (o_pressed) and not self.rangeAttack_initiated:
+            self.range_attacks.add(range_attack)
+            self.rangeAttack_initiated = True
+        
+        if not (o_pressed):
+            self.rangeAttack_initiated = False
+        
+        self.range_attacks.update()
 
         # Display player info for debugging purposes
         # self.debug()
@@ -263,6 +282,7 @@ class Player(pg.sprite.Sprite):
 
         # Draw melee attacks
         self.melee_attacks.draw(self.screen)
+        self.range_attacks.draw(self.screen)
 
     def decrease_health(self, amount):
         # Check if the player is currently invincible

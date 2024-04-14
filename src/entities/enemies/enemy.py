@@ -24,7 +24,9 @@ class Enemy(pg.sprite.Sprite):
             os.path.join("assets/enemies", f"{image}/{image}.png"), 
         ).convert_alpha()
         self.original_image = self.image  # Store the original image
-        self.rect = self.image.get_rect(center=(x, y))
+        # self.rect = self.image.get_rect()
+        self.rect = pg.Rect(x,y,50,50)
+        self.rect.center = (x,y)
         
         # Define hitbox
         self.hitbox = pg.Rect(x - 10, y - 10, self.rect.width + 20, self.rect.height + 20)  # Adjust hitbox size as needed
@@ -34,7 +36,7 @@ class Enemy(pg.sprite.Sprite):
         self.scale_factor = 2
         self.scroll = scroll
         self.strength = strength
-
+        
         # Set movement pattern
         self.direction = 1  # 1 for moving right, -1 for moving left
         self.speed = speed
