@@ -273,15 +273,6 @@ class Player(pg.sprite.Sprite):
             if self.health < 0:
                 self.health = 0
 
-            # If the player's HP is reduced to 0, the demo second chance game pops up
-            # Once the second chance game is completed, the player's HP is restored to 100
-            if self.health == 0:
-                #have the second chance at this point
-                GREEN = (0, 255, 0)
-                demo_chance = GreenButton(self.screen, GREEN, 300, 250, 200, 100)
-                demo_chance.display()
-                self.health = 100
-
             # Set the player to be invincible and record the time of the hit
             self.invincible = True
             self.last_hit_time = time.time()

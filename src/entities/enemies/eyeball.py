@@ -7,12 +7,12 @@ class Eyeball(Enemy):
             platform_group,
             scroll,
             "eyeball",
-            2,
-            0,
-            0.5,
-            100,
-            100,
-            20
+            speed=2,
+            vertical_speed=0,
+            gravity=0.5,
+            health=100,
+            max_health=100,
+            strength=20
         )
         self.health_bar_offset_x = (self.rect.width - self.health_bar_length) / 2
         self.health_bar_offset_y = self.rect.height / 2 - 30 

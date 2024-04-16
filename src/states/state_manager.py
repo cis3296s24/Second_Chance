@@ -40,4 +40,7 @@ class StateManager:
             prev_state = self.state_stack.pop()
             self.set_state(prev_state)
 
- 
+    def get_prev_state(self):
+        """Returns the previous state."""
+        return self.state_stack[-1] if len(self.state_stack) >= 1 else None
+            
