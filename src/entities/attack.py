@@ -51,11 +51,7 @@ class RangeAttack(pg.sprite.Sprite):
 
     def update(self):
         self.rect.x += (self.direction * self.speed)
-        collide = pg.sprite.spritecollideany(self.rect,enemy.getEnemyRect)
-        if collide:
-            enemy.decrease_health(enemy,15)
-            self.kill()
-        
+                
     def draw(self):
         self.screen.blit(self.image,self.rect.topleft)
 
