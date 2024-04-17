@@ -4,6 +4,7 @@ import pygame as pg
 
 import src.entities.enemies.enemy as enemy
 import src.states.menu.menus as menus
+import src.states.menu.winscreen as winscreen
 from src.utils.leaderboard import LeaderboardManager
 from src.constants import *
 from src.entities.player import Player
@@ -54,7 +55,7 @@ class Level(State):
                 timer = LeaderboardManager(self.game)
                 timer.update_leaderboard(self.game.username, self.timer.get_time())
 
-                self.manager.set_state(menus.StartMenu)
+                self.manager.set_state(winscreen.WinScreen)
 
         # Check for player death
         if self.player.health <= 0:
