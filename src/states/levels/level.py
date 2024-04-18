@@ -45,8 +45,8 @@ class Level(State):
         # Check for collision between player's melee attacks and enemy
 
         collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False, False)  # Change False to True to remove the melee attack sprite upon collision
-        range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks,self.enemies,False,False)
-
+        range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks, self.enemies, True, False)
+        
 
         for attack, enemies in collisions.items():
             for enemy in enemies:

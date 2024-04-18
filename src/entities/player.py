@@ -46,15 +46,20 @@ class Player(pg.sprite.Sprite):
         self.rangeAttack_initiated = False
 
         self.prev_x = x  # Store the initial x-coordinate as previous x-coordinate
+
+        self.last_ranged_attack_time = 0  # Initialize with 0
+        self.ranged_attack_cooldown = 3  # Cooldown duration for the ranged attack in seconds
+
+        self.ranged_attack_count = 0  # Initialize the counter for ranged attacks
+        self.ranged_attack_max = 10 # Maximum number of ranged attack uses the player has
         
         #Path for character image
         self.character_image = pg.image.load(open("assets/characters/stand.png"))
 
-        # Load the sound effect
+        # Load the sound effects
         self.hit_sound = pg.mixer.Sound("assets/soundeffects/playerhit.mp3")
-
-        # Load the sound effect
         self.melee_attack_sound = pg.mixer.Sound("assets/soundeffects/meleeattack.mp3")
+        self.ranged_attack_sound = pg.mixer.Sound("assets/soundeffects/rangedattack.mp3")
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
@@ -239,10 +244,10 @@ class Player(pg.sprite.Sprite):
         # Create a melee attack instance at the player's position
         if player_direction == "right":
             melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, player_direction, damage_value=25)
-            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,player_direction,damage_value= 30)
+            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,player_direction,damage_value= 25)
         else:
             melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
-            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,player_direction,damage_value= 30)
+            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,player_direction,damage_value= 25)
 
             
         # Check for initiating attack
@@ -256,9 +261,20 @@ class Player(pg.sprite.Sprite):
 
         self.melee_attacks.update()
 
-        if (o_pressed) and not self.rangeAttack_initiated:
-            self.range_attacks.add(range_attack)
-            self.rangeAttack_initiated = True
+        # Get current time
+        current_time = time.time()
+
+        # Check if enough time has passed since the last ranged attack
+        if (current_time - self.last_ranged_attack_time >= self.ranged_attack_cooldown) or (self.last_ranged_attack_time == 0):
+            # Allow ranged attack initiation if the count is less than the maximum
+            if (o_pressed) and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
+                self.ranged_attack_sound.play()
+                self.range_attacks.add(range_attack)
+                self.rangeAttack_initiated = True
+                # Increment the ranged attack count
+                self.ranged_attack_count += 1
+                # Update the time of the last ranged attack
+                self.last_ranged_attack_time = current_time
         
         if not (o_pressed):
             self.rangeAttack_initiated = False
@@ -299,6 +315,9 @@ class Player(pg.sprite.Sprite):
         self.melee_attacks.draw(self.screen)
         self.range_attacks.draw(self.screen)
 
+        # Draw the remaining ranged attacks count
+        self.draw_range_attack_count()
+
     def decrease_health(self, amount):
         # Check if the player is currently invincible
         if not self.invincible:
@@ -323,6 +342,32 @@ class Player(pg.sprite.Sprite):
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
+
+    def draw_range_attack_count(self):
+        # Render the text for displaying the remaining ranged attacks count
+        text_count = f"{10 - self.ranged_attack_count}"
+        text_surface_count = self.font.render(text_count, True, (255, 255, 255))  # White color text
+        
+        # Render the static label "Arrows Left:"
+        text_label = "Arrows Left: "
+        text_surface_label = self.font.render(text_label, True, (255, 255, 255))  # White color text
+
+        # Get the width of the label
+        label_width = text_surface_label.get_width()
+
+        # Calculate the position of the label (left-aligned)
+        label_x = 19  # Adjust this value as needed
+        label_y = 80  # Adjust this value as needed
+
+        # Calculate the position of the count (right-aligned)
+        count_x = label_x + label_width  # Position the count to the right of the label
+        count_y = label_y  # Align the count vertically with the label
+
+        # Blit the label onto the screen
+        self.screen.blit(text_surface_label, (label_x, label_y))
+
+        # Blit the count onto the screen
+        self.screen.blit(text_surface_count, (count_x, count_y))
 
     def debug(self):
         text = f"""
