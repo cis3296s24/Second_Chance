@@ -26,7 +26,7 @@ class Game:
         setattr(State, "manager", self.manager)
 
     def run(self):
-        while self.running:
+        while self.running: 
             events = pg.event.get()
             for event in events:
                 if event.type == pg.QUIT:
