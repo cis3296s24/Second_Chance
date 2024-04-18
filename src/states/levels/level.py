@@ -4,6 +4,7 @@ import pygame as pg
 
 import src.entities.enemies.enemy as enemy
 import src.states.menu.menus as menus
+import src.states.menu.winscreen as winscreen
 from src.utils.leaderboard import LeaderboardManager
 from src.constants import *
 from src.entities.player import Player
@@ -36,9 +37,10 @@ class Level(State):
                 self.manager.set_state(menus.PauseMenu(self.timer), save_prev=True)
 
     def update(self, events):
+        self.current_time = self.timer.get_time(ms=True)
+        
         self.player.update()
         self.enemies.update(self.player)
-        self.update_text()
 
         # Check for collision between player's melee attacks and enemy
 
@@ -53,14 +55,19 @@ class Level(State):
             for enemy in enemies:
                 enemy.decrease_health(attack.damage_value)
 
-        for portal in self.portals:
+        for portal in self.portals: 
             if portal.rect.colliderect(self.player.rect):
-                # Transition to the start menu state
+                if len(self.enemies) == 0: # If no enemies left
+                    # Transition to the start menu state
 
-                timer = LeaderboardManager(self.game)
-                timer.update_leaderboard(self.game.username, self.timer.get_time())
+                    timer = LeaderboardManager(self.game)
+                    timer.update_leaderboard(self.game.username, self.current_time)
 
-                self.manager.set_state(menus.StartMenu)
+                    self.manager.set_state(winscreen.WinScreen)
+                else:
+                    self.last_portal_time = self.current_time
+
+        self.update_text()
 
         # Check for player death
         if self.player.health <= 0:
@@ -113,11 +120,20 @@ class Level(State):
         self.add_portal()
 
     def init_attributes(self):
+        # Timed events
+        self.current_time = 0
+        self.last_portal_time = 0
+        self.next_portal_time = 0 # Next time to display message
+        self.instruction_duration = 5 # 
+        
         # A list of all current minigames
         self.minigames = [cls.__name__ for cls in Minigame.__subclasses__()]
 
         self.controls = self.get_text_surface(
             "Press 'Escape' to pause", "white", font_size=36
+        )
+        self.kill_instruction = self.get_text_surface(
+            "You must kill all enemies before you can enter the portal", "red", font_size=36
         )
         self.timer_text = self.get_text_surface(
             f"Level {self.level} Time: {self.timer.get_time()}", "white",
@@ -162,6 +178,16 @@ class Level(State):
             f"Health: {self.player.health}", "white", font_size=36
         )
         
+        # Determine if kill_instruction should be displayed on the screen
+        if self.current_time > self.next_portal_time:
+            if self.last_portal_time > self.next_portal_time:
+                self.next_portal_time = self.last_portal_time + self.instruction_duration
+            self.kill_instruction = pg.Surface((0, 0))
+        else:
+            self.kill_instruction = self.get_text_surface(
+                "You must kill all enemies before you can enter the portal", "red", font_size=36
+            )  
+        
     def draw_bg(self):
         for x in range(25):
             speed = 1
@@ -185,6 +211,7 @@ class Level(State):
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
         self.screen.blit(self.timer_text, (self.screen.get_width() - 220, 20))
+        self.screen.blit(self.kill_instruction, (100, 100))
 
 
 class World:

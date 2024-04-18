@@ -1,14 +1,11 @@
 import pygame as pg
 import math
 import time
-from src.objects.platforms import Platform
+
 from src.entities.attack import MeleeAttack
 from src.entities.attack import RangeAttack
-
-from src.objects.portal import Portal # Import portal class
-
 from src.constants import *
-from src.entities.green_button import GreenButton
+from src.utils.timer import Timer
 
 class Player(pg.sprite.Sprite):
     def characteropen(imageName):
@@ -34,8 +31,13 @@ class Player(pg.sprite.Sprite):
         self.obstacle_list = obstacle_list
 
         self.invincible = False  # Attribute to track player's invincibility state
-        self.invincible_duration = .5  # Duration of invincibility frames in seconds
+        self.invincible_duration = 1.5  # Duration of invincibility frames in seconds
         self.last_hit_time = 0  # Time when the player was last hit
+        
+        self.timer = Timer(start=True)
+        self.last_health_increase_time = 0
+        self.health_duration = 3 # How often to increase HP in seconds
+        self.health_increase_amount = 10
 
         self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
         self.range_attacks = pg.sprite.Group()
@@ -159,7 +161,10 @@ class Player(pg.sprite.Sprite):
 
     def update(self):
         # Get keys that are pressed
-        keys = pg.key.get_pressed()        
+        keys = pg.key.get_pressed() 
+        
+        # Get current time to check for timed events
+        current_time = self.timer.get_time(ms=True)       
 
         # Apply gravity
         self.vertical_velocity += self.gravity
@@ -191,6 +196,11 @@ class Player(pg.sprite.Sprite):
         self.hitbox.y += self.vertical_velocity
 
         self.check_invincibility()
+        
+        # Increase HP after a certain amount of time has passed
+        if current_time - self.last_health_increase_time > self.health_duration:
+            self.increase_health(self.health_increase_amount)
+            self.last_health_increase_time = current_time
         
         # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
