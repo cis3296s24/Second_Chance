@@ -46,7 +46,7 @@ class Level(State):
 
         collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False, False)  # Change False to True to remove the melee attack sprite upon collision
         range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks,self.enemies,False,False)
-
+        
 
         for attack, enemies in collisions.items():
             for enemy in enemies:
@@ -54,6 +54,7 @@ class Level(State):
         for attack,enemies in range_attack_collisions.items():
             for enemy in enemies:
                 enemy.decrease_health(attack.damage_value)
+                attack.kill()              
 
         for portal in self.portals: 
             if portal.rect.colliderect(self.player.rect):
@@ -73,7 +74,8 @@ class Level(State):
         if self.player.health <= 0:
             self.timer.pause()
             self.manager.set_state(
-                globals()[random.choice(self.minigames)], # Select a random minigame
+                # globals()[random.choice(self.minigames)], # Select a random minigame
+                globals()[self.minigames[4]],
                 save_prev=True)
 
     def draw(self):
