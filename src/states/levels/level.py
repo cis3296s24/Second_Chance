@@ -156,8 +156,8 @@ class Level(State):
     def init_music(self, music_file):
         # Load background music
         pg.mixer.music.load(os.path.join("assets/music", f"{music_file}"))
-        self.volume = 0.5  # Initial volume level (between 0 and 1)
-        pg.mixer.music.set_volume(self.volume)
+        self.volume = menus.volume  # Initial volume level (between 0 and 1)
+        pg.mixer.music.set_volume(menus.volume)
         pg.mixer.music.play(-1)  # Start playing background music on a loop
 
     def create_platforms(self):

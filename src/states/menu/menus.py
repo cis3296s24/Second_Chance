@@ -12,13 +12,14 @@ from ..levels.level1_1 import Level1_1
 # TODO Fix this later
 import src.states.menu.title_screen as ts
 
+# Global variable for volume
+volume = 0.5  # Initial volume value, you can set it to any value you desire
+
 class StartMenu(State):
     def __init__(self):
         super().__init__("background.png") # Change to start menu background
 
         self.leaderboard = LeaderboardManager(self.game)
-
-        self.volume = 0.5 # Initial volume level (between 0 and 1)
         
         self.main_menu()
         
@@ -75,15 +76,12 @@ class StartMenu(State):
         # Add back button
         self.menu.add.button('Back', self.main_menu)
 
-
-
-
     def options_menu(self):
         # Create options menu
         self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
         # Add volume control buttons
-        self.volume_label = self.menu.add.label('Volume: {}'.format(int(self.volume * 100)))
+        self.volume_label = self.menu.add.label('Volume: {}'.format(int(volume * 100)))
         self.volume_label.update_font({'size': 30})  # Set font size for the label
 
         self.menu.add.button('Increase Volume', self.increase_volume)
@@ -93,14 +91,16 @@ class StartMenu(State):
         self.menu.add.button('Back', self.main_menu)
 
     def increase_volume(self):
-        self.volume = min(self.volume + 0.1, 1.0)  # Increase self.volume by 0.1, but ensure it doesn't exceed 1.0
-        pg.mixer.music.set_volume(self.volume)
-        self.volume_label.set_title('Volume: {}'.format(int(self.volume * 100)))
+        global volume
+        volume = min(volume + 0.1, 1.0)  # Increase volume by 0.1, but ensure it doesn't exceed 1.0
+        pg.mixer.music.set_volume(volume)
+        self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
 
     def decrease_volume(self):
-        self.volume = max(self.volume - 0.1, 0.0)  # Decrease self.volume by 0.1, but ensure it doesn't go below 0.0
-        pg.mixer.music.set_volume(self.volume)
-        self.volume_label.set_title('Volume: {}'.format(int(self.volume * 100)))
+        global volume
+        volume = max(volume - 0.1, 0.0)  # Decrease volume by 0.1, but ensure it doesn't go below 0.0
+        pg.mixer.music.set_volume(volume)
+        self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
         
         
 class PauseMenu(State):
@@ -111,7 +111,7 @@ class PauseMenu(State):
         self.menu = pygame_menu.Menu('Paused', 400, 300,
                                      theme=pygame_menu.themes.THEME_BLUE)
         self.menu.add.button('Return to game', self.resume)
-        self.menu.add.button('Options', self.hi, "Not implemented yet")
+        self.menu.add.button('Options', self.options_menu)
         self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
         
         if self.timer:
@@ -129,9 +129,39 @@ class PauseMenu(State):
 
         self.manager.pop_state()
 
-    # TODO remove, just displaying what's not implemented yet
-    def hi(self, s):
-        print(s)
+    def options_menu(self):
+        # Create options menu
+        self.menu = pygame_menu.Menu('Options', 400, 300, theme=pygame_menu.themes.THEME_BLUE)
+
+        # Add volume control buttons
+        self.volume_label = self.menu.add.label('Volume: {}'.format(int(volume * 100)))
+        self.volume_label.update_font({'size': 30})  # Set font size for the label
+
+        self.menu.add.button('Increase Volume', self.increase_volume)
+        self.menu.add.button('Decrease Volume', self.decrease_volume)
+
+        # Add back button
+        self.menu.add.button('Back', self.back_to_pause_menu)
+
+    def increase_volume(self):
+        global volume
+        volume = min(volume + 0.1, 1.0)  # Increase volume by 0.1, but ensure it doesn't exceed 1.0
+        pg.mixer.music.set_volume(volume)
+        self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
+
+    def decrease_volume(self):
+        global volume
+        volume = max(volume - 0.1, 0.0)  # Decrease volume by 0.1, but ensure it doesn't go below 0.0
+        pg.mixer.music.set_volume(volume)
+        self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
+
+    def back_to_pause_menu(self):
+        # Revert to the original pause menu
+        self.menu = pygame_menu.Menu('Paused', 400, 300,
+                                     theme=pygame_menu.themes.THEME_BLUE)
+        self.menu.add.button('Return to game', self.resume)
+        self.menu.add.button('Options', self.options_menu)
+        self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
 
 class UsernamePrompt(State):
     def __init__(self):
