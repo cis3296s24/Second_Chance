@@ -76,6 +76,8 @@ class StartMenu(State):
         self.menu.add.button('Back', self.main_menu)
 
 
+
+
     def options_menu(self):
         # Create options menu
         self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
@@ -129,7 +131,6 @@ class PauseMenu(State):
     def hi(self, s):
         print(s)
 
-
 class UsernamePrompt(State):
     def __init__(self):
         super().__init__()
@@ -150,19 +151,21 @@ class UsernamePrompt(State):
             if event.type == pg.KEYDOWN:
                 if self.active:
                     if event.key == pg.K_RETURN:
-                        self.game.username = self.username # Set username in Game object
-                        self.manager.set_state(StartMenu)
+                        if len(self.username) > 0:  # Make sure user has entered at least 1 character
+                            self.game.username = self.username[:15]  # Limiting username to 15 characters
+                            self.manager.set_state(StartMenu)
                         return
                     elif event.key == pg.K_BACKSPACE:
-                        self.username = self.username[:-1]
+                        self.username = self.username[:-1] if len(self.username) > 0 else self.username
                     else:
-                        self.username += event.unicode
+                        if len(self.username) < 15:  # Limiting username to 15 characters
+                            self.username += event.unicode
+
 
     def update(self, events):
         # Render the username directly inside the input rectangle
         self.text_surface = self.font.render(self.username, True, (255, 255, 255))
         self.text_rect = self.text_surface.get_rect(center=self.input_rect.center)
-
 
     def draw(self):
         self.screen.fill((30, 30, 30))

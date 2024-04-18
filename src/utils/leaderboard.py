@@ -33,10 +33,12 @@ class LeaderboardManager:
     def fetch_leaderboard(self, limit=10):
         ref = db.reference('/leaderboard')
         leaderboard = ref.get()
-
+      
         if leaderboard:
-            sorted_leaderboard = sorted(leaderboard.items(), key=lambda x: x[1])
-            leaderboard = dict(sorted_leaderboard[-limit:])
+            sorted_leaderboard = sorted(leaderboard.items(), key=lambda x: (x[1], x[0]), reverse=False)
+            leaderboard = dict(sorted_leaderboard[:limit])
+            
+            
 
         return leaderboard
 
@@ -53,8 +55,3 @@ class LeaderboardManager:
         
 
 
-
-# Testing purposes
-#if __name__ == "__main__":
- #   leaderboard_manager = LeaderboardManager()
-  #  leaderboard_manager.run()
