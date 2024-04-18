@@ -46,7 +46,7 @@ class RangeAttack(pg.sprite.Sprite):
         self.image = pg.image.load(open("assets/enemies/archer/arrow_R.png"))
         self.rect = self.image.get_rect()
         self.direction = 1 if player_direction == "right" else -1
-        self.speed = 10
+        self.speed = 9
         self.rect.center = (x, y)
 
     def update(self):
