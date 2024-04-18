@@ -13,8 +13,8 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 
 # Set the dimensions of the game window
-WIDTH = 600
-HEIGHT = 400
+WIDTH = 800
+HEIGHT = 600
 
 class FlyingGreen(Minigame):
     """Base class for a minigame."""
@@ -31,7 +31,6 @@ class FlyingGreen(Minigame):
             instructions,
             img=os.path.join("minigames", img)
         )
-        self.won = None
      
         self.timer = Timer()
         self.timer_text = self.get_text_surface(
@@ -46,7 +45,12 @@ class FlyingGreen(Minigame):
             
             if event.type == pg.MOUSEBUTTONDOWN:
                 if self.target_circle.is_clicked(event.pos):
+                    self.timer.pause()
+                    #self.target_circle.pause()
                     self.won = True
+            if self.timer.get_time(ms=True) >= 3000:  # 3 seconds timeout
+                self.won = False  # Set to False when time runs out
+
 
     def update(self, events):
         super().update(events)
@@ -55,11 +59,14 @@ class FlyingGreen(Minigame):
             "white", 36)
 
 
-        if self.won:
+     
+        if self.timer.get_time(ms=True) > 3:  # 3 seconds timeout
+            self.won = False  # Set to False when time runs out
+
+        if self.won is not None and self.won:  # Check if the game is won
             self.timer.pause()
-            self.win()
-        elif self.timer.get_time(ms=True) >= 3000:  # 3 seconds timeout
-            self.lose()
+        elif self.won is False:  # Check if the game is lost
+            self.timer.pause()
 
         self.target_circle.update()
 
@@ -85,7 +92,7 @@ class TargetCircle:
         self.pos = [random.randint(self.radius, WIDTH - self.radius), random.randint(self.radius, HEIGHT - self.radius)]
         self.speed = 2
         self.direction = [random.choice([-1, 1]), random.choice([-1, 1])]
-        self.timer = timer
+        #self.timer = timer
 
     def update(self):
         """Update the position of the circle"""
@@ -101,10 +108,13 @@ class TargetCircle:
     def draw(self, screen):
         """Draw the circle on the screen"""
         #if this
-        if(self.timer.is_running):
-            pg.draw.circle(screen, GREEN, (int(self.pos[0]), int(self.pos[1])), self.radius)
+        #if(self.timer.is_running):
+        pg.draw.circle(screen, GREEN, (int(self.pos[0]), int(self.pos[1])), self.radius)
 
     def is_clicked(self, click_pos):
         """Check if the circle is clicked"""
         distance = ((self.pos[0] - click_pos[0]) ** 2 + (self.pos[1] - click_pos[1]) ** 2) ** 0.5
         return distance <= self.radius
+    
+    #def pause(self):
+        #self.timer.pause()

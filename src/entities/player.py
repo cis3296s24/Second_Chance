@@ -31,7 +31,7 @@ class Player(pg.sprite.Sprite):
         self.obstacle_list = obstacle_list
 
         self.invincible = False  # Attribute to track player's invincibility state
-        self.invincible_duration = 2  # Duration of invincibility frames in seconds
+        self.invincible_duration = .5  # Duration of invincibility frames in seconds
         self.last_hit_time = 0  # Time when the player was last hit
 
         self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
