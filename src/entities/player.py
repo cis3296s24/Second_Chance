@@ -122,7 +122,7 @@ class Player(pg.sprite.Sprite):
             self.walkcount = 0
 
 
-        if self.rect.x > SCROLL_THRESH or self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
+        if self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
             self.rect.x = self.prev_x
             
 
@@ -297,15 +297,6 @@ class Player(pg.sprite.Sprite):
             # Prevent the player's HP from being reduced below 0
             if self.health < 0:
                 self.health = 0
-
-            # If the player's HP is reduced to 0, the demo second chance game pops up
-            # Once the second chance game is completed, the player's HP is restored to 100
-            if self.health == 0:
-                #have the second chance at this point
-                GREEN = (0, 255, 0)
-                demo_chance = GreenButton(self.screen, GREEN, 300, 250, 200, 100)
-                demo_chance.display()
-                self.health = 100
 
             # Set the player to be invincible and record the time of the hit
             self.invincible = True
