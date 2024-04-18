@@ -54,7 +54,7 @@ class Level(State):
                     # Transition to the start menu state
 
                     timer = LeaderboardManager(self.game)
-                    timer.update_leaderboard(self.game.username, self.timer.get_time())
+                    timer.update_leaderboard(self.game.username, self.current_time)
 
                     self.manager.set_state(menus.StartMenu)
                 else:
