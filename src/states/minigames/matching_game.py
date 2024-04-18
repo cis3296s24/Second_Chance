@@ -73,9 +73,11 @@ class Matching(Minigame):
                     if button.collidepoint(event.pos) and not self.second_guess and self.first_guess and i != self.first_guess_num:
                         self.second_guess = True
                         self.second_guess_num = i
-            if self.matches == self.rows * self.cols // 2:
+            if self.matches == self.rows * self.cols // 2: #Value of required matches to win, currently set to the entire board
                 self.won = True
                 self.win_text = f"You did it in {self.score} moves"
+            elif self.score > 15: #Value of number of attempts before losing
+                self.won = False
 
         
 
