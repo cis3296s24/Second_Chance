@@ -2,6 +2,7 @@ from .level import Level
 from src.objects.platforms import Platform
 from src.entities.enemies.eyeball import Eyeball  # Import the Eyeball class
 from src.entities.enemies.skeleton import Skeleton  # Import the Skeleton class
+from src.entities.enemies.wolf import Wolf # Import the Wolf class
 from src.objects.portal import Portal # Import portal class
 
 class Level1_1(Level):
@@ -20,6 +21,7 @@ class Level1_1(Level):
     def spawn_enemies(self):
         self.enemies.add(Eyeball(300, 600, self.platforms, self.scroll))
         self.enemies.add(Skeleton(500, 600, self.platforms, self.scroll))
+        self.enemies.add(Wolf(700, 600, self.platforms, self.scroll))
 
     def add_portal(self):
         # Add portal at specific coordinates
