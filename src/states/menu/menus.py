@@ -83,8 +83,8 @@ class StartMenu(State):
         self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
         # Add volume control buttons
-        volume_label = self.menu.add.label('Volume: {}'.format(int(self.volume * 100)))
-        volume_label.update_font({'size': 30})  # Set font size for the label
+        self.volume_label = self.menu.add.label('Volume: {}'.format(int(self.volume * 100)))
+        self.volume_label.update_font({'size': 30})  # Set font size for the label
 
         self.menu.add.button('Increase Volume', self.increase_volume)
         self.menu.add.button('Decrease Volume', self.decrease_volume)
@@ -95,10 +95,12 @@ class StartMenu(State):
     def increase_volume(self):
         self.volume = min(self.volume + 0.1, 1.0)  # Increase self.volume by 0.1, but ensure it doesn't exceed 1.0
         pg.mixer.music.set_volume(self.volume)
+        self.volume_label.set_title('Volume: {}'.format(int(self.volume * 100)))
 
     def decrease_volume(self):
         self.volume = max(self.volume - 0.1, 0.0)  # Decrease self.volume by 0.1, but ensure it doesn't go below 0.0
         pg.mixer.music.set_volume(self.volume)
+        self.volume_label.set_title('Volume: {}'.format(int(self.volume * 100)))
         
         
 class PauseMenu(State):
