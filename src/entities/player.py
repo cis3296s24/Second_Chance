@@ -1,13 +1,11 @@
 import pygame as pg
 import math
 import time
-from src.objects.platforms import Platform
+
 from src.entities.attack import MeleeAttack
-
-from src.objects.portal import Portal # Import portal class
-
+from src.entities.attack import RangeAttack
 from src.constants import *
-from src.entities.green_button import GreenButton
+from src.utils.timer import Timer
 
 class Player(pg.sprite.Sprite):
     def characteropen(imageName):
@@ -21,7 +19,9 @@ class Player(pg.sprite.Sprite):
         super().__init__()
         self.screen = pg.display.get_surface()
         self.image = pg.Surface((50, 50))
-        self.rect = self.image.get_rect()
+        # self.rect = self.image.get_rect()
+        
+        self.rect = pg.rect.Rect(x,y,50,50)
         self.rect.center = (x, y)
         self.platform_group = platform_group
         self.portal_group = portal_group
@@ -31,21 +31,35 @@ class Player(pg.sprite.Sprite):
         self.obstacle_list = obstacle_list
 
         self.invincible = False  # Attribute to track player's invincibility state
-        self.invincible_duration = 2  # Duration of invincibility frames in seconds
+        self.invincible_duration = 1.5  # Duration of invincibility frames in seconds
         self.last_hit_time = 0  # Time when the player was last hit
+        
+        self.timer = Timer(start=True)
+        self.last_health_increase_time = 0
+        self.health_duration = 3 # How often to increase HP in seconds
+        self.health_increase_amount = 10
 
         self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
+        self.range_attacks = pg.sprite.Group()
+
         self.attack_initiated = False
+        self.rangeAttack_initiated = False
+
         self.prev_x = x  # Store the initial x-coordinate as previous x-coordinate
+
+        self.last_ranged_attack_time = 0  # Initialize with 0
+        self.ranged_attack_cooldown = 3  # Cooldown duration for the ranged attack in seconds
+
+        self.ranged_attack_count = 0  # Initialize the counter for ranged attacks
+        self.ranged_attack_max = 10 # Maximum number of ranged attack uses the player has
         
         #Path for character image
         self.character_image = pg.image.load(open("assets/characters/stand.png"))
 
-        # Load the sound effect
+        # Load the sound effects
         self.hit_sound = pg.mixer.Sound("assets/soundeffects/playerhit.mp3")
-
-        # Load the sound effect
         self.melee_attack_sound = pg.mixer.Sound("assets/soundeffects/meleeattack.mp3")
+        self.ranged_attack_sound = pg.mixer.Sound("assets/soundeffects/rangedattack.mp3")
         
         self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
@@ -65,6 +79,7 @@ class Player(pg.sprite.Sprite):
         
         # Define hitbox
         self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
+
 
     walkcount = 0
     isRight = False
@@ -146,10 +161,15 @@ class Player(pg.sprite.Sprite):
                     self.rect.bottom = tile[1].top
                     self.on_ground = True
 
+        
+
 
     def update(self):
         # Get keys that are pressed
-        keys = pg.key.get_pressed()        
+        keys = pg.key.get_pressed() 
+        
+        # Get current time to check for timed events
+        current_time = self.timer.get_time(ms=True)       
 
         # Apply gravity
         self.vertical_velocity += self.gravity
@@ -182,6 +202,11 @@ class Player(pg.sprite.Sprite):
 
         self.check_invincibility()
         
+        # Increase HP after a certain amount of time has passed
+        if current_time - self.last_health_increase_time > self.health_duration:
+            self.increase_health(self.health_increase_amount)
+            self.last_health_increase_time = current_time
+        
         # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
@@ -190,6 +215,8 @@ class Player(pg.sprite.Sprite):
         mouse_buttons = pg.mouse.get_pressed()
 
         q_pressed = keys[pg.K_q] #Q and click both attack
+
+        o_pressed = keys[pg.K_o]
         
         # Update facing direction based on current and previous x-coordinates
         if self.rect.x > self.prev_x:
@@ -217,8 +244,11 @@ class Player(pg.sprite.Sprite):
         # Create a melee attack instance at the player's position
         if player_direction == "right":
             melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, player_direction, damage_value=25)
+            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,player_direction,damage_value= 25)
         else:
             melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
+            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,player_direction,damage_value= 25)
+
             
         # Check for initiating attack
         if (mouse_buttons[0] or q_pressed) and not self.attack_initiated:
@@ -230,6 +260,26 @@ class Player(pg.sprite.Sprite):
             self.attack_initiated = False
 
         self.melee_attacks.update()
+
+        # Get current time
+        current_time = time.time()
+
+        # Check if enough time has passed since the last ranged attack
+        if (current_time - self.last_ranged_attack_time >= self.ranged_attack_cooldown) or (self.last_ranged_attack_time == 0):
+            # Allow ranged attack initiation if the count is less than the maximum
+            if (o_pressed) and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
+                self.ranged_attack_sound.play()
+                self.range_attacks.add(range_attack)
+                self.rangeAttack_initiated = True
+                # Increment the ranged attack count
+                self.ranged_attack_count += 1
+                # Update the time of the last ranged attack
+                self.last_ranged_attack_time = current_time
+        
+        if not (o_pressed):
+            self.rangeAttack_initiated = False
+        
+        self.range_attacks.update()
 
         # Display player info for debugging purposes
         # self.debug()
@@ -263,6 +313,10 @@ class Player(pg.sprite.Sprite):
 
         # Draw melee attacks
         self.melee_attacks.draw(self.screen)
+        self.range_attacks.draw(self.screen)
+
+        # Draw the remaining ranged attacks count
+        self.draw_range_attack_count()
 
     def decrease_health(self, amount):
         # Check if the player is currently invincible
@@ -288,6 +342,32 @@ class Player(pg.sprite.Sprite):
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
+
+    def draw_range_attack_count(self):
+        # Render the text for displaying the remaining ranged attacks count
+        text_count = f"{10 - self.ranged_attack_count}"
+        text_surface_count = self.font.render(text_count, True, (255, 255, 255))  # White color text
+        
+        # Render the static label "Arrows Left:"
+        text_label = "Arrows Left: "
+        text_surface_label = self.font.render(text_label, True, (255, 255, 255))  # White color text
+
+        # Get the width of the label
+        label_width = text_surface_label.get_width()
+
+        # Calculate the position of the label (left-aligned)
+        label_x = 19  # Adjust this value as needed
+        label_y = 80  # Adjust this value as needed
+
+        # Calculate the position of the count (right-aligned)
+        count_x = label_x + label_width  # Position the count to the right of the label
+        count_y = label_y  # Align the count vertically with the label
+
+        # Blit the label onto the screen
+        self.screen.blit(text_surface_label, (label_x, label_y))
+
+        # Blit the count onto the screen
+        self.screen.blit(text_surface_count, (count_x, count_y))
 
     def debug(self):
         text = f"""

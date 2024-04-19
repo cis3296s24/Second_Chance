@@ -1,6 +1,7 @@
 import pygame as pg
 
 from ..state import State
+import src.states.menu.menus as menus
 from .menus import StartMenu
 from .menus import UsernamePrompt 
 
@@ -13,8 +14,8 @@ class TitleScreen(State):
         # Load background music
         pg.mixer.music.load('assets/music/titlescreenmusic.mp3')
         # Set initial volume
-        self.volume = 0.5  # Initial volume level (between 0 and 1)
-        pg.mixer.music.set_volume(self.volume)
+        self.volume = menus.volume  # Initial volume level (between 0 and 1)
+        pg.mixer.music.set_volume(menus.volume)
         pg.mixer.music.play(-1)  # Start playing background music on a loop
         
     def handle_events(self, events: list[pg.event.Event]):
