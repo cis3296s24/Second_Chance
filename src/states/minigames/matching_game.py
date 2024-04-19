@@ -17,7 +17,7 @@ blue = (0, 0, 255)
 
 class Matching(Minigame):
     def __init__(self):
-        instructions = "The goal of this minigame is to select the matching boxes"
+        instructions = "The goal of this minigame is to select the boxes with matching numbers. You must get 5 matches within 25 turns"
         super().__init__(instructions)
 
         # self.timer = pg.time.Clock()
@@ -73,10 +73,10 @@ class Matching(Minigame):
                     if button.collidepoint(event.pos) and not self.second_guess and self.first_guess and i != self.first_guess_num:
                         self.second_guess = True
                         self.second_guess_num = i
-            if self.matches == self.rows * self.cols // 2: #Value of required matches to win, currently set to the entire board
+            if self.matches == 5: #Value of required matches to win, currently set to the entire board
                 self.won = True
                 self.win_text = f"You did it in {self.score} moves"
-            elif self.score > 15: #Value of number of attempts before losing
+            elif self.score > 25: #Value of number of attempts before losing
                 self.won = False
 
         
@@ -126,12 +126,12 @@ class Matching(Minigame):
 
         if self.first_guess:
             piece_text = self.small_font.render(f'{self.spaces[self.first_guess_num]}', True, blue)
-            location = (self.first_guess_num // self.rows * 75 + 18, (self.first_guess_num - (self.first_guess_num // self.rows * self.rows)) * 65 + 120)
+            location = (self.first_guess_num // self.rows * 100 + 110, (self.first_guess_num - (self.first_guess_num // self.rows * self.rows)) * 90 + 165)
             self.screen.blit(piece_text, (location))
 
         if self.second_guess:
             piece_text = self.small_font.render(f'{self.spaces[self.second_guess_num]}', True, blue)
-            location = (self.second_guess_num // self.rows * 75 + 18, (self.second_guess_num - (self.second_guess_num // self.rows * self.rows)) * 65 + 120)
+            location = (self.second_guess_num // self.rows * 100 + 110, (self.second_guess_num - (self.second_guess_num // self.rows * self.rows)) * 90 + 165)
             self.screen.blit(piece_text, (location))
         
         
@@ -141,11 +141,11 @@ class Matching(Minigame):
     def draw_backgrounds(self):
         top_menu = pg.draw.rect(self.screen, black, [0, 0, SCREEN_WIDTH, 100])
         title_text = self.title_font.render('The matching game!', True, white)
-        self.screen.blit(title_text, (10, 20))
+        self.screen.blit(title_text, (80, 20))
         board_space = pg.draw.rect(self.screen, gray, [0, 100, SCREEN_WIDTH, SCREEN_HEIGHT - 200], 0)
         bottom_menu = pg.draw.rect(self.screen, black, [0, SCREEN_HEIGHT - 100, SCREEN_WIDTH, 100], 0)
         score_text = self.small_font.render(f'Current Turns: {self.score}', True, white)
-        self.screen.blit(score_text, (350, 520))
+        self.screen.blit(score_text, (550, 520))
     
     def draw_board(self):
         board_list = []
@@ -153,17 +153,17 @@ class Matching(Minigame):
             for j in range(self.rows):
                 index = i * self.rows + j
                 if index < len(self.spaces):
-                    piece = pg.draw.rect(self.screen, white, [i * 75 + 12, j * 65 + 112, 50, 50], 0, 4)
+                    piece = pg.draw.rect(self.screen, white, [i * 100 + 100, j * 90 + 152, 50, 50], 0, 4)
                     board_list.append(piece)
                     # piece_text = self.small_font.render(f'{self.spaces[index]}', True, gray)
-                    # self.screen.blit(piece_text, (i * 75 + 18, j * 65 + 120))
+                    # self.screen.blit(piece_text, (i * 100 + 106, j * 90 + 140))
 
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.correct[i][j] == 1:
-                    piece = pg.draw.rect(self.screen, green, [j * 75 + 10, i * 65 + 110, 54, 54], 3, 4)
+                    piece = pg.draw.rect(self.screen, green, [j * 100 + 98, i * 90 + 150, 54, 54], 3, 4)
                     piece_text = self.small_font.render(f'{self.spaces[j * self.rows + i]}', True, black)
-                    self.screen.blit(piece_text, (j * 75 + 18, i * 65 + 120))
+                    self.screen.blit(piece_text, (j * 100 + 110, i * 90 + 165))
         
         return board_list
 

@@ -176,7 +176,7 @@ class WinScreen(TimedState):
     
     def __init__(self, next_state, extra_text="", timer=None, img=None):
         super().__init__(time=3, next_state=next_state, timer=timer, img=img)
-        self.win_text = self.get_text_surface(f"You won! {extra_text}", "black", font_size=36)
+        self.win_text = self.get_text_surface(f"You won! {extra_text}", "white", font_size=36)
         self.win_text_pos = \
             ((self.screen.get_width() / 2) - 350, (self.screen.get_height() / 2) - 100)  
     
@@ -194,7 +194,7 @@ class LoseScreen(TimedState):
     def __init__(self, next_state, prev_state, extra_text="", img=None):
         super().__init__(time=3, next_state=next_state, img=img)
         self.prev_state = prev_state
-        self.lose_text = self.get_text_surface(f"You lose! :( {extra_text}", "black", font_size=36)
+        self.lose_text = self.get_text_surface(f"You lose! :( {extra_text}", "white", font_size=36)
         self.lose_text_pos = \
             ((self.screen.get_width() / 2) - 250, (self.screen.get_height() / 2) - 100)
             
