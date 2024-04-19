@@ -166,7 +166,12 @@ class Player(pg.sprite.Sprite):
 
     def update(self):
         # Get keys that are pressed
-        keys = pg.key.get_pressed() 
+        keys = pg.key.get_pressed()
+        
+        # Detect left mouse button click event
+        mouse_buttons = pg.mouse.get_pressed()
+        melee_pressed = keys[pg.K_q] or mouse_buttons[0] # Q and click for melee attack
+        ranged_pressed = keys[pg.K_e] or mouse_buttons[2] # E and right click for ranged attack 
         
         # Get current time to check for timed events
         current_time = self.timer.get_time(ms=True)       
@@ -211,13 +216,6 @@ class Player(pg.sprite.Sprite):
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
 
-        # Detect left mouse button click event
-        mouse_buttons = pg.mouse.get_pressed()
-
-        q_pressed = keys[pg.K_q] #Q and click both attack
-
-        o_pressed = keys[pg.K_o]
-        
         # Update facing direction based on current and previous x-coordinates
         if self.rect.x > self.prev_x:
             self.isRight = True
@@ -248,15 +246,14 @@ class Player(pg.sprite.Sprite):
         else:
             melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
             range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,player_direction,damage_value= 25)
-
             
         # Check for initiating attack
-        if (mouse_buttons[0] or q_pressed) and not self.attack_initiated:
+        if melee_pressed and not self.attack_initiated:
             self.melee_attack_sound.play()
             self.melee_attacks.add(melee_attack)
             self.attack_initiated = True
             
-        if not (mouse_buttons[0] or q_pressed):
+        if not melee_pressed:
             self.attack_initiated = False
 
         self.melee_attacks.update()
@@ -267,7 +264,7 @@ class Player(pg.sprite.Sprite):
         # Check if enough time has passed since the last ranged attack
         if (current_time - self.last_ranged_attack_time >= self.ranged_attack_cooldown) or (self.last_ranged_attack_time == 0):
             # Allow ranged attack initiation if the count is less than the maximum
-            if (o_pressed) and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
+            if ranged_pressed and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
                 self.ranged_attack_sound.play()
                 self.range_attacks.add(range_attack)
                 self.rangeAttack_initiated = True
@@ -276,7 +273,7 @@ class Player(pg.sprite.Sprite):
                 # Update the time of the last ranged attack
                 self.last_ranged_attack_time = current_time
         
-        if not (o_pressed):
+        if not ranged_pressed:
             self.rangeAttack_initiated = False
         
         self.range_attacks.update()
