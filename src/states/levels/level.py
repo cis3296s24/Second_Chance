@@ -28,6 +28,7 @@ class Level(State):
         self.init_attributes()
         self.init_background(imgArr)
         self.init_music(music_file)
+        self.last_evil = -3
 
     def handle_events(self, events):
         for event in events:
@@ -67,6 +68,15 @@ class Level(State):
                 else:
                     self.last_portal_time = self.current_time
 
+        for evil_block in self.evil_group:
+            if evil_block.rect.colliderect(self.player.rect):
+                hit_evil_time = self.timer.get_time()
+                if hit_evil_time - self.last_evil >=3:
+                
+                    
+                    self.last_evil = self.timer.get_time()
+                    self.player.health = 0
+
         self.update_text()
 
         # Check for player death
@@ -80,6 +90,7 @@ class Level(State):
         self.draw_bg()
         self.platforms.draw(self.screen)
         self.portals.draw(self.screen)
+        self.evil_group.draw(self.screen)
         self.player.draw()
         self.enemies.draw()
         self.draw_health_bar()
@@ -109,15 +120,17 @@ class Level(State):
     def init_sprites(self):
         self.platforms = pg.sprite.Group()
         self.portals = pg.sprite.Group()
+        self.evil_group = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
         self.world = World(self.tile_list, self.screen, self.scroll)
-        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, self.scroll)
+        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, self.evil_group, self.scroll)
 
         self.create_platforms()
         self.spawn_enemies()
         self.world.process_data(self.world_data)  # call method to process csv data
 
         self.add_portal()
+        self.add_evil()
 
     def init_attributes(self):
         # Timed events
@@ -168,6 +181,9 @@ class Level(State):
 
     def add_portal(self):
         pass  # Level-specific behavior
+
+    def add_evil(self):
+        pass 
 
     def update_text(self):
         self.timer_text = self.get_text_surface(
