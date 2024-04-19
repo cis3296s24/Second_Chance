@@ -26,6 +26,7 @@ This is a platformer-style video game with a mechanic of always giving the user 
 - `RightArrow`/`d`: Move right
 - `UpArrow`/`Spacebar`/`w`: Jump
 - `LeftClick`/`q`: Melee attack
+- `RightClick`/`e`: Ranged attack
 
 # How to contribute
 Follow this project board to know the latest status of the project: https://github.com/orgs/cis3296s24/projects/71
