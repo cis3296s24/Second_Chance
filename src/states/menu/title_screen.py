@@ -9,6 +9,8 @@ class TitleScreen(State):
     def __init__(self):
         super().__init__("background.png")
 
+        self.title_logo = pg.image.load("assets/backgrounds/title_logo.png")
+        self.title_logo = pg.transform.scale(self.title_logo, (450, 250))
         # Load background music
         pg.mixer.music.load('assets/music/titlescreenmusic.mp3')
         # Set initial volume
@@ -32,3 +34,4 @@ class TitleScreen(State):
             pg.font.Font(None, 36).render("Press 'Enter' to start", True, "black"),
             (self.screen.get_width()/2, self.screen.get_height()-100)   
         )
+        self.screen.blit(self.title_logo, (170, 150))
