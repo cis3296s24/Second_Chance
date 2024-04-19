@@ -44,6 +44,7 @@ class StartMenu(State):
         # Add buttons to the menu
         self.menu.add.button('Start Game', self.manager.set_state, Level1_1)
         self.menu.add.button("Instructions", self.instructions_menu)
+        self.menu.add.button("Minigames", self.minigames_menu)
         self.menu.add.button("Leaderboard", self.leaderboard_menu)
         self.menu.add.button("Options", self.options_menu)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -57,6 +58,18 @@ class StartMenu(State):
         self.menu.add.label(instructions_text, max_char=-1, font_size=20)
 
         # Add back button
+        self.menu.add.button('Back', self.main_menu)
+
+
+    def minigames_menu(self):
+        self.menu = pygame_menu.Menu('Minigames', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
+
+        self.menu.add.button('Memory')
+        self.menu.add.button('Reflexes')
+        self.menu.add.button('Matching')
+        self.menu.add.button('Reaction')
+        self.menu.add.button('Tracking')
+
         self.menu.add.button('Back', self.main_menu)
 
     def leaderboard_menu(self):
