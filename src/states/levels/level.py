@@ -45,8 +45,7 @@ class Level(State):
         # Check for collision between player's melee attacks and enemy
 
         collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False, False)  # Change False to True to remove the melee attack sprite upon collision
-        range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks,self.enemies,False,False)
-        
+        range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks, self.enemies, True, False)        
 
         for attack, enemies in collisions.items():
             for enemy in enemies:
@@ -158,8 +157,8 @@ class Level(State):
     def init_music(self, music_file):
         # Load background music
         pg.mixer.music.load(os.path.join("assets/music", f"{music_file}"))
-        self.volume = 0.5  # Initial volume level (between 0 and 1)
-        pg.mixer.music.set_volume(self.volume)
+        self.volume = menus.volume  # Initial volume level (between 0 and 1)
+        pg.mixer.music.set_volume(menus.volume)
         pg.mixer.music.play(-1)  # Start playing background music on a loop
 
     def create_platforms(self):
