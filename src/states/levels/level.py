@@ -8,6 +8,7 @@ import src.states.menu.winscreen as winscreen
 from src.utils.leaderboard import LeaderboardManager
 from src.constants import *
 from src.entities.player import Player
+from src.objects.tiles import Tile
 from src.states.minigames.minigame import Minigame
 from src.states.state import State
 from src.utils.timer import Timer
@@ -42,6 +43,7 @@ class Level(State):
         self.scroll = self.player.update()
         self.enemies.update(self.player, self.scroll)
         self.objects.update(self.scroll)
+        self.tiles.update(self.scroll)
 
         # Check for collision between player's melee attacks and enemy
 
@@ -111,10 +113,11 @@ class Level(State):
     def init_sprites(self):
         self.platforms = pg.sprite.Group()
         self.portals = pg.sprite.Group()
-        self.enemies = enemy.EnemyGroup()
+        self.tiles = pg.sprite.Group()
         self.objects = pg.sprite.Group()
-        self.world = World(self.tile_list, self.screen, self.scroll)
-        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list)
+        self.world = World(self.tile_list, self.tiles, self.screen)
+        self.enemies = enemy.EnemyGroup()
+        self.player = Player(100, 100, self.platforms, self.portals, self.tiles)
 
         self.create_platforms()
         self.spawn_enemies()
@@ -127,7 +130,7 @@ class Level(State):
         self.current_time = 0
         self.last_portal_time = 0
         self.next_portal_time = 0 # Next time to display message
-        self.instruction_duration = 5 # 
+        self.instruction_duration = 5 # Amount of seconds to display message
         
         # A list of all current minigames
         self.minigames = [cls.__name__ for cls in Minigame.__subclasses__()]
@@ -218,24 +221,18 @@ class Level(State):
 
 
 class World:
-    def __init__(self, tile_list, screen, scroll):
+    def __init__(self, tile_list, tiles, screen):
         self.tile_list = tile_list
-        self.obstacle_list = []
+        self.tiles = tiles
         self.screen = screen
-        self.scroll = scroll
 
     def process_data(self, data):
         # iterate through data file
         for y, row in enumerate(data):
             for x, tile in enumerate(row):
                 if tile >= 0:
-                    img = self.tile_list[tile]
-                    img_rect = img.get_rect()
-                    img_rect.x = x * TILE_SIZE
-                    img_rect.y = y * TILE_SIZE
-                    tile_data = (img, img_rect)
                     if tile >= 0 and tile <= 8:
-                        self.obstacle_list.append(tile_data)
+                        pass
                     elif tile > 9 and tile <= 10:
                         pass  # water(potentially added later to kill player when colliding)
                     elif tile >= 11 and tile <= 14:
@@ -246,7 +243,11 @@ class World:
                         pass  # create enemy
                     elif tile == 20:
                         pass  # create exit
+                    img = self.tile_list[tile]
+                    t = Tile(img, x * TILE_SIZE, y * TILE_SIZE, tile)
+                    self.tiles.add(t)
+                
 
     def draw_tiles(self):
-        for tile in self.obstacle_list:
-            self.screen.blit(tile[0], tile[1])
+        for tile in self.tiles:
+            self.screen.blit(tile.image, tile.rect)

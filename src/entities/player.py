@@ -35,9 +35,9 @@ class Player(pg.sprite.Sprite):
         self.is_moving = False
         self.on_ground = False
         self.is_jumping = False
-
         self.direction = "right"
         
+        # Player inputs
         self.up_press = False
         self.left_press = False
         self.right_press = False
@@ -49,12 +49,12 @@ class Player(pg.sprite.Sprite):
         self.index = 0
         self.counter = 0
         self.walk_cooldown = 3
+        self.scroll = 0
         
         self.platform_group = platform_group
         self.portal_group = portal_group
-        self.on_ground = False
-        self.scale_factor = 2
         self.obstacle_list = obstacle_list
+        self.scale_factor = 2
 
         self.invincible = False  # Attribute to track player's invincibility state
         self.invincible_duration = 1.5  # Duration of invincibility frames in seconds
@@ -86,7 +86,7 @@ class Player(pg.sprite.Sprite):
         
         self.font = pg.font.Font(None, 20) # TODO
         
-        self.speed = 2
+        self.speed = 2.5
         self.gravity = 0.5
         self.vel_y = 0
         self.jump_strength = -15
@@ -104,6 +104,7 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.dx = 0
         self.dy = 0
+        self.scroll = 0
         
         # Set variables depending on input
         self.input()
@@ -202,7 +203,7 @@ class Player(pg.sprite.Sprite):
         self.range_attacks.update()
 
         # Scroll by the amoaunt moved horizontally
-        return -self.dx
+        return self.scroll
 
     def input(self):
         keys = pg.key.get_pressed()
@@ -232,13 +233,17 @@ class Player(pg.sprite.Sprite):
             self.counter += 1
             if self.left_press:     
                 self.dx -= self.speed
+                self.scroll += self.speed
             if self.right_press:
                 self.dx += self.speed
+                self.scroll -= self.speed
         else:
             self.dx = 0
+            self.scroll = 0
             
         if self.rect.x + self.dx > SCREEN_WIDTH - SCROLL_THRESH:
-            self.dx = 0
+            self.rect.x = SCREEN_WIDTH - SCROLL_THRESH
+            self.scroll += self.speed
 
     def jump(self):
         self.vel_y = self.jump_strength
@@ -258,12 +263,29 @@ class Player(pg.sprite.Sprite):
                     self.rect.bottom = platform.rect.top
                     self.on_ground = True
 
+        # for tile in self.obstacle_list:
+        #     if tile[1].colliderect(hitbox_after):
+        #         if self.vel_y > 0: # if currently falling
+        #             self.vel_y = 0 # stop falling
+        #             self.rect.bottom = tile[1].top
+        #             self.on_ground = True
+        
+        x_check = pg.Rect(self.rect.x + self.dx, self.dy, self.rect.width, self.rect.height)
+        y_check = pg.Rect(self.rect.x, self.rect.y + math.ceil(self.dy),
+        self.rect.width, self.rect.height)
+        
         for tile in self.obstacle_list:
-            if tile[1].colliderect(hitbox_after):
-                if self.vel_y > 0: # if currently falling
-                    self.vel_y = 0 # stop falling
-                    self.rect.bottom = tile[1].top
+            # Horizontal collision
+            if tile.rect.colliderect(x_check):
+                self.dx = 0
+                self.scroll = 0
+            # Vertical collision
+            if tile.rect.colliderect(y_check):
+                if self.vel_y >= 0: # If falling
+                    self.dy = tile.rect.top - self.rect.bottom
+                    self.vel_y = 0
                     self.on_ground = True
+                    self.is_moving = False
 
     def handle_animation(self):
         if self.counter > self.walk_cooldown:
