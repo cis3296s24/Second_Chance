@@ -15,7 +15,7 @@ class archer(Enemy):
             0.5,
             100,
             100,
-            20
+            30
         )
         self.health_bar_offset_x = (self.rect.width - self.health_bar_length) / 2
         self.health_bar_offset_y = self.rect.height / 2 - 30

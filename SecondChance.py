@@ -14,7 +14,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.running = True
         self.username = "" 
-        
+                
         pg.display.set_caption("Second Chance")
         
         self.load_assets()

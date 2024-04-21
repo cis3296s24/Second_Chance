@@ -75,7 +75,7 @@ class Level(State):
             self.timer.pause()
             self.manager.set_state(
                 # globals()[random.choice(self.minigames)], # Select a random minigame
-                globals()[self.minigames[4]],
+                globals()[self.minigames[-1]],
                 save_prev=True)
 
     def draw(self):
