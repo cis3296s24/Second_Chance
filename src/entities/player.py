@@ -9,7 +9,7 @@ from src.utils.timer import Timer
 
 class Player(pg.sprite.Sprite):
 
-    def __init__(self, x, y, platform_group, portal_group, obstacle_list, scroll):
+    def __init__(self, x, y, platform_group, portal_group, obstacle_list):
 
         super().__init__()
         
@@ -54,7 +54,6 @@ class Player(pg.sprite.Sprite):
         self.portal_group = portal_group
         self.on_ground = False
         self.scale_factor = 2
-        self.scroll = scroll
         self.obstacle_list = obstacle_list
 
         self.invincible = False  # Attribute to track player's invincibility state
@@ -85,7 +84,7 @@ class Player(pg.sprite.Sprite):
         self.melee_attack_sound = pg.mixer.Sound("assets/soundeffects/meleeattack.mp3")
         self.ranged_attack_sound = pg.mixer.Sound("assets/soundeffects/rangedattack.mp3")
         
-        self.font = pg.font.Font(None, 36) # TODO
+        self.font = pg.font.Font(None, 20) # TODO
         
         self.speed = 2
         self.gravity = 0.5
@@ -105,7 +104,6 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.dx = 0
         self.dy = 0
-        self.scroll = 0
         
         # Set variables depending on input
         self.input()
@@ -203,8 +201,8 @@ class Player(pg.sprite.Sprite):
         
         self.range_attacks.update()
 
-        # Display player info for debugging purposes
-        # self.debug()
+        # Scroll by the amoaunt moved horizontally
+        return -self.dx
 
     def input(self):
         keys = pg.key.get_pressed()
@@ -234,13 +232,10 @@ class Player(pg.sprite.Sprite):
             self.counter += 1
             if self.left_press:     
                 self.dx -= self.speed
-                self.scroll += 3
             if self.right_press:
                 self.dx += self.speed
-                self.scroll -= 3
         else:
             self.dx = 0
-            self.scroll = 0
             
         if self.rect.x + self.dx > SCREEN_WIDTH - SCROLL_THRESH:
             self.dx = 0

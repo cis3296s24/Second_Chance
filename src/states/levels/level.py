@@ -39,8 +39,9 @@ class Level(State):
     def update(self, events):
         self.current_time = self.timer.get_time(ms=True)
         
-        self.player.update()
-        self.enemies.update(self.player)
+        self.scroll = self.player.update()
+        self.enemies.update(self.player, self.scroll)
+        self.objects.update(self.scroll)
 
         # Check for collision between player's melee attacks and enemy
 
@@ -85,6 +86,7 @@ class Level(State):
         self.draw_health_bar()
         self.draw_text_surfaces()
         self.world.draw_tiles()
+        self.player.debug()
 
     def init_tiles(self):
         self.world_data = []
@@ -110,8 +112,9 @@ class Level(State):
         self.platforms = pg.sprite.Group()
         self.portals = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
+        self.objects = pg.sprite.Group()
         self.world = World(self.tile_list, self.screen, self.scroll)
-        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list, self.scroll)
+        self.player = Player(100, 100, self.platforms, self.portals, self.world.obstacle_list)
 
         self.create_platforms()
         self.spawn_enemies()
@@ -192,7 +195,7 @@ class Level(State):
         for x in range(25):
             speed = 1
             for i in self.bg_images:
-                self.screen.blit(i, ((x * self.bg_width) - self.player.scroll * speed, 0))
+                self.screen.blit(i, ((x * self.bg_width) - self.scroll * speed, 0))
                 speed += 0.2
 
     def draw_health_bar(self):

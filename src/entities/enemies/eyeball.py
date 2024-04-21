@@ -1,11 +1,10 @@
 from .enemy import Enemy
 
 class Eyeball(Enemy):
-    def __init__(self, x, y, platform_group, scroll):
+    def __init__(self, x, y, platform_group):
         super().__init__(
             x, y,
             platform_group,
-            scroll,
             "eyeball",
             speed=2,
             vertical_speed=0,

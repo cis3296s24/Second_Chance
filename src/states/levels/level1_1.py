@@ -18,17 +18,16 @@ class Level1_1(Level):
     def create_platforms(self):
         for i in range(1, 6):
             self.platforms.add(Platform(i * 100, i * 100))
+        self.objects.add(self.platforms)
 
     def spawn_enemies(self):
-        self.enemies.add(Eyeball(300, 600, self.platforms, self.scroll))
-        self.enemies.add(Skeleton(500, 600, self.platforms, self.scroll))
-        self.enemies.add(archer(100, 200, self.platforms,self.scroll))
-        self.enemies.add(Wolf(700, 600, self.platforms, self.scroll))
+        self.enemies.add(Eyeball(300, 600, self.platforms))
+        self.enemies.add(Skeleton(500, 600, self.platforms))
+        self.enemies.add(archer(100, 200, self.platforms))
+        self.enemies.add(Wolf(700, 600, self.platforms))
     
     def add_portal(self):
         # Add portal at specific coordinates
         self.portal = Portal(3500, 500, 50, 50)
         self.portals.add(self.portal)
-        
-        
-
+        self.objects.add(self.portals)
