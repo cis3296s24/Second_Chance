@@ -45,20 +45,34 @@ class Minigame(State):
         self.screen.blit(self.timer_text, (self.screen.get_width() - 190, 20))
         
     def win(self):
-        """What should happen after every minigame when the player wins."""
-        self.level.player.health = self.level.player.max_health
-        # TODO Make player invincible upon re-entering level state
-        # TODO Save minigame time somewhere
+        if self.level:
+            """What should happen after every minigame when the player wins."""
+            self.level.player.health = self.level.player.max_health
+            # TODO Make player invincible upon re-entering level state
+            # TODO Save minigame time somewhere
             
-        # Get the current state, which should be the minigame
-        self.manager.set_state(
-            menu.WinScreen(self.level, self.minigame_state.win_text, self.level.timer), save_prev=True
+            # Get the current state, which should be the minigame
+            self.manager.set_state(
+                menu.WinScreen(self.level, self.minigame_state.win_text, self.level.timer), save_prev=True
+            )
+        else:
+            self.manager.set_state(
+            menu.MinigameMenu_WinScreen(menu.StartMenu, self.minigame_state), 
+            save_prev=True, 
+            clear=True
         )
         
     def lose(self):
-        """Go back to title screen."""
-        self.manager.set_state(
-            menu.LoseScreen(ts.TitleScreen, self.minigame_state), 
+        if self.level:
+            """Go back to title screen."""
+            self.manager.set_state(
+                menu.LoseScreen(ts.TitleScreen, self.minigame_state), 
+                save_prev=True, 
+                clear=True
+            )
+        else:
+            self.manager.set_state(
+            menu.LoseScreen(menu.StartMenu, self.minigame_state), 
             save_prev=True, 
             clear=True
         )

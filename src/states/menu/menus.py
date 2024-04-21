@@ -6,6 +6,12 @@ from src.states.state import State, TimedState
 from src.utils.leaderboard import LeaderboardManager
 from src.utils.timer import Timer
 
+from src.states.minigames.memory import Memory
+from src.states.minigames.reflexes import Reflexes
+from src.states.minigames.matching_game import Matching
+from src.states.minigames.reaction_time import ReactionTime
+from src.states.minigames.flying_green import FlyingGreen
+
 from ..levels.level1_1 import Level1_1
 
 # Not using relative import to handle circular import issue when importing TitleScreen
@@ -44,6 +50,7 @@ class StartMenu(State):
         # Add buttons to the menu
         self.menu.add.button('Start Game', self.manager.set_state, Level1_1)
         self.menu.add.button("Instructions", self.instructions_menu)
+        self.menu.add.button("Minigames", self.minigames_menu)
         self.menu.add.button("Leaderboard", self.leaderboard_menu)
         self.menu.add.button("Options", self.options_menu)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -57,6 +64,18 @@ class StartMenu(State):
         self.menu.add.label(instructions_text, max_char=-1, font_size=20)
 
         # Add back button
+        self.menu.add.button('Back', self.main_menu)
+
+
+    def minigames_menu(self):
+        self.menu = pygame_menu.Menu('Minigames', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
+
+        self.menu.add.button('Memory', self.manager.set_state, Memory)
+        self.menu.add.button('Reflexes', self.manager.set_state, Reflexes)
+        self.menu.add.button('Matching', self.manager.set_state, Matching)
+        self.menu.add.button('Reaction', self.manager.set_state, ReactionTime)
+        self.menu.add.button('Tracking', self.manager.set_state, FlyingGreen)
+
         self.menu.add.button('Back', self.main_menu)
 
     def leaderboard_menu(self):
@@ -230,6 +249,23 @@ class LoseScreen(TimedState):
         super().__init__(time=3, next_state=next_state, img=img)
         self.prev_state = prev_state
         self.lose_text = self.get_text_surface(f"You lose! :( {extra_text}", "white", font_size=36)
+        self.lose_text_pos = \
+            ((self.screen.get_width() / 2) - 250, (self.screen.get_height() / 2) - 100)
+            
+    def update(self, events):
+        # Must be called to know when to change state
+        super().update(events) 
+        
+    def draw(self):
+        super().draw()
+        self.prev_state.draw()
+        self.screen.blit(self.lose_text, self.lose_text_pos)
+
+class MinigameMenu_WinScreen(TimedState):
+    def __init__(self, next_state, prev_state, extra_text="", img=None):
+        super().__init__(time=3, next_state=next_state, img=img)
+        self.prev_state = prev_state
+        self.lose_text = self.get_text_surface(f"You won! {extra_text}", "white", font_size=36)
         self.lose_text_pos = \
             ((self.screen.get_width() / 2) - 250, (self.screen.get_height() / 2) - 100)
             
