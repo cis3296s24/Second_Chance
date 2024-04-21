@@ -14,7 +14,7 @@ class Player(pg.sprite.Sprite):
     animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
     animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
 
-    def __init__(self, x, y, platform_group, portal_group, obstacle_list, evil_group, scroll):
+    def __init__(self, x, y, platform_group, portal_group, obstacle_list, scroll):
 
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -25,7 +25,6 @@ class Player(pg.sprite.Sprite):
         self.rect.center = (x, y)
         self.platform_group = platform_group
         self.portal_group = portal_group
-        self.evil_group = evil_group
         self.on_ground = False
         self.scale_factor = 2
         self.scroll = scroll
@@ -106,9 +105,6 @@ class Player(pg.sprite.Sprite):
             for portal in self.portal_group:
                 portal.rect.x += 3 # Move portal with player
 
-            for evil_block in self.evil_group:
-                evil_block.rect.x += 3
-
 
 
         elif (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
@@ -126,9 +122,6 @@ class Player(pg.sprite.Sprite):
 
             for portal in self.portal_group:
                 portal.rect.x -= 3 # Move portal with player
-
-            for evil_platform in self.evil_group:
-                evil_platform.rect.x -= 3
 
         else:
             self.isLeft = False

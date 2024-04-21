@@ -5,7 +5,6 @@ from src.entities.enemies.skeleton import Skeleton  # Import the Skeleton class
 from src.entities.enemies.archer import archer
 from src.entities.enemies.wolf import Wolf # Import the Wolf class
 from src.objects.portal import Portal # Import portal class
-from src.objects.evil_block import evil_block 
 
 class Level1_1(Level):
     def __init__(self):
@@ -30,10 +29,6 @@ class Level1_1(Level):
         # Add portal at specific coordinates
         self.portal = Portal(3500, 500, 50, 50)
         self.portals.add(self.portal)
-
-    def add_evil(self):
-        self.evil = evil_block(300, 150, 50, 50)
-        self.evil_group.add(self.evil)
         
         
 
