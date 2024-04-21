@@ -8,21 +8,33 @@ from src.constants import *
 from src.utils.timer import Timer
 
 class Player(pg.sprite.Sprite):
-    def characteropen(imageName):
-        imageLoad = pg.image.load(open("assets/characters/" + imageName + ".png")) 
-        return imageLoad
-    animationRight = [characteropen("R1"),characteropen("R2"),characteropen("R3"),characteropen("R4"),characteropen("R5"),characteropen("R6"),characteropen("R7"),characteropen("R8"),characteropen("R9")]
-    animationLeft = [characteropen("L1"),characteropen("L2"),characteropen("L3"),characteropen("L4"),characteropen("L5"),characteropen("L6"),characteropen("L7"),characteropen("L8"),characteropen("L9")]
 
     def __init__(self, x, y, platform_group, portal_group, obstacle_list, scroll):
 
         super().__init__()
-        self.screen = pg.display.get_surface()
-        self.image = pg.Surface((50, 50))
-        # self.rect = self.image.get_rect()
         
-        self.rect = pg.rect.Rect(x,y,50,50)
+        self.screen = pg.display.get_surface()
+        self.size = (100, 100)
+        self.animation = [
+            pg.transform.scale(pg.image.load(f"assets/characters/R{i}.png"), self.size).convert_alpha() 
+                for i in range(1, 10)]
+        
+        self.image = pg.image.load(f"assets/characters/stand.png") 
+        self.image = pg.transform.scale(self.image, (self.image.get_width() * 2, self.image.get_height() * 2))  # Scale the sprite
+        self.idle = self.image
+        self.rect = self.image.get_rect()  # Set the rect for the sprite
         self.rect.center = (x, y)
+        self.rect.width //= 2
+        self.rect.height //= 2
+        
+        # Player actions and state
+        self.direction = "right"
+        
+        # Animation variables
+        self.index = 0
+        self.counter = 0
+        self.walk_cooldown = 3
+        
         self.platform_group = platform_group
         self.portal_group = portal_group
         self.on_ground = False
@@ -52,16 +64,11 @@ class Player(pg.sprite.Sprite):
 
         self.ranged_attack_count = 0  # Initialize the counter for ranged attacks
         self.ranged_attack_max = 10 # Maximum number of ranged attack uses the player has
-        
-        #Path for character image
-        self.character_image = pg.image.load(open("assets/characters/stand.png"))
 
         # Load the sound effects
         self.hit_sound = pg.mixer.Sound("assets/soundeffects/playerhit.mp3")
         self.melee_attack_sound = pg.mixer.Sound("assets/soundeffects/meleeattack.mp3")
         self.ranged_attack_sound = pg.mixer.Sound("assets/soundeffects/rangedattack.mp3")
-        
-        self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
         
         self.font = pg.font.Font(None, 36) # TODO
         
@@ -172,12 +179,14 @@ class Player(pg.sprite.Sprite):
         mouse_buttons = pg.mouse.get_pressed()
         melee_pressed = keys[pg.K_q] or mouse_buttons[0] # Q and click for melee attack
         ranged_pressed = keys[pg.K_e] or mouse_buttons[2] # E and right click for ranged attack 
-        
+                
         # Get current time to check for timed events
         current_time = self.timer.get_time(ms=True)       
 
         # Apply gravity
         self.vertical_velocity += self.gravity
+        
+        self.handle_animation()
         
         # If falling, we're not on ground
         if self.vertical_velocity > 0:
@@ -215,37 +224,21 @@ class Player(pg.sprite.Sprite):
         # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
-
-        # Update facing direction based on current and previous x-coordinates
-        if self.rect.x > self.prev_x:
-            self.isRight = True
-            self.isLeft = False
-        elif self.rect.x < self.prev_x:
-            self.isRight = False
-            self.isLeft = True
+        
+        # To center sprite in rect
+        self.sprite_x = self.rect.x + (self.rect.width - self.image.get_width()) // 2
+        self.sprite_y = self.rect.y + (self.rect.height - self.image.get_height()) // 2
 
         # Update previous x-coordinate for the next cycle
         self.prev_x = self.rect.x
-
-        # Determine player direction for melee attack
-        if self.isRight:
-            player_direction = "right"
-        elif self.isLeft:
-            player_direction = "left"
-        else:
-            # Use previous facing direction if not moving
-            if self.prevPress == "left":
-                player_direction = "left"
-            else:
-                player_direction = "right"
                 
         # Create a melee attack instance at the player's position
-        if player_direction == "right":
-            melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, player_direction, damage_value=25)
-            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,player_direction,damage_value= 25)
+        if self.direction == "right":
+            melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, self.direction, damage_value=25)
+            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,self.direction,damage_value= 25)
         else:
-            melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, player_direction, damage_value=25)
-            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,player_direction,damage_value= 25)
+            melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, self.direction, damage_value=25)
+            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,self.direction,damage_value= 25)
             
         # Check for initiating attack
         if melee_pressed and not self.attack_initiated:
@@ -282,31 +275,8 @@ class Player(pg.sprite.Sprite):
         # self.debug()
         
     def draw(self):
-        image_x = self.rect.x - (self.rect.width * (self.scale_factor - 1)) / 2
-        image_y = self.rect.y - (self.rect.height * (self.scale_factor - 1)) / 2
-
-        if self.isRight:
-            self.character_image = self.animationRight[self.walkcount//3]
-            self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
-            self.screen.blit(self.character_image,(image_x,image_y))
-            self.walkcount += 1
-            
-        elif self.isLeft:
-            self.character_image = self.animationLeft[self.walkcount//3]
-            self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
-            self.screen.blit(self.character_image,(image_x,image_y))
-            self.walkcount += 1 
-
-        else:
-            if (self.prevPress == "left"):
-                self.character_image = pg.image.load(open("assets/characters/stand_L.png"))
-            else:
-                self.character_image = pg.image.load(open("assets/characters/stand.png"))
-            self.character_image = pg.transform.scale(self.character_image, (self.rect.width * self.scale_factor, self.rect.height * self.scale_factor))
-            self.screen.blit(self.character_image,(image_x,image_y))
-
-        if self.walkcount + 1 >= 27 :
-            self.walkcount = 0
+        self.screen.blit(self.image, (self.sprite_x, self.sprite_y))
+        self.melee_attacks.draw(self.screen) 
 
         # Draw melee attacks
         self.melee_attacks.draw(self.screen)
@@ -314,6 +284,24 @@ class Player(pg.sprite.Sprite):
 
         # Draw the remaining ranged attacks count
         self.draw_range_attack_count()
+
+    def handle_animation(self):
+        if self.counter > self.walk_cooldown:
+            self.counter = 0	
+            self.index += 1
+            if self.index >= len(self.animation):
+                self.index = 0
+                
+        animation = self.animation[self.index]
+
+        if not self.is_moving:
+            self.image = self.idle
+        else:
+            self.image = animation
+            
+        flip = self.direction == "left"
+        self.image = pg.transform.flip(self.image, flip, False)
+
 
     def decrease_health(self, amount):
         # Check if the player is currently invincible
