@@ -22,13 +22,28 @@ class Player(pg.sprite.Sprite):
         self.image = pg.image.load(f"assets/characters/stand.png") 
         self.image = pg.transform.scale(self.image, (self.image.get_width() * 2, self.image.get_height() * 2))  # Scale the sprite
         self.idle = self.image
-        self.rect = self.image.get_rect()  # Set the rect for the sprite
+        self.rect = self.image.get_rect()  
+        
+        # Set the rect for the sprite
         self.rect.center = (x, y)
         self.rect.width //= 2
         self.rect.height //= 2
+        self.sprite_x = 0
+        self.sprite_y = 0 
         
         # Player actions and state
+        self.is_moving = False
+        self.on_ground = False
+        self.is_jumping = False
+
         self.direction = "right"
+        
+        self.up_press = False
+        self.left_press = False
+        self.right_press = False
+        self.movement_pressed = False
+        self.melee_pressed = False
+        self.ranged_pressed = False
         
         # Animation variables
         self.index = 0
@@ -74,7 +89,7 @@ class Player(pg.sprite.Sprite):
         
         self.speed = 2
         self.gravity = 0.5
-        self.vertical_velocity = 0
+        self.vel_y = 0
         self.jump_strength = -15
 
         # Healthbar
@@ -87,132 +102,49 @@ class Player(pg.sprite.Sprite):
         # Define hitbox
         self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
 
-
-    walkcount = 0
-    isRight = False
-    isLeft = False
-    prevPress = ""
-    def move(self):
-        #move as specified
-        keys = pg.key.get_pressed()
-#         check player is facing right or left
-        if (keys[pg.K_LEFT] or keys[pg.K_a]) and self.scroll > 0:
-            self.rect.x -= self.speed
-            self.scroll -= 3
-            self.isRight = False
-            self.isLeft = True
-            self.prevPress = "left"
-            for platform in self.platform_group:
-                platform.rect.x += 3  # Move platforms with player
-
-
-            for tile in self.obstacle_list:
-                tile[1][0] += 3
-            
-            for portal in self.portal_group:
-                portal.rect.x += 3 # Move portal with player
-
-
-
-        elif (keys[pg.K_RIGHT] or keys[pg.K_d]) and self.scroll < 5000:
-            self.rect.x += self.speed
-            self.scroll += 3
-            self.isRight = True
-            self.isLeft = False
-            self.prevPress = "right"
-            for platform in self.platform_group:
-                platform.rect.x -= 3  # Move platforms with player
-
-
-            for tile in self.obstacle_list:
-                tile[1][0] -= 3
-
-            for portal in self.portal_group:
-                portal.rect.x -= 3 # Move portal with player
-
-        else:
-            self.isLeft = False
-            self.isRight = False
-            self.walkcount = 0
-
-
-        if self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
-            self.rect.x = self.prev_x
-            
-
-    def jump(self):
-        #check if the character is on the ground        
-        if self.on_ground:
-            self.vertical_velocity = self.jump_strength
-            self.on_ground = False
-
-    
-        
-    def check_collision(self):
-        # Check if hitbox (after being updated) collides with platform
-        hitbox_after = pg.Rect(
-            self.rect.x, self.rect.y + math.ceil(self.vertical_velocity), 
-            self.rect.width, self.rect.height
-        )
-        for platform in self.platform_group:
-            if platform.rect.colliderect(hitbox_after):
-                if self.vertical_velocity > 0: # if currently falling
-                    self.vertical_velocity = 0 # stop falling
-                    self.rect.bottom = platform.rect.top
-                    self.on_ground = True
-
-        for tile in self.obstacle_list:
-            if tile[1].colliderect(hitbox_after):
-                if self.vertical_velocity > 0: # if currently falling
-                    self.vertical_velocity = 0 # stop falling
-                    self.rect.bottom = tile[1].top
-                    self.on_ground = True
-
-        
-
-
     def update(self):
-        # Get keys that are pressed
-        keys = pg.key.get_pressed()
+        self.dx = 0
+        self.dy = 0
+        self.scroll = 0
         
-        # Detect left mouse button click event
-        mouse_buttons = pg.mouse.get_pressed()
-        melee_pressed = keys[pg.K_q] or mouse_buttons[0] # Q and click for melee attack
-        ranged_pressed = keys[pg.K_e] or mouse_buttons[2] # E and right click for ranged attack 
+        # Set variables depending on input
+        self.input()
+        
+        # Move depending on variables set
+        self.move()
                 
         # Get current time to check for timed events
-        current_time = self.timer.get_time(ms=True)       
+        current_time = self.timer.get_time(ms=True)    
 
         # Apply gravity
-        self.vertical_velocity += self.gravity
+        self.vel_y += self.gravity
+        self.dy += self.vel_y
         
         self.handle_animation()
         
         # If falling, we're not on ground
-        if self.vertical_velocity > 0:
+        if self.vel_y > 0:
             self.on_ground = False
+        
+        # Check collision with platforms
+        self.check_collision()
         
         # Check collision with ground
         if self.rect.bottom >= self.screen.get_height():
             self.rect.bottom = self.screen.get_height()
             self.on_ground = True
-            self.vertical_velocity = 0
+            self.vel_y = 0
             
-        # Check collision with platforms
-        self.check_collision()
-            
-        # Movement
-        self.move()
-
         # Jumping
-        if keys[pg.K_SPACE] or keys[pg.K_UP] or keys[pg.K_w]:
+        if self.on_ground and self.is_jumping:
             self.jump()
         
         # Update rect
-        self.rect.y += self.vertical_velocity
+        self.rect.x += self.dx
+        self.rect.y += self.dy
         
         # Update hitbox
-        self.hitbox.y += self.vertical_velocity
+        self.hitbox.y += self.vel_y
 
         self.check_invincibility()
         
@@ -241,12 +173,12 @@ class Player(pg.sprite.Sprite):
             range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,self.direction,damage_value= 25)
             
         # Check for initiating attack
-        if melee_pressed and not self.attack_initiated:
+        if self.melee_pressed and not self.attack_initiated:
             self.melee_attack_sound.play()
             self.melee_attacks.add(melee_attack)
             self.attack_initiated = True
             
-        if not melee_pressed:
+        if not self.melee_pressed:
             self.attack_initiated = False
 
         self.melee_attacks.update()
@@ -257,7 +189,7 @@ class Player(pg.sprite.Sprite):
         # Check if enough time has passed since the last ranged attack
         if (current_time - self.last_ranged_attack_time >= self.ranged_attack_cooldown) or (self.last_ranged_attack_time == 0):
             # Allow ranged attack initiation if the count is less than the maximum
-            if ranged_pressed and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
+            if self.ranged_pressed and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
                 self.ranged_attack_sound.play()
                 self.range_attacks.add(range_attack)
                 self.rangeAttack_initiated = True
@@ -266,24 +198,77 @@ class Player(pg.sprite.Sprite):
                 # Update the time of the last ranged attack
                 self.last_ranged_attack_time = current_time
         
-        if not ranged_pressed:
+        if not self.ranged_pressed:
             self.rangeAttack_initiated = False
         
         self.range_attacks.update()
 
         # Display player info for debugging purposes
         # self.debug()
+
+    def input(self):
+        keys = pg.key.get_pressed()
+        mouse_buttons = pg.mouse.get_pressed()
         
-    def draw(self):
-        self.screen.blit(self.image, (self.sprite_x, self.sprite_y))
-        self.melee_attacks.draw(self.screen) 
+        self.melee_pressed = keys[pg.K_q] or mouse_buttons[0] # Q and left click for melee attack
+        self.ranged_pressed = keys[pg.K_e] or mouse_buttons[2] # E and right click for ranged attack 
+        
+        self.up_press = keys[pg.K_SPACE] or keys[pg.K_UP] or keys[pg.K_w]
+        self.left_press = keys[pg.K_LEFT] or keys[pg.K_a]
+        self.right_press = keys[pg.K_RIGHT] or keys[pg.K_d]
+        self.movement_pressed = self.left_press or self.right_press
+        
+        self.is_jumping = self.up_press
+        
+        if self.movement_pressed:
+            self.is_moving = True
+            if self.left_press:     
+                self.direction = "left"
+            if self.right_press:
+                self.direction = "right"
+        else:
+            self.is_moving = False
 
-        # Draw melee attacks
-        self.melee_attacks.draw(self.screen)
-        self.range_attacks.draw(self.screen)
+    def move(self):
+        if self.movement_pressed:
+            self.counter += 1
+            if self.left_press:     
+                self.dx -= self.speed
+                self.scroll += 3
+            if self.right_press:
+                self.dx += self.speed
+                self.scroll -= 3
+        else:
+            self.dx = 0
+            self.scroll = 0
+            
+        if self.rect.x + self.dx > SCREEN_WIDTH - SCROLL_THRESH:
+            self.dx = 0
 
-        # Draw the remaining ranged attacks count
-        self.draw_range_attack_count()
+    def jump(self):
+        self.vel_y = self.jump_strength
+        self.dy += self.vel_y
+        self.on_ground = False
+
+    def check_collision(self):
+        # Check if hitbox (after being updated) collides with platform
+        hitbox_after = pg.Rect(
+            self.rect.x, self.rect.y + math.ceil(self.vel_y), 
+            self.rect.width, self.rect.height
+        )
+        for platform in self.platform_group:
+            if platform.rect.colliderect(hitbox_after):
+                if self.vel_y > 0: # if currently falling
+                    self.vel_y = 0 # stop falling
+                    self.rect.bottom = platform.rect.top
+                    self.on_ground = True
+
+        for tile in self.obstacle_list:
+            if tile[1].colliderect(hitbox_after):
+                if self.vel_y > 0: # if currently falling
+                    self.vel_y = 0 # stop falling
+                    self.rect.bottom = tile[1].top
+                    self.on_ground = True
 
     def handle_animation(self):
         if self.counter > self.walk_cooldown:
@@ -300,8 +285,18 @@ class Player(pg.sprite.Sprite):
             self.image = animation
             
         flip = self.direction == "left"
-        self.image = pg.transform.flip(self.image, flip, False)
+        self.image = pg.transform.flip(self.image, flip, False)    
+        
+    def draw(self):
+        self.screen.blit(self.image, (self.sprite_x, self.sprite_y))
+        self.melee_attacks.draw(self.screen) 
 
+        # Draw melee attacks
+        self.melee_attacks.draw(self.screen)
+        self.range_attacks.draw(self.screen)
+
+        # Draw the remaining ranged attacks count
+        self.draw_range_attack_count()
 
     def decrease_health(self, amount):
         # Check if the player is currently invincible
@@ -355,10 +350,13 @@ class Player(pg.sprite.Sprite):
         self.screen.blit(text_surface_count, (count_x, count_y))
 
     def debug(self):
-        text = f"""
-        Grounded: {self.on_ground} 
-        | Y: {self.rect.y} 
-        | Vel: {self.vertical_velocity}
-        | {self.rect.bottom}, {self.screen.get_height()}"""
+        text = \
+      	f"""
+     	Grounded: {self.on_ground}
+		| (dx, dy) : {(self.dx, self.dy)}
+        | (rect.x, rect.y): {(self.rect.x, self.rect.y)} 
+        | Vel: {self.vel_y}
+        """
         text_surface = self.font.render(text, True, "red")
-        self.screen.blit(text_surface, (0,20))
+        pg.draw.rect(self.screen, (255, 255, 255), self.rect, 2)
+        self.screen.blit(text_surface, (0, 100))
