@@ -23,6 +23,7 @@ class Level(State):
         super().__init__()
         self.level = level
         self.scroll = 0
+        self.level_scroll = 0
         self.timer = Timer(start=True) # Timer starts when it's instantiated
         self.init_tiles()
         self.init_sprites()
@@ -89,6 +90,7 @@ class Level(State):
         self.draw_text_surfaces()
         self.world.draw_tiles()
         self.player.debug()
+        self.platforms.sprites()[0].debug(self.screen)
 
     def init_tiles(self):
         self.world_data = []
@@ -198,7 +200,7 @@ class Level(State):
         for x in range(25):
             speed = 1
             for i in self.bg_images:
-                self.screen.blit(i, ((x * self.bg_width) - self.scroll * speed, 0))
+                self.screen.blit(i, ((x * self.bg_width) - self.player.level_scroll * speed, 0))
                 speed += 0.2
 
     def draw_health_bar(self):

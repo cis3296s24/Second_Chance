@@ -50,6 +50,8 @@ class Player(pg.sprite.Sprite):
         self.counter = 0
         self.walk_cooldown = 3
         self.scroll = 0
+        self.level_scroll = 0
+        self.scroll_amount = 3
         
         self.platform_group = platform_group
         self.portal_group = portal_group
@@ -71,8 +73,6 @@ class Player(pg.sprite.Sprite):
         self.attack_initiated = False
         self.rangeAttack_initiated = False
 
-        self.prev_x = x  # Store the initial x-coordinate as previous x-coordinate
-
         self.last_ranged_attack_time = 0  # Initialize with 0
         self.ranged_attack_cooldown = 3  # Cooldown duration for the ranged attack in seconds
 
@@ -86,7 +86,7 @@ class Player(pg.sprite.Sprite):
         
         self.font = pg.font.Font(None, 20) # TODO
         
-        self.speed = 2.5
+        self.speed = 2
         self.gravity = 0.5
         self.vel_y = 0
         self.jump_strength = -15
@@ -106,18 +106,18 @@ class Player(pg.sprite.Sprite):
         self.dy = 0
         self.scroll = 0
         
+        # Apply gravity
+        self.vel_y += self.gravity
+        self.dy += self.vel_y
+        
         # Set variables depending on input
         self.input()
         
         # Move depending on variables set
         self.move()
-                
+            
         # Get current time to check for timed events
         current_time = self.timer.get_time(ms=True)    
-
-        # Apply gravity
-        self.vel_y += self.gravity
-        self.dy += self.vel_y
         
         self.handle_animation()
         
@@ -160,9 +160,6 @@ class Player(pg.sprite.Sprite):
         self.sprite_x = self.rect.x + (self.rect.width - self.image.get_width()) // 2
         self.sprite_y = self.rect.y + (self.rect.height - self.image.get_height()) // 2
 
-        # Update previous x-coordinate for the next cycle
-        self.prev_x = self.rect.x
-                
         # Create a melee attack instance at the player's position
         if self.direction == "right":
             melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, self.direction, damage_value=25)
@@ -201,9 +198,14 @@ class Player(pg.sprite.Sprite):
             self.rangeAttack_initiated = False
         
         self.range_attacks.update()
+        
+        if self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
+            self.rect.x = SCREEN_WIDTH - SCROLL_THRESH
+            self.scroll = self.scroll_amount
 
-        # Scroll by the amoaunt moved horizontally
-        return self.scroll
+        # Scroll by the amount moved horizontally
+        self.level_scroll += self.scroll
+        return -self.scroll
 
     def input(self):
         keys = pg.key.get_pressed()
@@ -223,7 +225,7 @@ class Player(pg.sprite.Sprite):
             self.is_moving = True
             if self.left_press:     
                 self.direction = "left"
-            if self.right_press:
+            elif self.right_press:
                 self.direction = "right"
         else:
             self.is_moving = False
@@ -231,19 +233,20 @@ class Player(pg.sprite.Sprite):
     def move(self):
         if self.movement_pressed:
             self.counter += 1
-            if self.left_press:     
+            
+            if self.left_press and self.level_scroll > 0:    
                 self.dx -= self.speed
-                self.scroll += self.speed
-            if self.right_press:
-                self.dx += self.speed
-                self.scroll -= self.speed
+                self.scroll = -self.scroll_amount
+                
+            elif self.right_press:
+                if self.scroll > 5000:
+                    self.dx = 0
+                else:
+                    self.dx += self.speed
+                    self.scroll = self.scroll_amount
         else:
             self.dx = 0
             self.scroll = 0
-            
-        if self.rect.x + self.dx > SCREEN_WIDTH - SCROLL_THRESH:
-            self.rect.x = SCREEN_WIDTH - SCROLL_THRESH
-            self.scroll += self.speed
 
     def jump(self):
         self.vel_y = self.jump_strength
@@ -258,27 +261,27 @@ class Player(pg.sprite.Sprite):
         )
         for platform in self.platform_group:
             if platform.rect.colliderect(hitbox_after):
-                if self.vel_y > 0: # if currently falling
+                # if currently falling (and only when above the platform)
+                if self.vel_y > 0 and self.rect.bottom <= platform.rect.top:
+                    self.dy = 0
                     self.vel_y = 0 # stop falling
-                    self.rect.bottom = platform.rect.top
                     self.on_ground = True
-
-        # for tile in self.obstacle_list:
-        #     if tile[1].colliderect(hitbox_after):
-        #         if self.vel_y > 0: # if currently falling
-        #             self.vel_y = 0 # stop falling
-        #             self.rect.bottom = tile[1].top
-        #             self.on_ground = True
         
-        x_check = pg.Rect(self.rect.x + self.dx, self.dy, self.rect.width, self.rect.height)
+        x_check = pg.Rect(self.rect.x + self.dx, self.rect.y, self.rect.width, self.rect.height)
         y_check = pg.Rect(self.rect.x, self.rect.y + math.ceil(self.dy),
         self.rect.width, self.rect.height)
         
         for tile in self.obstacle_list:
             # Horizontal collision
             if tile.rect.colliderect(x_check):
-                self.dx = 0
                 self.scroll = 0
+                self.dx = 0
+                if self.right_press:
+                    self.rect.right = tile.rect.left - 1
+                elif self.left_press:
+                    self.rect.left = tile.rect.right + 1
+                continue # Don't bother checking vertical collision if horizontal collision detected
+                    
             # Vertical collision
             if tile.rect.colliderect(y_check):
                 if self.vel_y >= 0: # If falling
@@ -373,6 +376,7 @@ class Player(pg.sprite.Sprite):
 		| (dx, dy) : {(self.dx, self.dy)}
         | (rect.x, rect.y): {(self.rect.x, self.rect.y)} 
         | Vel: {self.vel_y}
+        | s1, s2: {self.scroll, self.level_scroll}
         """
         text_surface = self.font.render(text, True, "red")
         pg.draw.rect(self.screen, (255, 255, 255), self.rect, 2)
