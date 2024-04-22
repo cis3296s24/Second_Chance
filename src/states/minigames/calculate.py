@@ -2,6 +2,7 @@ import pygame as pg
 import os
 import random
 
+
 from src.states.minigames.minigame import Minigame
 
 from pygame.locals import *
@@ -64,21 +65,24 @@ class Calculate(Minigame):
 
     def draw(self):
         super().draw() # Draw minigame background
-        
-        if self.generated_text_surf:
-            self.screen.blit(self.generated_text_surf, ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2 + 30, 200))
+        if self.timer.get_time_milliseconds()>=0.01:
+            if self.generated_text_surf:
+                self.screen.blit(self.generated_text_surf, ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2 + 30, 200))
 
-            pg.draw.rect(self.screen, (255, 255, 255), self.input_rect, 2)
-            input_text_surf = self.font.render(self.input_string, True, (255, 255, 255))
-            self.screen.blit(input_text_surf, (self.input_rect.x + 5, self.input_rect.y + 5))
+                pg.draw.rect(self.screen, (255, 255, 255), self.input_rect, 2)
+                input_text_surf = self.font.render(self.input_string, True, (255, 255, 255))
+                self.screen.blit(input_text_surf, (self.input_rect.x + 5, self.input_rect.y + 5))
 
     def generate_random_question(self):
         # genrate the question
+      
         self.firstNum = random.randint(1,20)
         self.secondNum = random.randint(1,20)
         self.sign = self.generate_sign()
         question = '{}{}{}='.format(self.firstNum,self.sign,self.secondNum)
         return question
+        
+        
 
     def generate_sign(self):
         # genrate different question type
