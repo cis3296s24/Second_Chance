@@ -68,6 +68,7 @@ class StartMenu(State):
         self.menu.add.button("Minigames", self.minigames_menu)
         self.menu.add.button("Leaderboard", self.leaderboard_menu)
         self.menu.add.button("Options", self.options_menu)
+        self.menu.add.button('Change Username', self.manager.set_state, UsernamePrompt)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
 
     def instructions_menu(self):
