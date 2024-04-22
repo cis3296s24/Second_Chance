@@ -6,4 +6,4 @@ from .calculate import Calculate
 from .matching_game import Matching
 
 
-__all__ = ["ReactionTime", "Memory", "Reflexes", "FlyingGreen", "Matching","Calculate"]
+__all__ = ["ReactionTime", "Memory", "Reflexes", "FlyingGreen", "Matching", "Calculate"]
