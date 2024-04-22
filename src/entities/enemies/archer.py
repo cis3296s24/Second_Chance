@@ -4,9 +4,9 @@ import pygame as pg
 
 attacks = pg.sprite.Group()
 class archer(Enemy):
-    def __init__(self, x, y, platform_group):
+    def __init__(self, x, y, min_x, max_x, platform_group):
         super().__init__(
-            x, y,
+            x, y, min_x, max_x,
             platform_group,
             "archer",
             speed=2,

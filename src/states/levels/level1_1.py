@@ -21,10 +21,10 @@ class Level1_1(Level):
         self.objects.add(self.platforms)
 
     def spawn_enemies(self):
-        self.enemies.add(Eyeball(300, 600, self.platforms))
-        self.enemies.add(Skeleton(500, 600, self.platforms))
-        self.enemies.add(archer(100, 200, self.platforms))
-        self.enemies.add(Wolf(700, 600, self.platforms))
+        self.enemies.add(Eyeball(300, 600, 100, 200, self.platforms))
+        self.enemies.add(Skeleton(500, 600, 200, 300, self.platforms))
+        self.enemies.add(archer(100, 200, 300, 400, self.platforms))
+        self.enemies.add(Wolf(900, 600, 400, 500, self.platforms))
     
     def add_portal(self):
         # Add portal at specific coordinates

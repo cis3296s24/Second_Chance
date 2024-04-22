@@ -1,9 +1,9 @@
 from .enemy import Enemy
 
 class Eyeball(Enemy):
-    def __init__(self, x, y, platform_group):
+    def __init__(self, x, y, min_x, max_x, platform_group):
         super().__init__(
-            x, y,
+            x, y, min_x, max_x,
             platform_group,
             "eyeball",
             speed=2,

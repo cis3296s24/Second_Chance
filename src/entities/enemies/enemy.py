@@ -5,7 +5,7 @@ import os
 class Enemy(pg.sprite.Sprite):
     def __init__(
         self, 
-        x, y, 
+        x, y, min_x, max_x,
         platform_group, 
         image, 
         speed, 
@@ -42,8 +42,8 @@ class Enemy(pg.sprite.Sprite):
         self.gravity = gravity  # Adjust this value as needed for gravity effect
 
         # Define movement boundaries
-        self.left_boundary = x - 100  # Adjust this value as needed
-        self.right_boundary = x + 100  # Adjust this value as needed
+        self.left_boundary = min_x  # Adjust this value as needed
+        self.right_boundary = max_x  # Adjust this value as needed
 
         # Healthbar
         self.health = health  # Initial health value
@@ -102,7 +102,7 @@ class Enemy(pg.sprite.Sprite):
         # self.rect.x += scroll  # Adjust for scrolling
 
         # Keep rect in screen
-        self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
+        #self.rect.x = max(self.left_boundary, self.right_boundary)
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
 
         # Check for collision with the player

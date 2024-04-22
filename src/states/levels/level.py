@@ -13,6 +13,11 @@ from src.states.minigames.minigame import Minigame
 from src.states.state import State
 from src.utils.timer import Timer
 
+from src.entities.enemies.eyeball import Eyeball  # Import the Eyeball class
+from src.entities.enemies.skeleton import Skeleton  # Import the Skeleton class
+from src.entities.enemies.archer import archer
+from src.entities.enemies.wolf import Wolf # Import the Wolf class
+
 # Necessary to access minigames from the minigames package
 from src.states.minigames import *
 
@@ -42,14 +47,16 @@ class Level(State):
         self.current_time = self.timer.get_time(ms=True)
         
         self.scroll = self.player.update()
-        self.enemies.update(self.player, self.scroll)
+        visible_enemies = self.get_visible_enemies()
+        visible_enemies.update(self.player, self.scroll)
         self.objects.update(self.scroll)
         self.tiles.update(self.scroll)
 
         # Check for collision between player's melee attacks and enemy
 
-        collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False, False)  # Change False to True to remove the melee attack sprite upon collision
-        range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks, self.enemies, True, False)
+        collisions = pg.sprite.groupcollide(self.player.melee_attacks, visible_enemies, False, False)  # Change False to True to remove the melee attack sprite upon collision
+        range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks, visible_enemies, True, False)
+
         
 
         for attack, enemies in collisions.items():
@@ -83,13 +90,38 @@ class Level(State):
     def draw(self):
         self.draw_bg()
         self.portals.draw(self.screen)
-        self.enemies.draw()
+        # self.enemies.draw()
         self.objects.draw(self.screen)
         self.tiles.draw(self.screen)
         self.player.draw()
         self.platforms.draw(self.screen)
         self.draw_health_bar()
         self.draw_text_surfaces()
+
+        enemy_bounds = {}
+
+        for enemy_instance in self.enemies:
+            if isinstance(enemy_instance, Eyeball):  # Check the class type directly
+                enemy_bounds[enemy_instance] = (100, 200)
+            # Add more bounds for other enemy types as needed
+
+        # Check player's position against enemy bounds
+        player_x = self.player.rect.x
+        for enemy_instance, bounds in enemy_bounds.items():
+            if bounds[0] <= player_x <= bounds[1]:
+                # Draw the enemy if it falls within the bounds
+                enemy_instance.draw()
+
+    def get_visible_enemies(self):
+        visible_enemies = pg.sprite.Group()
+        screen_rect = pg.Rect((0, 0), self.screen.get_size())
+
+        # Iterate through all enemies and add the ones within the visible bounds to the group
+        for enemy_instance in self.enemies:
+            if screen_rect.colliderect(enemy_instance.rect):
+                visible_enemies.add(enemy_instance)
+
+        return visible_enemies
 
     def init_tiles(self):
         self.world_data = []
