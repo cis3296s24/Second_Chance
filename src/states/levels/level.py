@@ -82,13 +82,14 @@ class Level(State):
 
     def draw(self):
         self.draw_bg()
-        self.platforms.draw(self.screen)
         self.portals.draw(self.screen)
-        self.player.draw()
         self.enemies.draw()
+        self.objects.draw(self.screen)
+        self.tiles.draw(self.screen)
+        self.player.draw()
+        self.platforms.draw(self.screen)
         self.draw_health_bar()
         self.draw_text_surfaces()
-        self.world.draw_tiles()
 
     def init_tiles(self):
         self.world_data = []
@@ -115,7 +116,7 @@ class Level(State):
         self.portals = pg.sprite.Group()
         self.tiles = pg.sprite.Group()
         self.objects = pg.sprite.Group()
-        self.world = World(self.tile_list, self.tiles, self.screen)
+        self.world = World(self.tile_list, self.objects, self.tiles, self.screen)
         self.enemies = enemy.EnemyGroup()
         self.player = Player(100, 100, self.platforms, self.portals, self.tiles)
 
@@ -221,8 +222,9 @@ class Level(State):
 
 
 class World:
-    def __init__(self, tile_list, tiles, screen):
+    def __init__(self, tile_list, objects, tiles, screen):
         self.tile_list = tile_list
+        self.objects = objects
         self.tiles = tiles
         self.screen = screen
 
@@ -230,6 +232,9 @@ class World:
         # iterate through data file
         for y, row in enumerate(data):
             for x, tile in enumerate(row):
+                collision = True
+                if tile in [11, 13, 14, 20]:
+                    collision = False
                 if tile >= 0:
                     if tile >= 0 and tile <= 8:
                         pass
@@ -245,9 +250,7 @@ class World:
                         pass  # create exit
                     img = self.tile_list[tile]
                     t = Tile(img, x * TILE_SIZE, y * TILE_SIZE, tile)
-                    self.tiles.add(t)
-                
-
-    def draw_tiles(self):
-        for tile in self.tiles:
-            self.screen.blit(tile.image, tile.rect)
+                    if collision:
+                        self.tiles.add(t)
+                    else:
+                        self.objects.add(t)

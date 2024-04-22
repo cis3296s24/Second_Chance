@@ -9,3 +9,6 @@ class Tile(pg.sprite.Sprite):
         
     def update(self, scroll):
         self.rect.x += scroll
+
+    def debug(self, screen):
+        pg.draw.rect(screen, (255, 255, 255), self.rect, 2)
