@@ -21,4 +21,4 @@ class archer(Enemy):
         attacks.update()
         attacks.draw(self.screen)
         self.health_bar_offset_x = (self.rect.width - self.health_bar_length) / 2
-        self.health_bar_offset_y = self.rect.height / 2 - 30 
+        self.health_bar_offset_y = self.rect.height / 2 - 30
