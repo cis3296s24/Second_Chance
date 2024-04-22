@@ -11,6 +11,7 @@ from src.states.minigames.reflexes import Reflexes
 from src.states.minigames.matching_game import Matching
 from src.states.minigames.reaction_time import ReactionTime
 from src.states.minigames.flying_green import FlyingGreen
+from src.states.minigames.calculate import Calculate
 
 from ..levels.level1_1 import Level1_1
 
@@ -75,6 +76,7 @@ class StartMenu(State):
         self.menu.add.button('Matching', self.manager.set_state, Matching)
         self.menu.add.button('Reaction', self.manager.set_state, ReactionTime)
         self.menu.add.button('Tracking', self.manager.set_state, FlyingGreen)
+        self.menu.add.button('Calculate', self.manager.set_state, Calculate)
 
         self.menu.add.button('Back', self.main_menu)
 
