@@ -65,7 +65,7 @@ class Calculate(Minigame):
 
     def draw(self):
         super().draw() # Draw minigame background
-        if self.timer.get_time_milliseconds()>=0.01:
+        if self.timer.get_time_milliseconds()>0:
             if self.generated_text_surf:
                 self.screen.blit(self.generated_text_surf, ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2 + 30, 200))
 
