@@ -108,8 +108,7 @@ class Enemy(pg.sprite.Sprite):
         # Check for collision with the player
         if self.rect.colliderect(player.rect):
             # If collision occurs, decrease player's health
-            # player.decrease_health(self.strength) # TODO
-            pass # TODO remove
+            player.decrease_health(self.strength)
 
         self.check_invincibility()
 

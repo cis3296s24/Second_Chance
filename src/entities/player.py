@@ -133,6 +133,7 @@ class Player(pg.sprite.Sprite):
             self.rect.bottom = self.screen.get_height()
             self.on_ground = True
             self.vel_y = 0
+            self.dy = 0
             
         # Jumping
         if self.on_ground and self.is_jumping:
@@ -234,11 +235,12 @@ class Player(pg.sprite.Sprite):
         if self.movement_pressed:
             self.counter += 1
             
-            if self.left_press and self.level_scroll > 0:    
-                self.dx -= self.speed
-                self.scroll = -self.scroll_amount
+            if self.left_press and not self.right_press:
+                if self.level_scroll > 0:
+                    self.dx -= self.speed
+                    self.scroll = -self.scroll_amount
                 
-            elif self.right_press:
+            elif self.right_press and not self.left_press:
                 if self.scroll > 5000:
                     self.dx = 0
                 else:
@@ -284,7 +286,11 @@ class Player(pg.sprite.Sprite):
                     
             # Vertical collision
             if tile.rect.colliderect(y_check):
-                if self.vel_y >= 0: # If falling
+                if self.vel_y < 0: # If jumping up
+                    self.dy = 0
+                    self.vel_y = 0
+                    self.rect.top = tile.rect.bottom
+                elif self.vel_y > 0: # If falling
                     self.dy = tile.rect.top - self.rect.bottom
                     self.vel_y = 0
                     self.on_ground = True

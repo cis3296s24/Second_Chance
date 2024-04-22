@@ -89,8 +89,6 @@ class Level(State):
         self.draw_health_bar()
         self.draw_text_surfaces()
         self.world.draw_tiles()
-        self.player.debug()
-        self.platforms.sprites()[0].debug(self.screen)
 
     def init_tiles(self):
         self.world_data = []
