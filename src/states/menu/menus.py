@@ -229,7 +229,7 @@ class UsernamePrompt(State):
 class WinScreen(TimedState):
     
     def __init__(self, next_state, extra_text="", timer=None, img=None):
-        super().__init__(time=3, next_state=next_state, timer=timer, img=img)
+        super().__init__(time=3, next_state=next_state, clear=True, timer=timer, img=img)
         self.win_text = self.get_text_surface(f"You won! {extra_text}", "white", font_size=36)
         self.win_text_pos = \
             ((self.screen.get_width() / 2) - 350, (self.screen.get_height() / 2) - 100)  

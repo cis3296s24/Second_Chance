@@ -12,4 +12,6 @@ class Portal(pg.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+    def update(self, scroll):
+        self.rect.x += scroll
 
