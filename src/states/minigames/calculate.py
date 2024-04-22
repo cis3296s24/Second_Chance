@@ -8,11 +8,14 @@ from pygame.locals import *
 
 
 class Calculate(Minigame):
-    """A minigame to test your memory."""
+    """A minigame to test your math skills."""
 
     def __init__(self):
         instructions = (
-            "The goal for this miniGame is to calculate the correct answer."
+            "The goal for this miniGame is to calculate the correct answer. "
+            "A math problem will show up on the screen and you have to solve "
+            "it and put the correct answer in the text box in order to win "
+            "this minigame."
         )
 
         img = "calculate.png"
