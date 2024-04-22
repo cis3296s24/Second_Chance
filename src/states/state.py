@@ -41,10 +41,11 @@ class TimedState(State):
     """A TimedState is a state that automatically ends after a certain amount 
     of time."""
     
-    def __init__(self, time: int, next_state: State, timer=None, img=None):
+    def __init__(self, time: int, next_state: State, clear=False, timer=None, img=None):
         """
         :param time: Amount of time in seconds before this state ends.
         :param next_state: The next state to switch to after this state ends.
+        :param clear: Parameter passed to StateManager
         :param timer: Timer from another state so that this state can resume
             it. This leads to coupling, but oh well for now.
         """
@@ -52,10 +53,11 @@ class TimedState(State):
         self._time = time
         self._timer = Timer(start=True)
         self.next_state = next_state
+        self.clear = clear
         self.passed_timer = timer
         
     def update(self, events):
         if self._timer.get_time(ms=True) >= self._time:
             if self.passed_timer is not None:
                 self.passed_timer.resume()
-            self.manager.set_state(self.next_state)
+            self.manager.set_state(self.next_state, clear=self.clear)

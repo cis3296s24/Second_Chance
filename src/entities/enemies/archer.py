@@ -4,20 +4,18 @@ import pygame as pg
 
 attacks = pg.sprite.Group()
 class archer(Enemy):
-    def __init__(self, x, y, platform_group, scroll):
+    def __init__(self, x, y, platform_group):
         super().__init__(
             x, y,
             platform_group,
-            scroll,
             "archer",
-            2,
-            0,
-            0.5,
-            100,
-            100,
-            20
+            speed=2,
+            vertical_speed=0,
+            gravity=0.5,
+            health=100,
+            max_health=100,
+            strength=20
         )
-       
         range_attack = RangeAttack(self.rect.centerx + 10, self.rect.centery,self.direction, damage_value= 10)
         attacks.add(range_attack)
         attacks.update()

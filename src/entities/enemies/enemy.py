@@ -7,7 +7,6 @@ class Enemy(pg.sprite.Sprite):
         self, 
         x, y, 
         platform_group, 
-        scroll, 
         image, 
         speed, 
         vertical_speed, 
@@ -34,7 +33,6 @@ class Enemy(pg.sprite.Sprite):
         self.platform_group = platform_group
         self.on_ground = False
         self.scale_factor = 2
-        self.scroll = scroll
         self.strength = strength
         
         # Set movement pattern
@@ -96,12 +94,12 @@ class Enemy(pg.sprite.Sprite):
                     self.image = self.original_image  # Restore the original image
                 break
 
-    def update(self, player):
+    def update(self, player, scroll):
         # Movement
         self.move()
 
         # Update rect
-        self.rect.y += self.scroll  # Adjust for scrolling
+        # self.rect.x += scroll  # Adjust for scrolling
 
         # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
