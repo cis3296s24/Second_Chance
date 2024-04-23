@@ -48,6 +48,8 @@ class Minigame(State):
         if self.level:
             """What should happen after every minigame when the player wins."""
             self.level.player.health = self.level.player.max_health
+            # Put player back on the last tile before they fell
+            self.level.player.rect.midbottom = self.level.player.last_ground_pos.midtop
             # TODO Make player invincible upon re-entering level state
             # TODO Save minigame time somewhere
             

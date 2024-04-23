@@ -36,6 +36,7 @@ class Player(pg.sprite.Sprite):
         self.on_ground = False
         self.is_jumping = False
         self.direction = "right"
+        self.last_ground_pos = pg.Rect(0, 0, 0, 0)
         
         # Player inputs
         self.up_press = False
@@ -130,12 +131,9 @@ class Player(pg.sprite.Sprite):
         # Check collision with platforms
         self.check_collision()
         
-        # Check collision with ground
-        if self.rect.bottom >= self.screen.get_height():
-            self.rect.bottom = self.screen.get_height()
-            self.on_ground = True
-            self.vel_y = 0
-            self.dy = 0
+        # Kill player if they have fallen into a gap
+        if self.rect.top - 50 >= self.screen.get_height():
+            self.health = 0
             
         # Jumping
         if self.on_ground and self.is_jumping:
@@ -157,7 +155,6 @@ class Player(pg.sprite.Sprite):
         
         # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
-        self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
         
         # To center sprite in rect
         self.sprite_x = self.rect.x + (self.rect.width - self.image.get_width()) // 2
@@ -304,6 +301,9 @@ class Player(pg.sprite.Sprite):
                     self.vel_y = 0
                     self.on_ground = True
                     self.is_moving = False
+                    # The last position when the player was on the ground
+                    if tile.rect != self.last_ground_pos:
+                        self.last_ground_pos = tile.rect
 
     def handle_animation(self):
         if self.counter > self.walk_cooldown:
@@ -395,7 +395,7 @@ class Player(pg.sprite.Sprite):
 		| (dx, dy) : {(self.dx, self.dy)}
         | (rect.x, rect.y): {(self.rect.x, self.rect.y)} 
         | Vel: {self.vel_y}
-        | s1, s2: {self.scroll, self.level_scroll}
+        | last_ground_tile: {self.last_ground_pos}
         """
         text_surface = self.font.render(text, True, "red")
         pg.draw.rect(self.screen, (255, 255, 255), self.rect, 2)
