@@ -73,9 +73,10 @@ class Reflexes(Minigame):
         super().draw()  # Draw minigame background
 
         # Draw squares
-        for square in self.squares:
-            if square not in self.clicked_squares:
-                pg.draw.rect(self.screen, self.square_color, square)
+        if(self.timer.get_time_milliseconds()>0):
+            for square in self.squares:
+                if square not in self.clicked_squares:
+                    pg.draw.rect(self.screen, self.square_color, square)
 
     def generate_square(self):
         """Generate three squares at random positions on the screen."""

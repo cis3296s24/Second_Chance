@@ -70,7 +70,7 @@ class Memory(Minigame):
         super().draw() # Draw minigame background
 
         # Render and display generated string
-        if self.generated_text_surf:
+        if self.generated_text_surf and (self.timer.get_time_milliseconds()>0):
             self.screen.blit(self.generated_text_surf, ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2, 200))
 
         # Draw input box if the generated string has disappeared
