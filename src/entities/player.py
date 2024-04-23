@@ -90,7 +90,7 @@ class Player(pg.sprite.Sprite):
         self.speed = 2
         self.gravity = 0.5
         self.vel_y = 0
-        self.jump_strength = -15
+        self.jump_strength = -13
 
         # Healthbar
         self.health = 100  # Initial health value
