@@ -1,19 +1,21 @@
 import pygame as pg
 import time
 import os
+import math
 
 class Enemy(pg.sprite.Sprite):
     def __init__(
         self, 
         x, y, 
         platform_group, 
+        tiles,
         image, 
         speed, 
         vertical_speed, 
         gravity,
         health,
         max_health,
-        strength
+        strength,
     ):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -34,6 +36,7 @@ class Enemy(pg.sprite.Sprite):
         self.on_ground = False
         self.scale_factor = 2
         self.strength = strength
+        self.tile_list = tiles
         
         # Set movement pattern
         self.direction = 1  # 1 for moving right, -1 for moving left
@@ -79,21 +82,11 @@ class Enemy(pg.sprite.Sprite):
             self.image = pg.transform.flip(self.original_image, True, False)  # Flip the image horizontally
         elif self.rect.left <= self.left_boundary:
             self.direction = 1  # Change direction to right when reaching left boundary
-            self.image = self.original_image  # Restore the original image
+            self.image = self.original_image  # Restore the original 
+            
 
-        # Check for collision with platforms
-        for platform in self.platform_group:
-            if self.rect.colliderect(platform.rect):
-                # If colliding with a platform, stop falling
-                self.vertical_speed = 0
-                # Reverse direction if collision occurs
-                self.direction *= -1
-                if self.direction == -1:
-                    self.image = pg.transform.flip(self.original_image, True, False)  # Flip the image horizontally
-                else:
-                    self.image = self.original_image  # Restore the original image
-                break
-
+    
+        
     def update(self, player, scroll):
         # Movement
         self.move()
@@ -102,9 +95,9 @@ class Enemy(pg.sprite.Sprite):
         # self.rect.x += scroll  # Adjust for scrolling
 
         # Keep rect in screen
-        self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
+        # self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
-
+                
         # Check for collision with the player
         if self.rect.colliderect(player.rect):
             # If collision occurs, decrease player's health
@@ -116,6 +109,8 @@ class Enemy(pg.sprite.Sprite):
         if self.health <= 0:
             self.kill()  # Remove the Eyeball sprite from the group
 
+        self.check_collision()
+
     def draw(self):
         # Calculate the position to draw the health bar
         health_bar_x = self.rect.x + self.health_bar_offset_x
@@ -125,6 +120,28 @@ class Enemy(pg.sprite.Sprite):
         pg.draw.rect(self.screen, self.health_bar_color, (health_bar_x, health_bar_y, self.health / self.max_health * self.health_bar_length, self.health_bar_height))
         self.screen.blit(self.image, self.rect.topleft)  # Draw the sprite
 
+    def check_collision(self):
+        # Create a collision check rectangle that represents the area below the enemy
+        collision_check_rect = pg.Rect(self.rect.x, self.rect.y + 1, self.rect.width, 1)
+
+        # Check for collision with tiles below the enemy
+        for tile in self.tile_list:
+            if self.rect.colliderect(tile.rect):
+                # Adjust the enemy's position vertically if moving vertically
+                if self.vertical_speed > 0:
+                    self.rect.bottom = tile.rect.top
+                    self.vertical_speed = 0  # Stop vertical movement
+                elif self.vertical_speed < 0:
+                    self.rect.top = tile.rect.bottom
+                    self.vertical_speed = 0  # Stop vertical movement
+                # Check for collision with tiles horizontally if moving horizontally
+                elif self.speed > 0:
+                    if self.rect.colliderect(tile.rect):
+                        self.rect.right = tile.rect.left
+                elif self.speed < 0:
+                    if self.rect.colliderect(tile.rect):
+                        self.rect.left = tile.rect.right
+        
     def decrease_health(self, amount):
         # Check if the eyeball is currently invincible
         if not self.invincible:

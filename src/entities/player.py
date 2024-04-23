@@ -9,7 +9,7 @@ from src.utils.timer import Timer
 
 class Player(pg.sprite.Sprite):
 
-    def __init__(self, x, y, platform_group, portal_group, obstacle_list):
+    def __init__(self, x, y, platform_group, portal_group, obstacle_list, enemies_group):
 
         super().__init__()
         
@@ -57,6 +57,7 @@ class Player(pg.sprite.Sprite):
         self.portal_group = portal_group
         self.obstacle_list = obstacle_list
         self.scale_factor = 2
+        self.enemies_group = enemies_group
 
         self.invincible = False  # Attribute to track player's invincibility state
         self.invincible_duration = 1.5  # Duration of invincibility frames in seconds
@@ -97,6 +98,7 @@ class Player(pg.sprite.Sprite):
         self.health_bar_length = 100  # Length of the health bar
         self.health_bar_height = 10  # Height of the health bar
         self.health_bar_color = (0, 255, 0)  # Green color for the health bar
+        self.SC_count = 0
         
         # Define hitbox
         self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
@@ -206,6 +208,13 @@ class Player(pg.sprite.Sprite):
 
         # Scroll by the amount moved horizontally
         self.level_scroll += self.scroll
+
+        for enemy in self.enemies_group: 
+            if self.direction == "right":
+                enemy.rect.x -= self.scroll
+            else:
+                enemy.rect.x += self.scroll + 2
+        
         return -self.scroll
 
     def input(self):
@@ -323,6 +332,10 @@ class Player(pg.sprite.Sprite):
 
         # Draw the remaining ranged attacks count
         self.draw_range_attack_count()
+
+        SC_count = f"Second Chance Count: {self.SC_count}"
+        SC_count_text= self.font.render(SC_count, True, (255, 255, 255))  # White color text
+        self.screen.blit(SC_count_text, (19, 100))
 
     def decrease_health(self, amount):
         # Check if the player is currently invincible
