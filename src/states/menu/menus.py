@@ -1,5 +1,6 @@
 import pygame as pg
 import pygame_menu
+import math
 
 from src.constants import *
 from src.states.state import State, TimedState
@@ -27,6 +28,10 @@ class StartMenu(State):
         super().__init__("background.png") # Change to start menu background
 
         self.leaderboard = LeaderboardManager(self.game)
+
+        self.player_name = self.game.username
+        self.font = pg.font.Font(None, 30)  # Assuming you want a size 20 font
+
         
         self.main_menu()
         
@@ -41,12 +46,21 @@ class StartMenu(State):
                 self.manager.set_state(ts.TitleScreen)
                 
     def draw(self):
+        self.player_name = self.game.username  
         self.menu.draw(self.screen)
-    
+        username_label = f"Username: {self.player_name}"
+        username_text = self.font.render(username_label, True, (255, 255, 255))
+
+        username_rect = username_text.get_rect(topright=(SCREEN_WIDTH - 5, 5))  
+
+        self.screen.blit(username_text, username_rect)
+                    
     def main_menu(self):
         # Create menu
         self.menu = pygame_menu.Menu('Second Chance', SCREEN_WIDTH, SCREEN_HEIGHT, 
                                 theme=pygame_menu.themes.THEME_BLUE)
+        
+        
 
         # Add buttons to the menu
         self.menu.add.button('Start Game', self.manager.set_state, Level1_1)
@@ -108,8 +122,13 @@ class StartMenu(State):
         self.menu.add.button('Increase Volume', self.increase_volume)
         self.menu.add.button('Decrease Volume', self.decrease_volume)
 
+    
+
+
         # Add back button
         self.menu.add.button('Back', self.main_menu)
+
+
 
     def increase_volume(self):
         global volume
@@ -193,6 +212,7 @@ class UsernamePrompt(State):
         self.text_prompt = self.font.render("Enter your username: ", True, (255, 255, 255))
         self.text_prompt_rect = self.text_prompt.get_rect(midbottom=self.input_rect.topleft)
         self.username = self.game.username
+        self.gradient_time = 0  # Variable to control gradient movement
 
     def handle_events(self, events):
         for event in events:
@@ -219,13 +239,27 @@ class UsernamePrompt(State):
         # Render the username directly inside the input rectangle
         self.text_surface = self.font.render(self.username, True, (255, 255, 255))
         self.text_rect = self.text_surface.get_rect(center=self.input_rect.center)
+        self.gradient_time += 0.01  # Adjust speed of gradient movement
 
     def draw(self):
-        self.screen.fill((30, 30, 30))
+        # Create gradient background
+        self.draw_gradient_background()
+
+        # Draw input box and text
         pg.draw.rect(self.screen, (255, 255, 255), self.input_rect, 2)
         self.screen.blit(self.text_prompt, self.text_prompt_rect)
-
         self.screen.blit(self.text_surface, self.text_rect)
+
+    def draw_gradient_background(self):
+        # Draw gradient background
+        for y in range(SCREEN_HEIGHT):
+            # Calculate color based on y position and time for gradient movement
+            red = (math.sin(0.005 * y + self.gradient_time) * 127 + 128) % 256
+            green = (math.sin(0.005 * y + self.gradient_time + 2) * 127 + 128) % 256
+            blue = (math.sin(0.005 * y + self.gradient_time + 4) * 127 + 128) % 256
+            color = (red, green, blue)
+            # Fill each row with the calculated color
+            pg.draw.line(self.screen, color, (0, y), (SCREEN_WIDTH, y))
 
 
 class WinScreen(TimedState):
