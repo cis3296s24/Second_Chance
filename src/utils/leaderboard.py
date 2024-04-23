@@ -38,8 +38,6 @@ class LeaderboardManager:
             sorted_leaderboard = sorted(leaderboard.items(), key=lambda x: (x[1], x[0]), reverse=False)
             leaderboard = dict(sorted_leaderboard[:limit])
             
-            
-
         return leaderboard
 
     def display_leaderboard(self, leaderboard):
