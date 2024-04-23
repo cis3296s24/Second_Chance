@@ -27,8 +27,20 @@ class LeaderboardManager:
             })
 
     def update_leaderboard(self, player_name, score):
-        ref = db.reference('/leaderboard')
-        ref.child(player_name).set(score)
+        # Fetch existing leaderboard
+        leaderboard = self.fetch_leaderboard()
+        
+        # Check if the player is already in the leaderboard
+        if player_name in leaderboard:
+            # Compare the new score with the existing score
+            if score < leaderboard[player_name]:
+                # Update the leaderboard only if the new score is better
+                ref = db.reference('/leaderboard')
+                ref.child(player_name).set(score)
+        else:
+            # Player is not in the leaderboard, so update the leaderboard with the new score
+            ref = db.reference('/leaderboard')
+            ref.child(player_name).set(score)
 
     def fetch_leaderboard(self, limit=10):
         ref = db.reference('/leaderboard')
@@ -37,7 +49,7 @@ class LeaderboardManager:
         if leaderboard:
             sorted_leaderboard = sorted(leaderboard.items(), key=lambda x: (x[1], x[0]), reverse=False)
             leaderboard = dict(sorted_leaderboard[:limit])
-            
+
         return leaderboard
 
     def display_leaderboard(self, leaderboard):
