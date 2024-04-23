@@ -8,6 +8,12 @@ import src.states.menu.winscreen as winscreen
 from src.utils.leaderboard import LeaderboardManager
 from src.constants import *
 from src.entities.player import Player
+from src.entities.enemies.eyeball import Eyeball
+from src.entities.enemies.skeleton import Skeleton
+from src.entities.enemies.archer import archer
+from src.entities.enemies.wolf import Wolf
+
+
 from src.objects.tiles import Tile
 from src.states.minigames.minigame import Minigame
 from src.states.state import State
@@ -76,6 +82,7 @@ class Level(State):
         # Check for player death
         if self.player.health <= 0:
             self.timer.pause()
+            self.player.SC_count += 1
             self.manager.set_state(
                 globals()[random.choice(self.minigames)], # Select a random minigame
                 save_prev=True)
@@ -118,9 +125,9 @@ class Level(State):
         self.portals = pg.sprite.Group()
         self.tiles = pg.sprite.Group()
         self.objects = pg.sprite.Group()
-        self.world = World(self.tile_list, self.objects, self.tiles, self.screen)
         self.enemies = enemy.EnemyGroup()
-        self.player = Player(100, 100, self.platforms, self.portals, self.tiles)
+        self.world = World(self.tile_list, self.objects, self.tiles, self.screen, self.platforms, self.enemies)
+        self.player = Player(100, 100, self.platforms, self.portals, self.tiles, self.enemies)
 
         self.create_platforms()
         self.spawn_enemies()
@@ -224,18 +231,20 @@ class Level(State):
 
 
 class World:
-    def __init__(self, tile_list, objects, tiles, screen):
+    def __init__(self, tile_list, objects, tiles, screen, platform_group, enemy_group):
         self.tile_list = tile_list
         self.objects = objects
         self.tiles = tiles
         self.screen = screen
+        self.platform_group = platform_group
+        self.enemy_group = enemy_group
 
     def process_data(self, data):
         # iterate through data file
         for y, row in enumerate(data):
             for x, tile in enumerate(row):
                 collision = True
-                if tile in [11, 13, 14, 20]:
+                if tile in [11, 13, 14, 16, 17, 18, 19, 20]:
                     collision = False
                 if tile >= 0:
                     if tile >= 0 and tile <= 8:
@@ -247,11 +256,21 @@ class World:
                     elif tile == 15:
                         pass  # create player
                     elif tile == 16:
-                        pass  # create enemy
+                        enemy = Eyeball(x * TILE_SIZE, y * TILE_SIZE, self.platform_group, self.tiles)
+                        self.enemy_group.add(enemy)
+                    elif tile == 17:
+                        enemy = Skeleton(x * TILE_SIZE, y * TILE_SIZE, self.platform_group, self.tiles)
+                        self.enemy_group.add(enemy)
+                    elif tile == 18:
+                        enemy = archer(x * TILE_SIZE, y * TILE_SIZE, self.platform_group, self.tiles)
+                        self.enemy_group.add(enemy)
+                    elif tile == 19:
+                        enemy = Wolf(x * TILE_SIZE, y * TILE_SIZE, self.platform_group, self.tiles)
+                        self.enemy_group.add(enemy)
                     elif tile == 20:
-                        pass  # create exit
+                        pass
                     img = self.tile_list[tile]
-                    t = Tile(img, x * TILE_SIZE, y * TILE_SIZE, tile)
+                    t = Tile(img, x * TILE_SIZE, y * TILE_SIZE, tile) 
                     if collision:
                         self.tiles.add(t)
                     else:

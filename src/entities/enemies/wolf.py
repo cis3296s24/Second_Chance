@@ -1,10 +1,11 @@
 from .enemy import Enemy
 
 class Wolf(Enemy):
-    def __init__(self, x, y, platform_group):
+    def __init__(self, x, y, platform_group, tile_list):
         super().__init__(
             x, y,
             platform_group,
+            tile_list,
             "wolf",
             speed=4,
             vertical_speed=0,
