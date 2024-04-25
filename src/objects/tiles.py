@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class Tile(pg.sprite.Sprite):
     """Sprite class to represent a tile.
 
@@ -9,13 +10,13 @@ class Tile(pg.sprite.Sprite):
         y (int): y position to spawn tile.
         tile_type (int): Type of tile used to load the corresponding tile image.
     """
-    
+
     def __init__(self, image, x, y, tile_type):
         super().__init__()
         self.image = pg.image.load(f"assets/tiles/{tile_type}.png")
         self.image = image
         self.rect = self.image.get_rect(x=x, y=y)
-        
+
     def update(self, scroll):
         """Updates the position of the tile.
 

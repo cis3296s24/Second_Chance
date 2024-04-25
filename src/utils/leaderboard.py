@@ -1,22 +1,24 @@
 import os
-import pygame
+
 import firebase_admin
+import pygame
 from firebase_admin import credentials
 from firebase_admin import db
+
 
 class LeaderboardManager:
     """
     Responsible for initializing the leaderboard from firebase, fetching its
     contents, and updating it.
     """
-    
+
     def __init__(self, game):
         """Initializes firebase.
 
         Args:
             game (`Game`): Reference to the main `Game` object.
         """
-        
+
         # Initialize Pygame
         pygame.init()
 
@@ -24,14 +26,14 @@ class LeaderboardManager:
         self.SCREEN_WIDTH = 800
         self.SCREEN_HEIGHT = 600
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        
 
         # Load font
         self.FONT = pygame.font.SysFont(None, 30)
 
-        #Firebase initialization
-        if not firebase_admin._apps:  #check that firebase has not been initialized
-            json_file_path = os.path.join(game.resources_dir, "second-chance-64b66-firebase-adminsdk-etkn4-2927af9e64.json")
+        # Firebase initialization
+        if not firebase_admin._apps:  # check that firebase has not been initialized
+            json_file_path = os.path.join(game.resources_dir,
+                                          "second-chance-64b66-firebase-adminsdk-etkn4-2927af9e64.json")
             cred = credentials.Certificate(json_file_path)
             firebase_admin.initialize_app(cred, {
                 'databaseURL': 'https://second-chance-64b66-default-rtdb.firebaseio.com/'
@@ -46,7 +48,7 @@ class LeaderboardManager:
         """
         # Fetch existing leaderboard
         leaderboard = self.fetch_leaderboard()
-        
+
         # Check if the player is already in the leaderboard
         if player_name in leaderboard:
             # Compare the new score with the existing score
@@ -70,7 +72,7 @@ class LeaderboardManager:
         """
         ref = db.reference('/leaderboard')
         leaderboard = ref.get()
-      
+
         if leaderboard:
             sorted_leaderboard = sorted(leaderboard.items(), key=lambda x: (x[1], x[0]), reverse=False)
             leaderboard = dict(sorted_leaderboard[:limit])
@@ -92,6 +94,3 @@ class LeaderboardManager:
                 text_y += 30
 
         pygame.display.flip()  # Update display
-        
-
-

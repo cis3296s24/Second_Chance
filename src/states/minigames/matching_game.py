@@ -1,11 +1,9 @@
-import pygame as pg
-import os
 import random
+
+import pygame as pg
+
 from src.constants import *
-
 from src.states.minigames.minigame import Minigame
-
-from pygame.locals import * # To get all
 
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -14,10 +12,9 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 
 
-
 class Matching(Minigame):
     """A minigame where you must match """
-    
+
     def __init__(self):
         instructions = "The goal of this minigame is to select the boxes with matching numbers. You must get 5 matches within 25 turns"
         super().__init__(instructions)
@@ -47,23 +44,18 @@ class Matching(Minigame):
         self.matches = 0
         self.win_text = ""
 
-
-
-
     def handle_events(self, events):
-        super().handle_events(events) # To enable pause menu access
-        
+        super().handle_events(events)  # To enable pause menu access
+
         if self.new_board:
             self.generate_board()
             self.new_board = False
 
-
         if self.first_guess and self.second_guess:
             self.check_guesses(self.first_guess_num, self.second_guess_num)
-            pg.time.delay(700) 
+            pg.time.delay(700)
             self.first_guess = False
             self.second_guess = False
-
 
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN:
@@ -72,26 +64,22 @@ class Matching(Minigame):
                     if button.collidepoint(event.pos) and not self.first_guess:
                         self.first_guess = True
                         self.first_guess_num = i
-                    if button.collidepoint(event.pos) and not self.second_guess and self.first_guess and i != self.first_guess_num:
+                    if button.collidepoint(
+                            event.pos) and not self.second_guess and self.first_guess and i != self.first_guess_num:
                         self.second_guess = True
                         self.second_guess_num = i
-            if self.matches == 5: #Value of required matches to win, currently set to the entire board
+            if self.matches == 5:  # Value of required matches to win, currently set to the entire board
                 self.won = True
                 self.win_text = f"You did it in {self.score} moves"
-            elif self.score > 25: #Value of number of attempts before losing
+            elif self.score > 25:  # Value of number of attempts before losing
                 self.won = False
-
-        
-
 
     def update(self, events):
         super().update(events)
-        
-    
 
     def generate_board(self):
         """Randomly generates the board."""
-        
+
         for item in range(self.rows * self.cols // 2):
             self.options_list.append(item)
 
@@ -104,7 +92,6 @@ class Matching(Minigame):
             else:
                 self.used.append(piece)
 
-    
     def check_guesses(self, first, second):
         """
         Adds to the score if the user picked the same number in both of
@@ -114,12 +101,12 @@ class Matching(Minigame):
             first (int): The first guess the user picked.
             second (int): The second guess the user picked.
         """
-        
+
         if self.spaces[first] == self.spaces[second]:
             col1 = first // self.rows
             col2 = second // self.rows
             row1 = first - (first // self.rows * self.rows)
-            row2 = second - (second// self.rows * self.rows)
+            row2 = second - (second // self.rows * self.rows)
             if self.correct[row1][col1] == 0 and self.correct[row2][col2] == 0:
                 self.correct[row1][col1] = 1
                 self.correct[row2][col2] = 1
@@ -129,27 +116,22 @@ class Matching(Minigame):
         else:
             self.score += 1
 
-
-
     def draw(self):
-        super().draw() # Draw minigame background
+        super().draw()  # Draw minigame background
         self.draw_backgrounds()
         self.board = self.draw_board()
 
-
         if self.first_guess:
             piece_text = self.small_font.render(f'{self.spaces[self.first_guess_num]}', True, blue)
-            location = (self.first_guess_num // self.rows * 100 + 110, (self.first_guess_num - (self.first_guess_num // self.rows * self.rows)) * 90 + 165)
+            location = (self.first_guess_num // self.rows * 100 + 110,
+                        (self.first_guess_num - (self.first_guess_num // self.rows * self.rows)) * 90 + 165)
             self.screen.blit(piece_text, (location))
 
         if self.second_guess:
             piece_text = self.small_font.render(f'{self.spaces[self.second_guess_num]}', True, blue)
-            location = (self.second_guess_num // self.rows * 100 + 110, (self.second_guess_num - (self.second_guess_num // self.rows * self.rows)) * 90 + 165)
+            location = (self.second_guess_num // self.rows * 100 + 110,
+                        (self.second_guess_num - (self.second_guess_num // self.rows * self.rows)) * 90 + 165)
             self.screen.blit(piece_text, (location))
-        
-        
-
-
 
     def draw_backgrounds(self):
         """Draws the minigame background and text."""
@@ -161,7 +143,7 @@ class Matching(Minigame):
         bottom_menu = pg.draw.rect(self.screen, black, [0, SCREEN_HEIGHT - 100, SCREEN_WIDTH, 100], 0)
         score_text = self.small_font.render(f'Current Turns: {self.score}', True, white)
         self.screen.blit(score_text, (550, 520))
-    
+
     def draw_board(self):
         """Draws the board onto the screen.
 
@@ -185,8 +167,5 @@ class Matching(Minigame):
                     piece = pg.draw.rect(self.screen, green, [j * 100 + 98, i * 90 + 150, 54, 54], 3, 4)
                     piece_text = self.small_font.render(f'{self.spaces[j * self.rows + i]}', True, black)
                     self.screen.blit(piece_text, (j * 100 + 110, i * 90 + 165))
-        
+
         return board_list
-
-
-

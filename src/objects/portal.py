@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class Portal(pg.sprite.Sprite):
     """Sprite class to represent a portal.
 
@@ -10,7 +11,7 @@ class Portal(pg.sprite.Sprite):
         width (int): Width of portal image.
         height (int): Height of portal image.
     """
-    
+
     def __init__(self, x, y, image_path, width, height):
         super().__init__()
         self.original_image = pg.image.load(image_path).convert_alpha()

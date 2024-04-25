@@ -1,11 +1,11 @@
-import pygame as pg
 import os
 import random
+
+import pygame as pg
 
 from src.states.minigames.minigame import Minigame
 from src.utils.timer import Timer
 
-from pygame.locals import *
 
 class Reflexes(Minigame):
     """A minigame to test your reflexes"""
@@ -73,7 +73,7 @@ class Reflexes(Minigame):
         super().draw()  # Draw minigame background
 
         # Draw squares
-        if(self.timer.get_time_milliseconds()>0):
+        if (self.timer.get_time_milliseconds() > 0):
             for square in self.squares:
                 if square not in self.clicked_squares:
                     pg.draw.rect(self.screen, self.square_color, square)

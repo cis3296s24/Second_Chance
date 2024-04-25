@@ -1,9 +1,9 @@
-from typing import Any
 import pygame as pg
 # from src.entities.player import Player as player
-from src.entities.enemies.enemy import Enemy as enemy
 
 arrows_group = pg.sprite.Group()
+
+
 class MeleeAttack(pg.sprite.Sprite):
     """Sprite to represent a melee attack performed by the player.
 
@@ -15,14 +15,17 @@ class MeleeAttack(pg.sprite.Sprite):
         damage_value (int, optional): Amount of damage that this attack does. 
             Defaults to 25.
     """
-    
+
     def __init__(self, x, y, player_direction, damage_value=25):
         super().__init__()
         self.screen = pg.display.get_surface()
-        self.attack_animation = [self.animationopen("attack1"), self.animationopen("attack2"), self.animationopen("attack3"), self.animationopen("attack4")]
-        self.flipped_attack_animation = [pg.transform.flip(image, True, False) for image in self.attack_animation]  # Flip the animation frames
+        self.attack_animation = [self.animationopen("attack1"), self.animationopen("attack2"),
+                                 self.animationopen("attack3"), self.animationopen("attack4")]
+        self.flipped_attack_animation = [pg.transform.flip(image, True, False) for image in
+                                         self.attack_animation]  # Flip the animation frames
         self.current_frame = 0
-        self.image = self.flipped_attack_animation[self.current_frame] if player_direction == "left" else self.attack_animation[self.current_frame]
+        self.image = self.flipped_attack_animation[self.current_frame] if player_direction == "left" else \
+        self.attack_animation[self.current_frame]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.animation_speed = 6
@@ -36,7 +39,7 @@ class MeleeAttack(pg.sprite.Sprite):
 
     def update(self):
         """Animates the attack."""
-                
+
         # Animate the attack
         self.animation_timer += 1
         if self.animation_timer >= self.animation_speed:
@@ -44,13 +47,15 @@ class MeleeAttack(pg.sprite.Sprite):
             if self.current_frame >= len(self.attack_animation):
                 self.kill()  # Kill the sprite when the animation ends
             else:
-                self.image = self.flipped_attack_animation[self.current_frame] if self.player_direction == "left" else self.attack_animation[self.current_frame]  # Use flipped animation if facing left
+                self.image = self.flipped_attack_animation[self.current_frame] if self.player_direction == "left" else \
+                self.attack_animation[self.current_frame]  # Use flipped animation if facing left
                 self.animation_timer = 0
 
     def draw(self):
         """Draws the attack onto the screen."""
-        
+
         self.screen.blit(self.image, self.rect.topleft)
+
 
 class RangeAttack(pg.sprite.Sprite):
     """Sprite to represent a range attack performed by the player.
@@ -63,7 +68,7 @@ class RangeAttack(pg.sprite.Sprite):
         damage_value (int, optional): Amount of damage that this attack does. 
             Defaults to 25.
     """
-    
+
     def __init__(self, x, y, player_direction, damage_value=25):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -77,7 +82,7 @@ class RangeAttack(pg.sprite.Sprite):
     def update(self):
         """Updates the position of the attack."""
         self.rect.x += (self.direction * self.speed)
-                
+
     def draw(self):
         """Draws the attack onto the screen."""
-        self.screen.blit(self.image,self.rect.topleft)
+        self.screen.blit(self.image, self.rect.topleft)
