@@ -4,7 +4,7 @@ import pygame as pg
 class Timer:
     """A helpful class to represent an in-game timer that counts up.
     This timer can be paused, resumed, and reset."""
-
+    
     def __init__(self, start_time=0, start=False):
         """_summary_
 
@@ -20,14 +20,14 @@ class Timer:
         self.screen = pg.display.get_surface()
         if start:
             self.start()
-
+        
     def handle_events(self, events):
         """This method is called if you want to control the timer in-game 
         through key presses."""
         for event in events:
             if event.type != pg.KEYDOWN:
                 return
-
+            
             if event.key == pg.K_SPACE:
                 self.pause() if self.is_running else self.resume()
             elif event.key == pg.K_BACKSPACE:
@@ -63,14 +63,14 @@ class Timer:
             time = self.paused_time
 
         return time
-
+            
     def get_time(self, ms=False):
         """Returns the elapsed time in seconds."""
-        if ms:  # Seconds with 3 decimal precision
+        if ms: # Seconds with 3 decimal precision
             return self.get_time_milliseconds() / 1000
-        else:  # Seconds
+        else: # Seconds
             return self.get_time_milliseconds() // 1000
-
+    
     def display_time(self, font, pos=(0, 0)):
         elapsed_time = self.get_time_milliseconds() // 1000
         text_surface = font.render("Elapsed time: " + elapsed_time, True, self.color)

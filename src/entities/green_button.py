@@ -1,7 +1,5 @@
-import sys
-
 import pygame
-
+import sys
 
 class GreenButton:
     def __init__(self, screen, color, x, y, width, height):
