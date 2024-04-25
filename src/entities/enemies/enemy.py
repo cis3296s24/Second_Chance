@@ -4,18 +4,36 @@ import os
 import math
 
 class Enemy(pg.sprite.Sprite):
+    """Base enemy class.
+
+    Args:
+        x (int): x position to spawn at.
+        y (int): y position to spawn at.
+        platform_group (pygame.sprite.Group): Group of platforms to check
+            collision with.
+        tiles (list[pygame.Surface]): Group of tiles to check
+            collision with.
+        image (str): Name of the enemy.
+        speed (int): Enemy speed.
+        vertical_speed (int): Enemy vertical speed.
+        gravity (int): Enemy gravity.
+        health (int): Enemy health.
+        max_health (int): Enemy max health.
+        strength (int): How much damage the enemy does to the player.
+    """
+    
     def __init__(
         self, 
-        x, y, 
-        platform_group, 
-        tiles,
-        image, 
-        speed, 
-        vertical_speed, 
-        gravity,
-        health,
-        max_health,
-        strength,
+        x: int, y: int, 
+        platform_group: pg.sprite.Group, 
+        tiles: list[pg.Surface],
+        image: pg.Surface, 
+        speed: int, 
+        vertical_speed: int, 
+        gravity: int,
+        health: int,
+        max_health: int,
+        strength: int,
     ):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -67,6 +85,8 @@ class Enemy(pg.sprite.Sprite):
         self.hit_sound = pg.mixer.Sound(os.path.join("assets/soundeffects", f"{image}hit.mp3"))
  
     def move(self):
+        """Adjusts the enemy's position on the screen."""
+        
         # Apply gravity
         self.vertical_speed += self.gravity
         self.rect.y += self.vertical_speed
@@ -83,11 +103,16 @@ class Enemy(pg.sprite.Sprite):
         elif self.rect.left <= self.left_boundary:
             self.direction = 1  # Change direction to right when reaching left boundary
             self.image = self.original_image  # Restore the original 
-            
-
-    
         
-    def update(self, player, scroll):
+    def update(self, player):
+        """
+        Check for conditions that may affect the enemy's position and update
+        accordingly through other methods.
+        
+        Args:
+            player (pygame.sprite.Sprite): The player sprite.
+        """
+        
         # Movement
         self.move()
 
@@ -112,6 +137,7 @@ class Enemy(pg.sprite.Sprite):
         self.check_collision()
 
     def draw(self):
+        """Draw the enemy and its health bar onto the screen."""
         # Calculate the position to draw the health bar
         health_bar_x = self.rect.x + self.health_bar_offset_x
         health_bar_y = self.rect.y + self.health_bar_offset_y
@@ -121,6 +147,10 @@ class Enemy(pg.sprite.Sprite):
         self.screen.blit(self.image, self.rect.topleft)  # Draw the sprite
 
     def check_collision(self):
+        """
+        Check collision with tiles or platforms in the level and update
+        the enemy's rect accordingly.
+        """
         # Create a collision check rectangle that represents the area below the enemy
         collision_check_rect = pg.Rect(self.rect.x, self.rect.y + 1, self.rect.width, 1)
 
@@ -143,6 +173,11 @@ class Enemy(pg.sprite.Sprite):
                         self.rect.left = tile.rect.right
         
     def decrease_health(self, amount):
+        """Decreases the enemy's health. 
+
+        Args:
+            amount (int): Amount to decrease health by.
+        """
         # Check if the eyeball is currently invincible
         if not self.invincible:
             self.health -= amount
@@ -166,7 +201,10 @@ class Enemy(pg.sprite.Sprite):
 
 
 class EnemyGroup(pg.sprite.Group):
-    """A group class to override the pygame.sprite.Group draw() method."""
+    """
+    A group class to hold members of the Enemy class used mainly to override
+    the pygame.sprite.Group draw() method.
+    """
     def draw(self):
         for sprite in self.sprites():
             Enemy.draw(sprite)

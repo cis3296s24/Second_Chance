@@ -74,32 +74,21 @@ class Calculate(Minigame):
                 self.screen.blit(input_text_surf, (self.input_rect.x + 5, self.input_rect.y + 5))
 
     def generate_random_question(self):
-        # genrate the question
-      
+        """Generates a random math question.
+
+        Returns:
+            str: The math question to answer.
+        """
+
         self.firstNum = random.randint(1,20)
         self.secondNum = random.randint(1,20)
-        self.sign = self.generate_sign()
+        self.sign = random.choice(["+", "-", "x"])
         question = '{}{}{}='.format(self.firstNum,self.sign,self.secondNum)
         return question
-        
-        
-
-    def generate_sign(self):
-        # genrate different question type
-        sign = random.randint(1,3)
-        match(sign):
-            case 1:
-                return '+'
-            case 2:
-                return '-'
-            case 3:
-                return 'x'
-            
-            case default:
-                return 'something went wrong'
-
 
     def check_win_condition(self):
+        """Sets the win condition depending on what the user inputted."""
+        
         # check the player enter the correct answer
         if(self.sign == '+'):
             if (self.firstNum + self.secondNum == int(self.input_string)):

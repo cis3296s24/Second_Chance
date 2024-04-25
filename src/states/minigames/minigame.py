@@ -49,8 +49,13 @@ class Minigame(State):
         self.screen.blit(self.timer_text, (self.screen.get_width() - 190, 20))
         
     def win(self):
+        """
+        Sets the minigame to the `WinScreen` state when the player wins, which
+        then returns the player to the previous state before they entered the 
+        minigame.
+        """
+        
         if self.level:
-            """What should happen after every minigame when the player wins."""
             self.level.player.health = self.level.player.max_health
             # Put player back on the last tile before they fell
             self.level.player.rect.midbottom = self.level.player.last_ground_pos.midtop
@@ -69,6 +74,11 @@ class Minigame(State):
         )
         
     def lose(self):
+        """
+        Returns the player to the title screen or start menu, depending on
+        the previous state before the minigame started.
+        """
+        
         if self.level:
             """Go back to title screen."""
             self.manager.set_state(
@@ -84,8 +94,12 @@ class Minigame(State):
         )
 
 class MinigameInstructions(State):
-    """State that holds and displays a pygame_menu.Menu object, to not interfere
+    """
+    State that holds and displays a pygame_menu.Menu object, to not interfere
     with base Minigame class.
+    
+    Args:
+        instructions (str): Instructions to display on the menu.
     """
 
     def __init__(self, instructions: str):
@@ -107,6 +121,15 @@ class MinigameInstructions(State):
             self.menu.draw(self.screen) # pygame_menu needs self.screen parameter for some reason
 
     def create_menu(self, instructions: str):
+        """Creates a `pygame.menu.Menu` object to display the instructions.
+
+        Args:
+            instructions (str): Instructions to display on the menu.
+
+        Returns:
+            `pygame.menu.Menu`: The menu object.
+        """
+        
         menu = pygame_menu.Menu('Instructions', 600, 350,
                                 theme=pygame_menu.themes.THEME_BLUE)
 
@@ -118,7 +141,17 @@ class MinigameInstructions(State):
 
 class Countdown(State):
     """State to display a countdown before the minigame starts.
-    TODO Preferable behavior is to display countdown on top of current minigame state.
+
+    Args:
+        img (str, optional): Name of image to pass to super() constructor. 
+            Defaults to None.
+            
+    Attributes:
+        prev_state (State): Previous state to draw to the screen.
+        minigame_timer (Timer): Timer from the minigame to be resumed by this 
+            state.
+        timer (Timer): Timer used to update the text surface after every 
+            second.
     """
 
     def __init__(self, img=None):

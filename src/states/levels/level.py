@@ -24,6 +24,16 @@ from src.states.minigames import *
 
 
 class Level(State):
+    """General level class.
+    
+    Contains all of the attributes and behavior that a level should contain.
+
+    Args:
+        level (int): Level number.
+        music_file (str): Music file name for the current level.
+        imgArr (list[str], optional): List of background image paths. Defaults 
+            to None.
+    """
 
     def __init__(self, level: int, music_file: str, imgArr=None):
         super().__init__()
@@ -48,7 +58,7 @@ class Level(State):
         self.current_time = self.timer.get_time(ms=True)
         
         self.scroll = self.player.update()
-        self.enemies.update(self.player, self.scroll)
+        self.enemies.update(self.player)
         self.objects.update(self.scroll)
         self.tiles.update(self.scroll)
 
@@ -98,9 +108,9 @@ class Level(State):
         self.draw_health_bar()
         self.draw_text_surfaces()
 
-
-
     def init_tiles(self):
+        """Initializes level tiles."""
+        
         self.world_data = []
         self.tile_list = []
 
@@ -121,21 +131,22 @@ class Level(State):
                     self.world_data[x][y] = int(tile)
 
     def init_sprites(self):
+        """Initializes level sprites."""
+        
         self.platforms = pg.sprite.Group()
         self.portals = pg.sprite.Group()
         self.tiles = pg.sprite.Group()
         self.objects = pg.sprite.Group()
         self.enemies = enemy.EnemyGroup()
-        self.world = World(self.tile_list, self.objects, self.tiles, self.screen, self.platforms, self.enemies)
+        self.world = World(self.tile_list, self.objects, self.tiles, self.platforms, self.enemies)
         self.player = Player(100, 100, self.platforms, self.portals, self.tiles, self.enemies)
 
-        self.create_platforms()
-        self.spawn_enemies()
         self.world.process_data(self.world_data)  # call method to process csv data
-
         self.add_portal()
 
     def init_attributes(self):
+        """Initializes level attributes."""
+        
         # Timed events
         self.current_time = 0
         self.last_portal_time = 0
@@ -160,6 +171,12 @@ class Level(State):
         )
 
     def init_background(self, imgArr):
+        """Initializes level background.
+
+        Args:
+            imgArr (list[str]): List of background image paths.
+        """
+        
         self.bg_images = []
 
         if imgArr is not None:
@@ -170,22 +187,21 @@ class Level(State):
                 self.bg_width = self.bg_images[0].get_width()
 
     def init_music(self, music_file):
+        """Initializes level music.
+
+        Args:
+            music_file (str): Music file name to load.
+        """
+        
         # Load background music
         pg.mixer.music.load(os.path.join("assets/music", f"{music_file}"))
         self.volume = menus.volume  # Initial volume level (between 0 and 1)
         pg.mixer.music.set_volume(menus.volume)
         pg.mixer.music.play(-1)  # Start playing background music on a loop
 
-    def create_platforms(self):
-        pass  # Level-specific behavior
-
-    def spawn_enemies(self):
-        pass  # Level-specific behavior
-
-    def add_portal(self):
-        pass  # Level-specific behavior
-
     def update_text(self):
+        """Updates all text surfaces displayed within the level."""
+
         self.timer_text = self.get_text_surface(
             f"Level {self.level} Time: {self.timer.get_time()}", "white",
             font_size=36
@@ -205,6 +221,9 @@ class Level(State):
             )  
         
     def draw_bg(self):
+        """
+        Draws the background images according to the player's scroll value.
+        """
         for x in range(25):
             speed = 1
             for i in self.bg_images:
@@ -212,6 +231,8 @@ class Level(State):
                 speed += 0.2
 
     def draw_health_bar(self):
+        """Draws the player's health bar."""
+
         # Calculate the width of the health bar based on current health
         health_bar_width = (self.player.health / self.player.max_health) * self.player.health_bar_length
         # Calculate the position of the health bar above the player
@@ -224,6 +245,8 @@ class Level(State):
                      (health_bar_x, health_bar_y, health_bar_width, self.player.health_bar_height))
 
     def draw_text_surfaces(self):
+        """Draws all of the visible text surfaces within the level."""
+        
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
         self.screen.blit(self.timer_text, (self.screen.get_width() - 220, 20))
@@ -231,15 +254,34 @@ class Level(State):
 
 
 class World:
-    def __init__(self, tile_list, objects, tiles, screen, platform_group, enemy_group):
+    """
+    The World class is responsible for loading all of the tiles within the
+    level.
+
+    Args:
+        tile_list (list[pygame.Surface]): List of tiles.
+        objects (pygame.sprite.Group): Group of objects.
+        tiles (pygame.sprite.Group): Group of tiles.
+        platform_group (pygame.sprite.Group): Group of platforms.
+        enemy_group (pygame.sprite.Group): Group of enemies.
+    """
+    
+    def __init__(self, tile_list, objects, tiles, platform_group, enemy_group):
         self.tile_list = tile_list
         self.objects = objects
         self.tiles = tiles
-        self.screen = screen
         self.platform_group = platform_group
         self.enemy_group = enemy_group
 
     def process_data(self, data):
+        """
+        Adds all platforms, tiles, and enemies to their corresponding
+        group at their specified spawn position.
+
+        Args:
+            data (list[list[int]]): 2D list of integers that represent
+                different sprites.
+        """
         # iterate through data file
         for y, row in enumerate(data):
             for x, tile in enumerate(row):

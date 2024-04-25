@@ -5,7 +5,18 @@ from firebase_admin import credentials
 from firebase_admin import db
 
 class LeaderboardManager:
+    """
+    Responsible for initializing the leaderboard from firebase, fetching its
+    contents, and updating it.
+    """
+    
     def __init__(self, game):
+        """Initializes firebase.
+
+        Args:
+            game (`Game`): Reference to the main `Game` object.
+        """
+        
         # Initialize Pygame
         pygame.init()
 
@@ -27,6 +38,12 @@ class LeaderboardManager:
             })
 
     def update_leaderboard(self, player_name, score):
+        """Updates the leaderboard.
+
+        Args:
+            player_name (str): Name of the player.
+            score (float | int): Player's score.
+        """
         # Fetch existing leaderboard
         leaderboard = self.fetch_leaderboard()
         
@@ -43,6 +60,14 @@ class LeaderboardManager:
             ref.child(player_name).set(score)
 
     def fetch_leaderboard(self, limit=10):
+        """Fetches the leaderboard.
+
+        Args:
+            limit (int, optional): Number of players to fetch. Defaults to 10.
+
+        Returns:
+            (tuple | Any): The leaderboard that was fetched from the database.
+        """
         ref = db.reference('/leaderboard')
         leaderboard = ref.get()
       
@@ -53,6 +78,11 @@ class LeaderboardManager:
         return leaderboard
 
     def display_leaderboard(self, leaderboard):
+        """Displays the leaderboard onto the screen.
+
+        Args:
+            leaderboard (tuple | Any): The leaderboard to display.
+        """
         self.screen.fill((255, 255, 255))  # Fill screen with white
         if leaderboard:
             text_y = 50

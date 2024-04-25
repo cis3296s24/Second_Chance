@@ -14,19 +14,6 @@ class Level1_1(Level):
             music_file="levelmusic.mp3",
             imgArr=imgArr
         )
-        
-    def create_platforms(self):
-        # for i in range(1, 6):
-        #     self.platforms.add(Platform(i * 100, i * 100))
-        # self.objects.add(self.platforms)
-        pass
-
-    def spawn_enemies(self):
-        # self.enemies.add(Eyeball(300, 600, self.platforms))
-        # self.enemies.add(Skeleton(500, 600, self.platforms))
-        # self.enemies.add(archer(100, 200, self.platforms))
-        # self.enemies.add(Wolf(700, 600, self.platforms))
-        pass
     
     def add_portal(self):
         # Add portal at specific coordinates

@@ -1,3 +1,5 @@
+"""Useful game constants."""
+
 import os
 
 FRAME_RATE = 60

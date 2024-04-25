@@ -3,6 +3,8 @@ import pygame as pg
 from ..state import State
 
 class WinScreen(State):
+    """State for the win screen."""
+    
     def __init__(self):
         super().__init__("background.png")
 

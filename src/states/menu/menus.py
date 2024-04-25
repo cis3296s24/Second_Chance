@@ -27,6 +27,8 @@ import src.states.menu.title_screen as ts
 volume = 0.5  # Initial volume value, you can set it to any value you desire
 
 def load_theme_config():
+    """Loads the menu theme from config file."""
+    
     try:
         with open('theme_config.json', 'r') as file:
             return json.load(file)
@@ -34,10 +36,17 @@ def load_theme_config():
         return {'theme': 'Light'}  # Default theme
 
 def save_theme_config(theme):
+    """Saves the current menu theme to config file.
+
+    Args:
+        theme: Theme to save.
+    """
     with open('theme_config.json', 'w') as file:
         json.dump({'theme': theme}, file)
 
 class StartMenu(State):
+    """State for the start menu."""
+    
     def __init__(self):
         super().__init__("background.png") # Change to start menu background
 
@@ -72,15 +81,14 @@ class StartMenu(State):
         self.screen.blit(username_text, username_rect)
                     
     def main_menu(self):
+        """Opens the main menu."""
+
         # Create menu
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
         else: 
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
-
-        
-        
 
         # Add buttons to the menu
         self.menu.add.button('Start Game', self.manager.set_state, Level1_1)
@@ -92,6 +100,8 @@ class StartMenu(State):
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
 
     def instructions_menu(self):
+        """Opens the instructions menu."""
+        
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
@@ -107,6 +117,11 @@ class StartMenu(State):
 
 
     def minigames_menu(self):
+        """
+        Opens the minigames menu and allows you to pick a specific minigame to 
+        play.
+        """
+        
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
@@ -124,6 +139,8 @@ class StartMenu(State):
         self.menu.add.button('Back', self.main_menu)
 
     def leaderboard_menu(self):
+        """Opens the leaderboard menu."""
+
         # Fetch and display the leaderboard
         leaderboard_data = self.leaderboard.fetch_leaderboard()
         if (self.current_theme == "Light"):
@@ -145,6 +162,8 @@ class StartMenu(State):
         self.menu.add.button('Back', self.main_menu)
 
     def options_menu(self):
+        """Opens the options menu."""
+        
         # Create options menu
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
@@ -168,7 +187,7 @@ class StartMenu(State):
         self.menu.add.button('Back', self.main_menu)
 
     def toggle(self):
-        
+        """Toggles the current menu theme."""
       
         if(self.current_theme == "Light"):
            
@@ -212,12 +231,16 @@ class StartMenu(State):
 
 
     def increase_volume(self):
+        """Increases game volume."""
+        
         global volume
         volume = min(volume + 0.1, 1.0)  # Increase volume by 0.1, but ensure it doesn't exceed 1.0
         pg.mixer.music.set_volume(volume)
         self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
 
     def decrease_volume(self):
+        """Decreases game volume."""
+        
         global volume
         volume = max(volume - 0.1, 0.0)  # Decrease volume by 0.1, but ensure it doesn't go below 0.0
         pg.mixer.music.set_volume(volume)
@@ -225,8 +248,15 @@ class StartMenu(State):
         
         
 class PauseMenu(State):
+    """State for the pause menu
+
+    Args:
+        timer (Timer, optional): Timer passed from level or minigame so that
+            the pause menu can resume it. Defaults to None.
+    """
     
     def __init__(self, timer: Timer=None):
+        
         super().__init__()
         self.timer = timer
         self.theme_config = load_theme_config()
@@ -251,12 +281,16 @@ class PauseMenu(State):
         self.menu.draw(self.screen)
         
     def resume(self):
+        """Resumes the level/minigame timer."""
+        
         if self.timer:
             self.timer.resume()
 
         self.manager.pop_state()
 
     def options_menu(self):
+        """Opens the options menu."""
+        
         # Create options menu
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
@@ -275,18 +309,24 @@ class PauseMenu(State):
         self.menu.add.button('Back', self.back_to_pause_menu)
 
     def increase_volume(self):
+        """Increases game volume."""
+        
         global volume
         volume = min(volume + 0.1, 1.0)  # Increase volume by 0.1, but ensure it doesn't exceed 1.0
         pg.mixer.music.set_volume(volume)
         self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
 
     def decrease_volume(self):
+        """Decreases game volume."""
+
         global volume
         volume = max(volume - 0.1, 0.0)  # Decrease volume by 0.1, but ensure it doesn't go below 0.0
         pg.mixer.music.set_volume(volume)
         self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
 
     def back_to_pause_menu(self):
+        """Returns to the pause menu."""
+        
         # Revert to the original pause menu
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
@@ -298,6 +338,8 @@ class PauseMenu(State):
         self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
 
 class UsernamePrompt(State):
+    """State for the username prompt screen."""
+    
     def __init__(self):
         super().__init__()
         self.input_rect = pg.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 12, 200, 24)
@@ -345,6 +387,8 @@ class UsernamePrompt(State):
         self.screen.blit(self.text_surface, self.text_rect)
 
     def draw_gradient_background(self):
+        """Draws a colorful, constantly changing gradient background."""
+
         # Draw gradient background
         for y in range(SCREEN_HEIGHT):
             # Calculate color based on y position and time for gradient movement
@@ -357,6 +401,7 @@ class UsernamePrompt(State):
 
 
 class WinScreen(TimedState):
+    """State for the win screen after a minigame."""
     
     def __init__(self, next_state, extra_text="", timer=None, img=None):
         super().__init__(time=3, next_state=next_state, clear=True, timer=timer, img=img)
@@ -375,6 +420,8 @@ class WinScreen(TimedState):
         
         
 class LoseScreen(TimedState):
+    """State for the lose screen after a minigame."""
+    
     def __init__(self, next_state, prev_state, extra_text="", img=None):
         super().__init__(time=3, next_state=next_state, img=img)
         self.prev_state = prev_state
@@ -392,6 +439,13 @@ class LoseScreen(TimedState):
         self.screen.blit(self.lose_text, self.lose_text_pos)
 
 class MinigameMenu_WinScreen(TimedState):
+    """
+    State for the win screen after a minigame.
+    
+    The only difference between this and the `WinScreen` state is that this
+    state returns to the minigame menu.
+    """
+
     def __init__(self, next_state, prev_state, extra_text="", img=None):
         super().__init__(time=3, next_state=next_state, img=img)
         self.prev_state = prev_state
