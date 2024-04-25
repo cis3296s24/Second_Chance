@@ -1,7 +1,6 @@
 from .menu.title_screen import TitleScreen
 from .state import State
 
-
 class StateManager:
     """Responsible for updating the state of the game."""
 
@@ -9,7 +8,7 @@ class StateManager:
         """Create state stack and initialize game state to the title screen."""
         self.state_stack = []
         self.state = None
-
+       
         self.set_state(TitleScreen)
 
     def set_state(self, state, save_prev=False, clear=False):
@@ -31,7 +30,7 @@ class StateManager:
 
         # TODO remove these print statements
         print(f"\n{self.state.__class__.__name__}")  # Show current state
-        print([state.__class__.__name__ for state in self.state_stack])  # Show state stack
+        print([state.__class__.__name__ for state in self.state_stack]) # Show state stack
 
     def pop_state(self):
         """If there is at least one state saved in the state stack, pop that
@@ -44,3 +43,4 @@ class StateManager:
     def get_prev_state(self):
         """Returns the previous state."""
         return self.state_stack[-1] if len(self.state_stack) >= 1 else None
+            

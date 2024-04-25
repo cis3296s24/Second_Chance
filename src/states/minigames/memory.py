@@ -1,9 +1,10 @@
+import pygame as pg
 import os
 import random
 
-import pygame as pg
-
 from src.states.minigames.minigame import Minigame
+
+from pygame.locals import *
 
 
 class Memory(Minigame):
@@ -38,9 +39,9 @@ class Memory(Minigame):
         self.is_string_currently_displayed = False
         self.was_string_displayed_yet = False
         self.clock = pg.time.Clock()
-
+            
     def handle_events(self, events):
-        super().handle_events(events)  # To enable pause menu access
+        super().handle_events(events) # To enable pause menu access
         for event in events:
             if event.type == pg.KEYDOWN and self.input_active:
                 if event.key == pg.K_RETURN:
@@ -66,12 +67,11 @@ class Memory(Minigame):
                 self.input_active = True
 
     def draw(self):
-        super().draw()  # Draw minigame background
+        super().draw() # Draw minigame background
 
         # Render and display generated string
-        if self.generated_text_surf and (self.timer.get_time_milliseconds() > 0):
-            self.screen.blit(self.generated_text_surf,
-                             ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2, 200))
+        if self.generated_text_surf and (self.timer.get_time_milliseconds()>0):
+            self.screen.blit(self.generated_text_surf, ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2, 200))
 
         # Draw input box if the generated string has disappeared
         if not self.is_string_currently_displayed and self.was_string_displayed_yet:
