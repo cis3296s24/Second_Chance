@@ -2,31 +2,31 @@ import pygame as pg
 import pygame_menu
 
 import src.states.menu.menus as menu
+import src.states.menu.title_screen as ts
 from src.states.state import State
 from src.utils.timer import Timer
-import src.states.menu.title_screen as ts
+
 
 class Minigame(State):
     """Base class for a minigame."""
 
     def __init__(self, instructions: str, img=None):
         super().__init__(img)
-        
+
         self.instructions = instructions
         self.instructions_enabled = True
         self.won = None
         self.countdown_over = False
 
         self.level = self.manager.get_prev_state()
-        self.minigame_state = self # The current minigame state
+        self.minigame_state = self  # The current minigame state
         self.timer = Timer()
         self.timer_text = self.get_text_surface(
             f"Time: {self.timer.get_time(ms=True)}", "white", 36)
 
-
     def handle_events(self, events):
         for event in events:
-            if event.type == pg.KEYDOWN:    
+            if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.manager.set_state(menu.PauseMenu(self.timer), save_prev=True)
 
@@ -34,20 +34,20 @@ class Minigame(State):
         self.timer_text = self.get_text_surface(
             f"Time: {self.timer.get_time(ms=True):.3f}",
             "white", 36)
-        
-        if self.instructions_enabled: # Only run the instructions once
+
+        if self.instructions_enabled:  # Only run the instructions once
             self.manager.set_state(MinigameInstructions(self.instructions), save_prev=True)
             self.instructions_enabled = False
-            
-        if self.won: 
+
+        if self.won:
             self.win()
         elif self.won == False:
             self.lose()
-            
+
     def draw(self):
         super().draw()  # Draw default background passed in as img parameter
         self.screen.blit(self.timer_text, (self.screen.get_width() - 190, 20))
-        
+
     def win(self):
         if self.level:
             """What should happen after every minigame when the player wins."""
@@ -56,32 +56,33 @@ class Minigame(State):
             self.level.player.rect.midbottom = self.level.player.last_ground_pos.midtop
             # TODO Make player invincible upon re-entering level state
             # TODO Save minigame time somewhere
-            
+
             # Get the current state, which should be the minigame
             self.manager.set_state(
                 menu.WinScreen(self.level, self.minigame_state.win_text, self.level.timer), save_prev=True
             )
         else:
             self.manager.set_state(
-            menu.MinigameMenu_WinScreen(menu.StartMenu, self.minigame_state), 
-            save_prev=True, 
-            clear=True
-        )
-        
+                menu.MinigameMenu_WinScreen(menu.StartMenu, self.minigame_state),
+                save_prev=True,
+                clear=True
+            )
+
     def lose(self):
         if self.level:
             """Go back to title screen."""
             self.manager.set_state(
-                menu.LoseScreen(ts.TitleScreen, self.minigame_state), 
-                save_prev=True, 
+                menu.LoseScreen(ts.TitleScreen, self.minigame_state),
+                save_prev=True,
                 clear=True
             )
         else:
             self.manager.set_state(
-            menu.LoseScreen(menu.StartMenu, self.minigame_state), 
-            save_prev=True, 
-            clear=True
-        )
+                menu.LoseScreen(menu.StartMenu, self.minigame_state),
+                save_prev=True,
+                clear=True
+            )
+
 
 class MinigameInstructions(State):
     """State that holds and displays a pygame_menu.Menu object, to not interfere
@@ -104,7 +105,7 @@ class MinigameInstructions(State):
 
     def draw(self):
         if self.menu.is_enabled():
-            self.menu.draw(self.screen) # pygame_menu needs self.screen parameter for some reason
+            self.menu.draw(self.screen)  # pygame_menu needs self.screen parameter for some reason
 
     def create_menu(self, instructions: str):
         menu = pygame_menu.Menu('Instructions', 600, 350,
@@ -134,14 +135,14 @@ class Countdown(State):
         time = self.timer.get_time()
 
         if time > 3.5:
-            self.manager.pop_state() # Go back to minigame
+            self.manager.pop_state()  # Go back to minigame
             self.minigame_timer.start()
             self.prev_state.countdown_over = True
         elif time > 2:
             text = "GO!"
-            self.pos = ((self.screen.get_width() / 2)-40, self.pos[1]) # Readjust when it displays GO
-        elif 2 >= time >= 0: 
-            text = str(int(time+1)) # A bad way to make this display normally
+            self.pos = ((self.screen.get_width() / 2) - 40, self.pos[1])  # Readjust when it displays GO
+        elif 2 >= time >= 0:
+            text = str(int(time + 1))  # A bad way to make this display normally
 
         self.text = self.get_text_surface(text, "white", font_size=72)
 

@@ -1,12 +1,12 @@
 import collections
-import pygame as pg
 import os
 import random
 
+import pygame as pg
 
 import src.utils.spritesheet as spritesheet
-from src.states.state import State
 from src.states.minigames.minigame import Minigame
+from src.states.state import State
 from src.utils.timer import Timer
 
 pg.mixer.init()
@@ -88,7 +88,7 @@ class ButtonMemory(Minigame):
 
         if self.countdown_over and self.should_display_buttons:
             # Override the minigame timer because it was started after countdown
-            self.timer = Timer() 
+            self.timer = Timer()
             self.should_display_buttons = False
             self.manager.set_state(
                 ButtonDisplayer(

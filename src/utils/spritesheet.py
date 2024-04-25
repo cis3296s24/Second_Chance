@@ -1,5 +1,7 @@
 import pygame
+
 import src.entities.sprite as sp
+
 
 class SpriteSheet:
 
@@ -22,18 +24,18 @@ class SpriteSheet:
         :param skip: A tuple of numbers to skip
         :param pos: A list of tuples for where to set each sprite's rect
         """
-        
+
         # Extract individual sprites
         sprites = []
         pos_index = 0
         for y in range(rows):
             for x in range(cols):
-                if (y, x) in skip: continue # Skip chosen sprites
-                
+                if (y, x) in skip: continue  # Skip chosen sprites
+
                 # Calculate the position of the sprite in the spritesheet
                 sprite_x = x * width
                 sprite_y = y * height
-                
+
                 # Create a subsurface representing the current sprite
                 surface = self.sheet.subsurface((sprite_x, sprite_y, width, height))
                 surface = pygame.transform.scale(surface, (width * scale, height * scale))
@@ -43,10 +45,10 @@ class SpriteSheet:
                     rect = surface.get_rect(topleft=(pos[pos_index]))
                     pos_index += 1
                     if pos_index == len(pos): pos_index = 0
-                    
+
                 sprite = sp.Sprite(surface, rect)
-                
+
                 # Append the sprite to the list of sprites
                 sprites.append(sprite)
-                
+
         return sprites

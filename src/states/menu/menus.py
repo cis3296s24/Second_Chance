@@ -1,30 +1,28 @@
+import json
+import math
+
 import pygame as pg
 import pygame_menu
-import math
-import json
-
-from src.constants import *
-from src.states.state import State, TimedState
-from src.utils.leaderboard import LeaderboardManager
-from src.utils.timer import Timer
-
-from src.states.minigames.memory import Memory
-from src.states.minigames.reflexes import Reflexes
-from src.states.minigames.matching_game import Matching
-from src.states.minigames.reaction_time import ReactionTime
-from src.states.minigames.flying_green import FlyingGreen
-from src.states.minigames.calculate import Calculate
-from src.states.minigames.button_memory import ButtonMemory
-
-
-from ..levels.level1_1 import Level1_1
 
 # Not using relative import to handle circular import issue when importing TitleScreen
 # TODO Fix this later
 import src.states.menu.title_screen as ts
+from src.constants import *
+from src.states.minigames.button_memory import ButtonMemory
+from src.states.minigames.calculate import Calculate
+from src.states.minigames.flying_green import FlyingGreen
+from src.states.minigames.matching_game import Matching
+from src.states.minigames.memory import Memory
+from src.states.minigames.reaction_time import ReactionTime
+from src.states.minigames.reflexes import Reflexes
+from src.states.state import State, TimedState
+from src.utils.leaderboard import LeaderboardManager
+from src.utils.timer import Timer
+from ..levels.level1_1 import Level1_1
 
 # Global variable for volume
 volume = 0.5  # Initial volume value, you can set it to any value you desire
+
 
 def load_theme_config():
     try:
@@ -33,13 +31,15 @@ def load_theme_config():
     except FileNotFoundError:
         return {'theme': 'Light'}  # Default theme
 
+
 def save_theme_config(theme):
     with open('theme_config.json', 'w') as file:
         json.dump({'theme': theme}, file)
 
+
 class StartMenu(State):
     def __init__(self):
-        super().__init__("background.png") # Change to start menu background
+        super().__init__("background.png")  # Change to start menu background
 
         self.leaderboard = LeaderboardManager(self.game)
 
@@ -48,41 +48,37 @@ class StartMenu(State):
         self.theme_config = load_theme_config()
         self.current_theme = self.theme_config['theme']  # Load theme from configuration
 
-        
         self.main_menu()
-        
+
     def handle_events(self, events):
         if self.menu.is_enabled():
             self.menu.update(events)
-        
+
         for event in events:
             if event.type != pg.KEYDOWN:
                 return
             if event.key == pg.K_ESCAPE:
                 self.manager.set_state(ts.TitleScreen)
-                
+
     def draw(self):
-        self.player_name = self.game.username  
+        self.player_name = self.game.username
         self.menu.draw(self.screen)
         username_label = f"Username: {self.player_name}"
         username_text = self.font.render(username_label, True, (255, 255, 255))
 
-        username_rect = username_text.get_rect(topright=(SCREEN_WIDTH - 5, 5))  
+        username_rect = username_text.get_rect(topright=(SCREEN_WIDTH - 5, 5))
 
         self.screen.blit(username_text, username_rect)
-                    
+
     def main_menu(self):
         # Create menu
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
 
-        
-        
-
-        # Add buttons to the menu
+            # Add buttons to the menu
         self.menu.add.button('Start Game', self.manager.set_state, Level1_1)
         self.menu.add.button("Instructions", self.instructions_menu)
         self.menu.add.button("Minigames", self.minigames_menu)
@@ -95,23 +91,22 @@ class StartMenu(State):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
 
-        # Add game instructions
+            # Add game instructions
         instructions_text = "To move, use left and right arrow keys, or a and d\nTo jump, use up arrow key, w, or spacebar\nTo melee attack, use left click or q\nTo range attack, use right click or e"
         self.menu.add.label(instructions_text, max_char=-1, font_size=20)
 
         # Add back button
         self.menu.add.button('Back', self.main_menu)
 
-
     def minigames_menu(self):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
 
         self.menu.add.button('Memory', self.manager.set_state, Memory)
         self.menu.add.button('Reflexes', self.manager.set_state, Reflexes)
@@ -129,11 +124,10 @@ class StartMenu(State):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
 
-
-        # Add leaderboard entries to the menu
+            # Add leaderboard entries to the menu
         if leaderboard_data:
             for i, (name, score) in enumerate(leaderboard_data.items(), start=1):
                 entry_text = f"{i}. {name}: {score}"
@@ -149,10 +143,10 @@ class StartMenu(State):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
 
-        # Add volume control buttons
+            # Add volume control buttons
         self.volume_label = self.menu.add.label('Volume: {}'.format(int(volume * 100)))
         self.volume_label.update_font({'size': 30})  # Set font size for the label
 
@@ -161,21 +155,17 @@ class StartMenu(State):
 
         self.menu.add.button('Toggle dark mode on/off', self.toggle)
 
-    
-
-
         # Add back button
         self.menu.add.button('Back', self.main_menu)
 
     def toggle(self):
-        
-      
-        if(self.current_theme == "Light"):
-           
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+
+        if (self.current_theme == "Light"):
+
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
             self.current_theme = "Dark"
             save_theme_config(self.current_theme)
-                    # Add volume control buttons
+            # Add volume control buttons
             self.volume_label = self.menu.add.label('Volume: {}'.format(int(volume * 100)))
             self.volume_label.update_font({'size': 30})  # Set font size for the label
 
@@ -183,19 +173,16 @@ class StartMenu(State):
             self.menu.add.button('Decrease Volume', self.decrease_volume)
 
             self.menu.add.button('Toggle dark mode on/off', self.toggle)
-
-        
-
 
             # Add back button
             self.menu.add.button('Back', self.main_menu)
 
         else:
-            
+
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
             self.current_theme = "Light"
             save_theme_config(self.current_theme)
-        # Add volume control buttons
+            # Add volume control buttons
             self.volume_label = self.menu.add.label('Volume: {}'.format(int(volume * 100)))
             self.volume_label.update_font({'size': 30})  # Set font size for the label
 
@@ -204,12 +191,8 @@ class StartMenu(State):
 
             self.menu.add.button('Toggle dark mode on/off', self.toggle)
 
-        
-
-
             # Add back button
             self.menu.add.button('Back', self.main_menu)
-
 
     def increase_volume(self):
         global volume
@@ -222,11 +205,11 @@ class StartMenu(State):
         volume = max(volume - 0.1, 0.0)  # Decrease volume by 0.1, but ensure it doesn't go below 0.0
         pg.mixer.music.set_volume(volume)
         self.volume_label.set_title('Volume: {}'.format(int(volume * 100)))
-        
-        
+
+
 class PauseMenu(State):
-    
-    def __init__(self, timer: Timer=None):
+
+    def __init__(self, timer: Timer = None):
         super().__init__()
         self.timer = timer
         self.theme_config = load_theme_config()
@@ -234,13 +217,12 @@ class PauseMenu(State):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
         self.menu.add.button('Return to game', self.resume)
         self.menu.add.button('Options', self.options_menu)
         self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
 
-        
         if self.timer:
             self.timer.pause()
 
@@ -249,7 +231,7 @@ class PauseMenu(State):
 
     def draw(self):
         self.menu.draw(self.screen)
-        
+
     def resume(self):
         if self.timer:
             self.timer.resume()
@@ -261,10 +243,10 @@ class PauseMenu(State):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
 
-        # Add volume control buttons
+            # Add volume control buttons
         self.volume_label = self.menu.add.label('Volume: {}'.format(int(volume * 100)))
         self.volume_label.update_font({'size': 30})  # Set font size for the label
 
@@ -291,11 +273,12 @@ class PauseMenu(State):
         if (self.current_theme == "Light"):
             self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_BLUE)
 
-        else: 
-            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK) 
+        else:
+            self.menu = pygame_menu.Menu('Options', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
         self.menu.add.button('Return to game', self.resume)
         self.menu.add.button('Options', self.options_menu)
         self.menu.add.button("Quit game", self.manager.set_state, ts.TitleScreen, clear=True, accept_kwargs=True)
+
 
 class UsernamePrompt(State):
     def __init__(self):
@@ -328,7 +311,6 @@ class UsernamePrompt(State):
                         if len(self.username) < 15:  # Limiting username to 15 characters
                             self.username += event.unicode
 
-
     def update(self, events):
         # Render the username directly inside the input rectangle
         self.text_surface = self.font.render(self.username, True, (255, 255, 255))
@@ -357,23 +339,23 @@ class UsernamePrompt(State):
 
 
 class WinScreen(TimedState):
-    
+
     def __init__(self, next_state, extra_text="", timer=None, img=None):
         super().__init__(time=3, next_state=next_state, clear=True, timer=timer, img=img)
         self.win_text = self.get_text_surface(f"You won! {extra_text}", "white", font_size=36)
         self.win_text_pos = \
-            ((self.screen.get_width() / 2) - 350, (self.screen.get_height() / 2) - 100)  
-    
+            ((self.screen.get_width() / 2) - 350, (self.screen.get_height() / 2) - 100)
+
     def update(self, events):
         # Must be called to know when to change state
-        super().update(events) 
-        
+        super().update(events)
+
     def draw(self):
         super().draw()
         self.manager.get_prev_state().draw()
         self.screen.blit(self.win_text, self.win_text_pos)
-        
-        
+
+
 class LoseScreen(TimedState):
     def __init__(self, next_state, prev_state, extra_text="", img=None):
         super().__init__(time=3, next_state=next_state, img=img)
@@ -381,15 +363,16 @@ class LoseScreen(TimedState):
         self.lose_text = self.get_text_surface(f"You lose! :( {extra_text}", "white", font_size=36)
         self.lose_text_pos = \
             ((self.screen.get_width() / 2) - 250, (self.screen.get_height() / 2) - 100)
-            
+
     def update(self, events):
         # Must be called to know when to change state
-        super().update(events) 
-        
+        super().update(events)
+
     def draw(self):
         super().draw()
         self.prev_state.draw()
         self.screen.blit(self.lose_text, self.lose_text_pos)
+
 
 class MinigameMenu_WinScreen(TimedState):
     def __init__(self, next_state, prev_state, extra_text="", img=None):
@@ -398,11 +381,11 @@ class MinigameMenu_WinScreen(TimedState):
         self.lose_text = self.get_text_surface(f"You won! {extra_text}", "white", font_size=36)
         self.lose_text_pos = \
             ((self.screen.get_width() / 2) - 250, (self.screen.get_height() / 2) - 100)
-            
+
     def update(self, events):
         # Must be called to know when to change state
-        super().update(events) 
-        
+        super().update(events)
+
     def draw(self):
         super().draw()
         self.prev_state.draw()
