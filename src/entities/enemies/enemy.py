@@ -1,7 +1,8 @@
-import pygame as pg
-import time
 import os
-import math
+import time
+
+import pygame as pg
+
 
 class Enemy(pg.sprite.Sprite):
     """Base enemy class.
@@ -21,41 +22,42 @@ class Enemy(pg.sprite.Sprite):
         max_health (int): Enemy max health.
         strength (int): How much damage the enemy does to the player.
     """
-    
+
     def __init__(
-        self, 
-        x: int, y: int, 
-        platform_group: pg.sprite.Group, 
-        tiles: list[pg.Surface],
-        image: pg.Surface, 
-        speed: int, 
-        vertical_speed: int, 
-        gravity: int,
-        health: int,
-        max_health: int,
-        strength: int,
+            self,
+            x: int, y: int,
+            platform_group: pg.sprite.Group,
+            tiles: list[pg.Surface],
+            image: pg.Surface,
+            speed: int,
+            vertical_speed: int,
+            gravity: int,
+            health: int,
+            max_health: int,
+            strength: int,
     ):
         super().__init__()
         self.screen = pg.display.get_surface()
-        
+
         # Load sprite image
         self.image = pg.image.load(
-            os.path.join("assets/enemies", f"{image}/{image}.png"), 
+            os.path.join("assets/enemies", f"{image}/{image}.png"),
         ).convert_alpha()
         self.original_image = self.image  # Store the original image
         # self.rect = self.image.get_rect()
-        self.rect = pg.Rect(x,y,50,50)
-        self.rect.center = (x,y)
-        
+        self.rect = pg.Rect(x, y, 50, 50)
+        self.rect.center = (x, y)
+
         # Define hitbox
-        self.hitbox = pg.Rect(x - 10, y - 10, self.rect.width + 20, self.rect.height + 20)  # Adjust hitbox size as needed
+        self.hitbox = pg.Rect(x - 10, y - 10, self.rect.width + 20,
+                              self.rect.height + 20)  # Adjust hitbox size as needed
 
         self.platform_group = platform_group
         self.on_ground = False
         self.scale_factor = 2
         self.strength = strength
         self.tile_list = tiles
-        
+
         # Set movement pattern
         self.direction = 1  # 1 for moving right, -1 for moving left
         self.speed = speed
@@ -83,10 +85,10 @@ class Enemy(pg.sprite.Sprite):
 
         # Load the sound effect
         self.hit_sound = pg.mixer.Sound(os.path.join("assets/soundeffects", f"{image}hit.mp3"))
- 
+
     def move(self):
         """Adjusts the enemy's position on the screen."""
-        
+
         # Apply gravity
         self.vertical_speed += self.gravity
         self.rect.y += self.vertical_speed
@@ -103,7 +105,7 @@ class Enemy(pg.sprite.Sprite):
         elif self.rect.left <= self.left_boundary:
             self.direction = 1  # Change direction to right when reaching left boundary
             self.image = self.original_image  # Restore the original 
-        
+
     def update(self, player):
         """
         Check for conditions that may affect the enemy's position and update
@@ -112,7 +114,7 @@ class Enemy(pg.sprite.Sprite):
         Args:
             player (pygame.sprite.Sprite): The player sprite.
         """
-        
+
         # Movement
         self.move()
 
@@ -122,7 +124,7 @@ class Enemy(pg.sprite.Sprite):
         # Keep rect in screen
         # self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
         self.rect.y = max(0, min(self.screen.get_height() - self.rect.height, self.rect.y))
-                
+
         # Check for collision with the player
         if self.rect.colliderect(player.rect):
             # If collision occurs, decrease player's health
@@ -143,7 +145,8 @@ class Enemy(pg.sprite.Sprite):
         health_bar_y = self.rect.y + self.health_bar_offset_y
 
         # Draw the health bar
-        pg.draw.rect(self.screen, self.health_bar_color, (health_bar_x, health_bar_y, self.health / self.max_health * self.health_bar_length, self.health_bar_height))
+        pg.draw.rect(self.screen, self.health_bar_color, (
+        health_bar_x, health_bar_y, self.health / self.max_health * self.health_bar_length, self.health_bar_height))
         self.screen.blit(self.image, self.rect.topleft)  # Draw the sprite
 
     def check_collision(self):
@@ -171,7 +174,7 @@ class Enemy(pg.sprite.Sprite):
                 elif self.speed < 0:
                     if self.rect.colliderect(tile.rect):
                         self.rect.left = tile.rect.right
-        
+
     def decrease_health(self, amount):
         """Decreases the enemy's health. 
 
@@ -205,6 +208,7 @@ class EnemyGroup(pg.sprite.Group):
     A group class to hold members of the Enemy class used mainly to override
     the pygame.sprite.Group draw() method.
     """
+
     def draw(self):
         for sprite in self.sprites():
             Enemy.draw(sprite)

@@ -1,26 +1,25 @@
 import csv
 import random
+
 import pygame as pg
 
 import src.entities.enemies.enemy as enemy
 import src.states.menu.menus as menus
 import src.states.menu.winscreen as winscreen
-from src.utils.leaderboard import LeaderboardManager
 from src.constants import *
-from src.entities.player import Player
+from src.entities.enemies.archer import archer
 from src.entities.enemies.eyeball import Eyeball
 from src.entities.enemies.skeleton import Skeleton
-from src.entities.enemies.archer import archer
 from src.entities.enemies.wolf import Wolf
-
-
+from src.entities.player import Player
 from src.objects.tiles import Tile
 from src.states.minigames.minigame import Minigame
 from src.states.state import State
+from src.utils.leaderboard import LeaderboardManager
 from src.utils.timer import Timer
 
+
 # Necessary to access minigames from the minigames package
-from src.states.minigames import *
 
 
 class Level(State):
@@ -40,7 +39,7 @@ class Level(State):
         self.level = level
         self.scroll = 0
         self.level_scroll = 0
-        self.timer = Timer(start=True) # Timer starts when it's instantiated
+        self.timer = Timer(start=True)  # Timer starts when it's instantiated
         self.init_tiles()
         self.init_sprites()
         self.init_attributes()
@@ -56,7 +55,7 @@ class Level(State):
 
     def update(self, events):
         self.current_time = self.timer.get_time(ms=True)
-        
+
         self.scroll = self.player.update()
         self.enemies.update(self.player)
         self.objects.update(self.scroll)
@@ -64,20 +63,20 @@ class Level(State):
 
         # Check for collision between player's melee attacks and enemy
 
-        collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False, False)  # Change False to True to remove the melee attack sprite upon collision
+        collisions = pg.sprite.groupcollide(self.player.melee_attacks, self.enemies, False,
+                                            False)  # Change False to True to remove the melee attack sprite upon collision
         range_attack_collisions = pg.sprite.groupcollide(self.player.range_attacks, self.enemies, True, False)
-        
 
         for attack, enemies in collisions.items():
             for enemy in enemies:
                 enemy.decrease_health(attack.damage_value)
-        for attack,enemies in range_attack_collisions.items():
+        for attack, enemies in range_attack_collisions.items():
             for enemy in enemies:
                 enemy.decrease_health(attack.damage_value)
 
-        for portal in self.portals: 
+        for portal in self.portals:
             if portal.rect.colliderect(self.player.rect):
-                if len(self.enemies) == 0: # If no enemies left
+                if len(self.enemies) == 0:  # If no enemies left
                     # Transition to the start menu state
 
                     timer = LeaderboardManager(self.game)
@@ -94,7 +93,7 @@ class Level(State):
             self.timer.pause()
             self.player.SC_count += 1
             self.manager.set_state(
-                globals()[random.choice(self.minigames)], # Select a random minigame
+                globals()[random.choice(self.minigames)],  # Select a random minigame
                 save_prev=True)
 
     def draw(self):
@@ -110,7 +109,7 @@ class Level(State):
 
     def init_tiles(self):
         """Initializes level tiles."""
-        
+
         self.world_data = []
         self.tile_list = []
 
@@ -132,7 +131,7 @@ class Level(State):
 
     def init_sprites(self):
         """Initializes level sprites."""
-        
+
         self.platforms = pg.sprite.Group()
         self.portals = pg.sprite.Group()
         self.tiles = pg.sprite.Group()
@@ -146,13 +145,13 @@ class Level(State):
 
     def init_attributes(self):
         """Initializes level attributes."""
-        
+
         # Timed events
         self.current_time = 0
         self.last_portal_time = 0
-        self.next_portal_time = 0 # Next time to display message
-        self.instruction_duration = 5 # Amount of seconds to display message
-        
+        self.next_portal_time = 0  # Next time to display message
+        self.instruction_duration = 5  # Amount of seconds to display message
+
         # A list of all current minigames
         self.minigames = [cls.__name__ for cls in Minigame.__subclasses__()]
 
@@ -176,7 +175,7 @@ class Level(State):
         Args:
             imgArr (list[str]): List of background image paths.
         """
-        
+
         self.bg_images = []
 
         if imgArr is not None:
@@ -192,7 +191,7 @@ class Level(State):
         Args:
             music_file (str): Music file name to load.
         """
-        
+
         # Load background music
         pg.mixer.music.load(os.path.join("assets/music", f"{music_file}"))
         self.volume = menus.volume  # Initial volume level (between 0 and 1)
@@ -209,7 +208,7 @@ class Level(State):
         self.health_text_surface = self.get_text_surface(
             f"Health: {self.player.health}", "white", font_size=36
         )
-        
+
         # Determine if kill_instruction should be displayed on the screen
         if self.current_time > self.next_portal_time:
             if self.last_portal_time > self.next_portal_time:
@@ -218,8 +217,8 @@ class Level(State):
         else:
             self.kill_instruction = self.get_text_surface(
                 "You must kill all enemies before you can enter the portal", "red", font_size=36
-            )  
-        
+            )
+
     def draw_bg(self):
         """
         Draws the background images according to the player's scroll value.
@@ -246,7 +245,7 @@ class Level(State):
 
     def draw_text_surfaces(self):
         """Draws all of the visible text surfaces within the level."""
-        
+
         self.screen.blit(self.controls, (20, 20))
         self.screen.blit(self.health_text_surface, (20, 50))
         self.screen.blit(self.timer_text, (self.screen.get_width() - 220, 20))
@@ -265,7 +264,7 @@ class World:
         platform_group (pygame.sprite.Group): Group of platforms.
         enemy_group (pygame.sprite.Group): Group of enemies.
     """
-    
+
     def __init__(self, tile_list, objects, tiles, platform_group, enemy_group):
         self.tile_list = tile_list
         self.objects = objects
@@ -312,7 +311,7 @@ class World:
                     elif tile == 20:
                         pass
                     img = self.tile_list[tile]
-                    t = Tile(img, x * TILE_SIZE, y * TILE_SIZE, tile) 
+                    t = Tile(img, x * TILE_SIZE, y * TILE_SIZE, tile)
                     if collision:
                         self.tiles.add(t)
                     else:

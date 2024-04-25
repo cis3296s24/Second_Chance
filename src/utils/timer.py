@@ -19,7 +19,7 @@ class Timer:
         color (str): The color of the timer's text to display
         screen (pygame.Surface): The screen to draw to.
     """
-    
+
     def __init__(self, start_time=0, start=False):
         self.start_time = start_time
         self.paused_time = self.start_time
@@ -61,7 +61,7 @@ class Timer:
             time = self.paused_time
 
         return time
-            
+
     def get_time(self, ms=False):
         """Returns the elapsed time in seconds (by default).
 
@@ -73,11 +73,11 @@ class Timer:
             int | float: The time in seconds or seconds with 3 decimal 
                 precision.
         """
-        if ms: # Seconds with 3 decimal precision
+        if ms:  # Seconds with 3 decimal precision
             return self.get_time_milliseconds() / 1000
-        else: # Seconds
+        else:  # Seconds
             return self.get_time_milliseconds() // 1000
-    
+
     def display_time(self, font, pos=(0, 0)):
         """Draws the elapsed time onto the screen.
 

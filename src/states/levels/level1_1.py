@@ -1,10 +1,6 @@
+from src.objects.portal import Portal  # Import portal class
 from .level import Level
-from src.objects.platforms import Platform
-from src.entities.enemies.eyeball import Eyeball  # Import the Eyeball class
-from src.entities.enemies.skeleton import Skeleton  # Import the Skeleton class
-from src.entities.enemies.archer import archer
-from src.entities.enemies.wolf import Wolf # Import the Wolf class
-from src.objects.portal import Portal # Import portal class
+
 
 class Level1_1(Level):
     def __init__(self):
@@ -14,7 +10,7 @@ class Level1_1(Level):
             music_file="levelmusic.mp3",
             imgArr=imgArr
         )
-    
+
     def add_portal(self):
         # Add portal at specific coordinates
         self.portal = Portal(3500, 400, "assets/backgrounds/portal.png", 150, 150)

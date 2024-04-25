@@ -1,11 +1,9 @@
-import pygame as pg
 import os
 import random
 
+import pygame as pg
 
 from src.states.minigames.minigame import Minigame
-
-from pygame.locals import *
 
 
 class Calculate(Minigame):
@@ -34,16 +32,16 @@ class Calculate(Minigame):
         self.font = pg.font.SysFont(None, 36)
         self.generated_text_surf = None
         self.display_time = 10
-        self.display_timer = 0  
+        self.display_timer = 0
         self.is_string_currently_displayed = False
         self.was_string_displayed_yet = False
         self.clock = pg.time.Clock()
         self.firstNum = 0
         self.secondNum = 0
         self.sign = ''
-            
+
     def handle_events(self, events):
-        super().handle_events(events) # To enable pause menu access
+        super().handle_events(events)  # To enable pause menu access
         for event in events:
             if event.type == pg.KEYDOWN and self.input_active:
                 if event.key == pg.K_RETURN:
@@ -64,10 +62,11 @@ class Calculate(Minigame):
             self.input_active = True
 
     def draw(self):
-        super().draw() # Draw minigame background
-        if self.timer.get_time_milliseconds()>0:
+        super().draw()  # Draw minigame background
+        if self.timer.get_time_milliseconds() > 0:
             if self.generated_text_surf:
-                self.screen.blit(self.generated_text_surf, ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2 + 30, 200))
+                self.screen.blit(self.generated_text_surf,
+                                 ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2 + 30, 200))
 
                 pg.draw.rect(self.screen, (255, 255, 255), self.input_rect, 2)
                 input_text_surf = self.font.render(self.input_string, True, (255, 255, 255))
@@ -80,29 +79,29 @@ class Calculate(Minigame):
             str: The math question to answer.
         """
 
-        self.firstNum = random.randint(1,20)
-        self.secondNum = random.randint(1,20)
+        self.firstNum = random.randint(1, 20)
+        self.secondNum = random.randint(1, 20)
         self.sign = random.choice(["+", "-", "x"])
-        question = '{}{}{}='.format(self.firstNum,self.sign,self.secondNum)
+        question = '{}{}{}='.format(self.firstNum, self.sign, self.secondNum)
         return question
 
     def check_win_condition(self):
         """Sets the win condition depending on what the user inputted."""
-        
+
         # check the player enter the correct answer
-        if(self.sign == '+'):
+        if (self.sign == '+'):
             if (self.firstNum + self.secondNum == int(self.input_string)):
                 self.won = True
                 self.win_text = "\\o/"
             else:
                 self.won = False
-        if(self.sign == '-'):
+        if (self.sign == '-'):
             if (self.firstNum - self.secondNum == int(self.input_string)):
                 self.won = True
                 self.win_text = "\\o/"
             else:
                 self.won = False
-        if(self.sign == 'x'):
+        if (self.sign == 'x'):
             if (self.firstNum * self.secondNum == int(self.input_string)):
                 self.won = True
                 self.win_text = "\\o/"
