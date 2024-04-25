@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class Portal(pg.sprite.Sprite):
     def __init__(self, x, y, image_path, width, height):
         super().__init__()

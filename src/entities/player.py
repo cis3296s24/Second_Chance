@@ -1,43 +1,46 @@
-import pygame as pg
 import math
 import time
 
+import pygame as pg
+
+from src.constants import *
 from src.entities.attack import MeleeAttack
 from src.entities.attack import RangeAttack
-from src.constants import *
 from src.utils.timer import Timer
+
 
 class Player(pg.sprite.Sprite):
 
     def __init__(self, x, y, platform_group, portal_group, obstacle_list, enemies_group):
 
         super().__init__()
-        
+
         self.screen = pg.display.get_surface()
         self.size = (100, 100)
         self.animation = [
-            pg.transform.scale(pg.image.load(f"assets/characters/R{i}.png"), self.size).convert_alpha() 
-                for i in range(1, 10)]
-        
-        self.image = pg.image.load(f"assets/characters/stand.png") 
-        self.image = pg.transform.scale(self.image, (self.image.get_width() * 2, self.image.get_height() * 2))  # Scale the sprite
+            pg.transform.scale(pg.image.load(f"assets/characters/R{i}.png"), self.size).convert_alpha()
+            for i in range(1, 10)]
+
+        self.image = pg.image.load(f"assets/characters/stand.png")
+        self.image = pg.transform.scale(self.image,
+                                        (self.image.get_width() * 2, self.image.get_height() * 2))  # Scale the sprite
         self.idle = self.image
-        self.rect = self.image.get_rect()  
-        
+        self.rect = self.image.get_rect()
+
         # Set the rect for the sprite
         self.rect.center = (x, y)
         self.rect.width //= 2
         self.rect.height //= 2
         self.sprite_x = 0
-        self.sprite_y = 0 
-        
+        self.sprite_y = 0
+
         # Player actions and state
         self.is_moving = False
         self.on_ground = False
         self.is_jumping = False
         self.direction = "right"
         self.last_ground_pos = pg.Rect(0, 0, 0, 0)
-        
+
         # Player inputs
         self.up_press = False
         self.left_press = False
@@ -45,7 +48,7 @@ class Player(pg.sprite.Sprite):
         self.movement_pressed = False
         self.melee_pressed = False
         self.ranged_pressed = False
-        
+
         # Animation variables
         self.index = 0
         self.counter = 0
@@ -53,7 +56,7 @@ class Player(pg.sprite.Sprite):
         self.scroll = 0
         self.level_scroll = 0
         self.scroll_amount = 3
-        
+
         self.platform_group = platform_group
         self.portal_group = portal_group
         self.obstacle_list = obstacle_list
@@ -63,10 +66,10 @@ class Player(pg.sprite.Sprite):
         self.invincible = False  # Attribute to track player's invincibility state
         self.invincible_duration = 1.5  # Duration of invincibility frames in seconds
         self.last_hit_time = 0  # Time when the player was last hit
-        
+
         self.timer = Timer(start=True)
         self.last_health_increase_time = 0
-        self.health_duration = 3 # How often to increase HP in seconds
+        self.health_duration = 3  # How often to increase HP in seconds
         self.health_increase_amount = 10
 
         self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
@@ -79,15 +82,15 @@ class Player(pg.sprite.Sprite):
         self.ranged_attack_cooldown = 3  # Cooldown duration for the ranged attack in seconds
 
         self.ranged_attack_count = 0  # Initialize the counter for ranged attacks
-        self.ranged_attack_max = 10 # Maximum number of ranged attack uses the player has
+        self.ranged_attack_max = 10  # Maximum number of ranged attack uses the player has
 
         # Load the sound effects
         self.hit_sound = pg.mixer.Sound("assets/soundeffects/playerhit.mp3")
         self.melee_attack_sound = pg.mixer.Sound("assets/soundeffects/meleeattack.mp3")
         self.ranged_attack_sound = pg.mixer.Sound("assets/soundeffects/rangedattack.mp3")
-        
-        self.font = pg.font.Font(None, 20) # TODO
-        
+
+        self.font = pg.font.Font(None, 20)  # TODO
+
         self.speed = 2
         self.gravity = 0.5
         self.vel_y = 0
@@ -100,7 +103,7 @@ class Player(pg.sprite.Sprite):
         self.health_bar_height = 10  # Height of the health bar
         self.health_bar_color = (0, 255, 0)  # Green color for the health bar
         self.SC_count = 0
-        
+
         # Define hitbox
         self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
 
@@ -108,54 +111,54 @@ class Player(pg.sprite.Sprite):
         self.dx = 0
         self.dy = 0
         self.scroll = 0
-        
+
         # Apply gravity
         self.vel_y += self.gravity
         self.dy += self.vel_y
-        
+
         # Set variables depending on input
         self.input()
-        
+
         # Move depending on variables set
         self.move()
-            
+
         # Get current time to check for timed events
-        current_time = self.timer.get_time(ms=True)    
-        
+        current_time = self.timer.get_time(ms=True)
+
         self.handle_animation()
-        
+
         # If falling, we're not on ground
         if self.vel_y > 0:
             self.on_ground = False
-        
+
         # Check collision with platforms
         self.check_collision()
-        
+
         # Kill player if they have fallen into a gap
         if self.rect.top - 50 >= self.screen.get_height():
             self.health = 0
-            
+
         # Jumping
         if self.on_ground and self.is_jumping:
             self.jump()
-        
+
         # Update rect
         self.rect.x += self.dx
         self.rect.y += self.dy
-        
+
         # Update hitbox
         self.hitbox.y += self.vel_y
 
         self.check_invincibility()
-        
+
         # Increase HP after a certain amount of time has passed
         if current_time - self.last_health_increase_time > self.health_duration:
             self.increase_health(self.health_increase_amount)
             self.last_health_increase_time = current_time
-        
+
         # Keep rect in screen
         self.rect.x = max(0, min(self.screen.get_width() - self.rect.width, self.rect.x))
-        
+
         # To center sprite in rect
         self.sprite_x = self.rect.x + (self.rect.width - self.image.get_width()) // 2
         self.sprite_y = self.rect.y + (self.rect.height - self.image.get_height()) // 2
@@ -163,17 +166,17 @@ class Player(pg.sprite.Sprite):
         # Create a melee attack instance at the player's position
         if self.direction == "right":
             melee_attack = MeleeAttack(self.rect.centerx + 20, self.rect.centery, self.direction, damage_value=25)
-            range_attack = RangeAttack(self.rect.centerx + 10,self.rect.centery,self.direction,damage_value= 25)
+            range_attack = RangeAttack(self.rect.centerx + 10, self.rect.centery, self.direction, damage_value=25)
         else:
             melee_attack = MeleeAttack(self.rect.centerx - 20, self.rect.centery, self.direction, damage_value=25)
-            range_attack = RangeAttack(self.rect.centerx - 10,self.rect.centery,self.direction,damage_value= 25)
-            
+            range_attack = RangeAttack(self.rect.centerx - 10, self.rect.centery, self.direction, damage_value=25)
+
         # Check for initiating attack
         if self.melee_pressed and not self.attack_initiated:
             self.melee_attack_sound.play()
             self.melee_attacks.add(melee_attack)
             self.attack_initiated = True
-            
+
         if not self.melee_pressed:
             self.attack_initiated = False
 
@@ -183,7 +186,8 @@ class Player(pg.sprite.Sprite):
         current_time = time.time()
 
         # Check if enough time has passed since the last ranged attack
-        if (current_time - self.last_ranged_attack_time >= self.ranged_attack_cooldown) or (self.last_ranged_attack_time == 0):
+        if (current_time - self.last_ranged_attack_time >= self.ranged_attack_cooldown) or (
+                self.last_ranged_attack_time == 0):
             # Allow ranged attack initiation if the count is less than the maximum
             if self.ranged_pressed and not self.rangeAttack_initiated and self.ranged_attack_count < self.ranged_attack_max:
                 self.ranged_attack_sound.play()
@@ -193,12 +197,12 @@ class Player(pg.sprite.Sprite):
                 self.ranged_attack_count += 1
                 # Update the time of the last ranged attack
                 self.last_ranged_attack_time = current_time
-        
+
         if not self.ranged_pressed:
             self.rangeAttack_initiated = False
-        
+
         self.range_attacks.update()
-        
+
         if self.rect.x > SCREEN_WIDTH - SCROLL_THRESH:
             self.rect.x = SCREEN_WIDTH - SCROLL_THRESH
             self.scroll = self.scroll_amount
@@ -206,31 +210,31 @@ class Player(pg.sprite.Sprite):
         # Scroll by the amount moved horizontally
         self.level_scroll += self.scroll
 
-        for enemy in self.enemies_group: 
+        for enemy in self.enemies_group:
             if self.direction == "right":
                 enemy.rect.x -= self.scroll
             else:
                 enemy.rect.x += self.scroll + 2
-        
+
         return -self.scroll
 
     def input(self):
         keys = pg.key.get_pressed()
         mouse_buttons = pg.mouse.get_pressed()
-        
-        self.melee_pressed = keys[pg.K_q] or mouse_buttons[0] # Q and left click for melee attack
-        self.ranged_pressed = keys[pg.K_e] or mouse_buttons[2] # E and right click for ranged attack 
-        
+
+        self.melee_pressed = keys[pg.K_q] or mouse_buttons[0]  # Q and left click for melee attack
+        self.ranged_pressed = keys[pg.K_e] or mouse_buttons[2]  # E and right click for ranged attack
+
         self.up_press = keys[pg.K_SPACE] or keys[pg.K_UP] or keys[pg.K_w]
         self.left_press = keys[pg.K_LEFT] or keys[pg.K_a]
         self.right_press = keys[pg.K_RIGHT] or keys[pg.K_d]
         self.movement_pressed = self.left_press or self.right_press
-        
+
         self.is_jumping = self.up_press
-        
+
         if self.movement_pressed:
             self.is_moving = True
-            if self.left_press:     
+            if self.left_press:
                 self.direction = "left"
             elif self.right_press:
                 self.direction = "right"
@@ -240,12 +244,12 @@ class Player(pg.sprite.Sprite):
     def move(self):
         if self.movement_pressed:
             self.counter += 1
-            
+
             if self.left_press and not self.right_press:
                 if self.level_scroll > 0:
                     self.dx -= self.speed
                     self.scroll = -self.scroll_amount
-                
+
             elif self.right_press and not self.left_press:
                 if self.scroll > 5000:
                     self.dx = 0
@@ -264,7 +268,7 @@ class Player(pg.sprite.Sprite):
     def check_collision(self):
         # Check if hitbox (after being updated) collides with platform
         hitbox_after = pg.Rect(
-            self.rect.x, self.rect.y + math.ceil(self.vel_y), 
+            self.rect.x, self.rect.y + math.ceil(self.vel_y),
             self.rect.width, self.rect.height
         )
         for platform in self.platform_group:
@@ -272,13 +276,13 @@ class Player(pg.sprite.Sprite):
                 # if currently falling (and only when above the platform)
                 if self.vel_y > 0 and self.rect.bottom <= platform.rect.top:
                     self.dy = 0
-                    self.vel_y = 0 # stop falling
+                    self.vel_y = 0  # stop falling
                     self.on_ground = True
-        
+
         x_check = pg.Rect(self.rect.x + self.dx, self.rect.y, self.rect.width, self.rect.height)
         y_check = pg.Rect(self.rect.x, self.rect.y + math.ceil(self.dy),
-        self.rect.width, self.rect.height)
-        
+                          self.rect.width, self.rect.height)
+
         for tile in self.obstacle_list:
             # Horizontal collision
             if tile.rect.colliderect(x_check):
@@ -288,15 +292,15 @@ class Player(pg.sprite.Sprite):
                     self.rect.right = tile.rect.left - 1
                 elif self.left_press:
                     self.rect.left = tile.rect.right + 1
-                continue # Don't bother checking vertical collision if horizontal collision detected
-                    
+                continue  # Don't bother checking vertical collision if horizontal collision detected
+
             # Vertical collision
             if tile.rect.colliderect(y_check):
-                if self.vel_y < 0: # If jumping up
+                if self.vel_y < 0:  # If jumping up
                     self.dy = 0
                     self.vel_y = 0
                     self.rect.top = tile.rect.bottom
-                elif self.vel_y > 0: # If falling
+                elif self.vel_y > 0:  # If falling
                     self.dy = tile.rect.top - self.rect.bottom
                     self.vel_y = 0
                     self.on_ground = True
@@ -307,24 +311,24 @@ class Player(pg.sprite.Sprite):
 
     def handle_animation(self):
         if self.counter > self.walk_cooldown:
-            self.counter = 0	
+            self.counter = 0
             self.index += 1
             if self.index >= len(self.animation):
                 self.index = 0
-                
+
         animation = self.animation[self.index]
 
         if not self.is_moving:
             self.image = self.idle
         else:
             self.image = animation
-            
+
         flip = self.direction == "left"
-        self.image = pg.transform.flip(self.image, flip, False)    
-        
+        self.image = pg.transform.flip(self.image, flip, False)
+
     def draw(self):
         self.screen.blit(self.image, (self.sprite_x, self.sprite_y))
-        self.melee_attacks.draw(self.screen) 
+        self.melee_attacks.draw(self.screen)
 
         # Draw melee attacks
         self.melee_attacks.draw(self.screen)
@@ -334,7 +338,7 @@ class Player(pg.sprite.Sprite):
         self.draw_range_attack_count()
 
         SC_count = f"Second Chance Count: {self.SC_count}"
-        SC_count_text= self.font.render(SC_count, True, (255, 255, 255))  # White color text
+        SC_count_text = self.font.render(SC_count, True, (255, 255, 255))  # White color text
         self.screen.blit(SC_count_text, (19, 100))
 
     def decrease_health(self, amount):
@@ -366,7 +370,7 @@ class Player(pg.sprite.Sprite):
         # Render the text for displaying the remaining ranged attacks count
         text_count = f"{10 - self.ranged_attack_count}"
         text_surface_count = self.font.render(text_count, True, (255, 255, 255))  # White color text
-        
+
         # Render the static label "Arrows Left:"
         text_label = "Arrows Left: "
         text_surface_label = self.font.render(text_label, True, (255, 255, 255))  # White color text
@@ -390,7 +394,7 @@ class Player(pg.sprite.Sprite):
 
     def debug(self):
         text = \
-      	f"""
+            f"""
      	Grounded: {self.on_ground}
 		| (dx, dy) : {(self.dx, self.dy)}
         | (rect.x, rect.y): {(self.rect.x, self.rect.y)} 
