@@ -79,8 +79,13 @@ class ReactionTime(Minigame):
             )
         
     def generate_random_key(self):
-        """Generates a random lowercase key from a-z."""
+        """Generates a random lowercase key from a-z.
+
+        Returns:
+            int: A random number representing a pygame.KEY constant.
+        """
         return random.choice([getattr(pg.locals, f'K_{chr(key)}') for key in range(ord('a'), ord('z') + 1)])
 
     def get_timer(self):
+        """Returns the reaction timer."""
         return self.reaction_timer

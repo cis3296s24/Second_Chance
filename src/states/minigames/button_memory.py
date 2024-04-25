@@ -143,12 +143,27 @@ class ButtonMemory(Minigame):
 
     def get_arrow_spritesheet(self, image):
         """Return a spritesheet of the arrow image in the folder it's currently
-        located in."""
+        located in.
+
+        Args:
+            image (str): Image file name.
+
+        Returns:
+            Spritesheet object of the loaded arrow image. 
+        """
         return spritesheet.SpriteSheet(
             os.path.join(self.game.assets_dir, "images", image)
         )
 
     def get_arrow_dict(self):
+        """
+        Returns a dictionary containing the arrow type names as keys, and
+        a list of arrow `Sprite` objects for each key.
+
+        Returns:
+            dict[str, list[Sprite]]: Dictionary of arrow names to list of 
+                sprites.
+        """
         arrows = {}
 
         arrow_width = arrow_height = 32
@@ -180,15 +195,32 @@ class ButtonMemory(Minigame):
         return arrows
 
     def generate_random_sequence(self, length):
-        """Return a sequence of randomly generated arrow keys of a certain
-        length (with replacement)."""
+        """
+        Return a sequence of randomly generated arrow keys of a certain
+        length (with replacement).
+
+        Args:
+            length (int): Length of sequence.
+
+        Returns:
+            list[str]: A random sequence of arrows.
+        """
         return random.choices(self.arrow_types, k=length)
 
 
 class ButtonDisplayer(State):
-    """This state shows the correct sequence of buttons to the player."""
+    """This state shows the correct sequence of buttons to the player.
+
+    Args:
+        sequence (list[str]): A random sequence of arrows.
+        arrows (dict[str, list[Sprite]]): Dictionary of arrow names to list of 
+            sprites.
+        time_delay (float): Amount of time that between each arrow press.
+        minigame_timer (Timer): Timer from minigame.
+    """
 
     def __init__(self, sequence, arrows, time_delay, minigame_timer):
+        
         super().__init__()
         self.sequence = sequence
         self.arrows = arrows
@@ -249,4 +281,5 @@ key_press_sound = pg.mixer.Sound("assets/soundeffects/key_press.wav")
 
 
 def play_key_sound():
+    """Plays a sound when an arrow key is pressed."""
     key_press_sound.play()

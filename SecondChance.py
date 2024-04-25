@@ -6,7 +6,17 @@ from src.states.state_manager import StateManager
 from src.states.state import State
 
 class Game:
-    """The Game class contains the main game loop.
+    """
+    The Game class contains the main game loop and variables that should be
+    accessible throughout the game.
+
+    Attributes:
+        screen (pygame.Surface): The screen to draw to.
+        clock (pygame.time.Clock): Used to maintain a constant frame rate.
+        running (bool): Used to keep the game loop running.
+        username (str): Username of the player.
+        manager (StateManager): State manager used to switch between different
+            states in the game.
     """
     
     def __init__(self):
@@ -26,6 +36,7 @@ class Game:
         setattr(State, "manager", self.manager)
 
     def run(self):
+        """Runs the main game loop."""
         while self.running: 
             events = pg.event.get()
             for event in events:
@@ -41,6 +52,7 @@ class Game:
             self.clock.tick(FRAME_RATE)
             
     def load_assets(self):
+        """Allows states to access assets from different directories."""
         self.assets_dir = os.path.join("assets")
         self.character_dir = os.path.join(self.assets_dir, "characters")
         self.background_dir = os.path.join(self.assets_dir, "backgrounds")
@@ -53,4 +65,3 @@ if __name__ == "__main__":
     g.run()
     pg.quit()
     sys.exit()
-    

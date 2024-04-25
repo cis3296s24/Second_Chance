@@ -8,9 +8,25 @@ from src.constants import *
 from src.utils.timer import Timer
 
 class Player(pg.sprite.Sprite):
+    """Represents the character controlled by the user.
 
-    def __init__(self, x, y, platform_group, portal_group, obstacle_list, enemies_group):
+    Args:
+        x (int): x position to spawn at.
+        y (int): y position to spawn at.
+        platform_group (pygame.sprite.Group): Group to check collision with.
+        portal_group (pygame.sprite.Group): Group to check collision with.
+        obstacle_list (pygame.sprite.Group): Group to check collision with.
+        enemies_group (pygame.sprite.Group): Group to check collision with.
+    """
 
+    def __init__(
+        self, 
+        x: int, y: int, 
+        platform_group: pg.sprite.Group, 
+        portal_group: pg.sprite.Group, 
+        obstacle_list: pg.sprite.Group,
+        enemies_group: pg.sprite.Group
+    ):
         super().__init__()
         
         self.screen = pg.display.get_surface()
@@ -105,6 +121,11 @@ class Player(pg.sprite.Sprite):
         self.hitbox = pg.Rect(x, y, self.rect.width, self.rect.height)
 
     def update(self):
+        """Updates the position of the player's rect.
+
+        Returns:
+            int: The amount for other visible sprites to scroll on the screen.
+        """
         self.dx = 0
         self.dy = 0
         self.scroll = 0
@@ -215,6 +236,8 @@ class Player(pg.sprite.Sprite):
         return -self.scroll
 
     def input(self):
+        """Sets player class variables according to inputs from the user."""
+
         keys = pg.key.get_pressed()
         mouse_buttons = pg.mouse.get_pressed()
         
@@ -238,6 +261,8 @@ class Player(pg.sprite.Sprite):
             self.is_moving = False
 
     def move(self):
+        """Determines horizontal and scroll movement."""
+
         if self.movement_pressed:
             self.counter += 1
             
@@ -257,11 +282,17 @@ class Player(pg.sprite.Sprite):
             self.scroll = 0
 
     def jump(self):
+        """Performs a jump."""
+
         self.vel_y = self.jump_strength
         self.dy += self.vel_y
         self.on_ground = False
 
     def check_collision(self):
+        """
+        Checks for collision with various tile sprites and adjusts the player's movement or rect position accordingly.
+        """
+        
         # Check if hitbox (after being updated) collides with platform
         hitbox_after = pg.Rect(
             self.rect.x, self.rect.y + math.ceil(self.vel_y), 
@@ -306,6 +337,8 @@ class Player(pg.sprite.Sprite):
                         self.last_ground_pos = tile.rect
 
     def handle_animation(self):
+        """Sets the direction and current frame of animation for the player."""
+        
         if self.counter > self.walk_cooldown:
             self.counter = 0	
             self.index += 1
@@ -323,6 +356,8 @@ class Player(pg.sprite.Sprite):
         self.image = pg.transform.flip(self.image, flip, False)    
         
     def draw(self):
+        """Draws the player and any player attacks onto the screen."""
+        
         self.screen.blit(self.image, (self.sprite_x, self.sprite_y))
         self.melee_attacks.draw(self.screen) 
 
@@ -338,6 +373,11 @@ class Player(pg.sprite.Sprite):
         self.screen.blit(SC_count_text, (19, 100))
 
     def decrease_health(self, amount):
+        """Decreases the player's health.
+
+        Args:
+            amount (int): Amount to decrease health.
+        """
         # Check if the player is currently invincible
         if not self.invincible:
             self.health -= amount
@@ -353,16 +393,25 @@ class Player(pg.sprite.Sprite):
             self.hit_sound.play()
 
     def check_invincibility(self):
-        # Check if the player is currently invincible and if the invincibility duration has elapsed
+        """
+        Checks for player invincibility and disables it if the invincibility duration has elapsed.
+        """
         if self.invincible and time.time() - self.last_hit_time > self.invincible_duration:
-            self.invincible = False  # Reset invincibility once the duration has passed
+            self.invincible = False
 
     def increase_health(self, amount):
+        """Increases the player's health.
+
+        Args:
+            amount (int): Amount to increase health.
+        """
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
 
     def draw_range_attack_count(self):
+        """Calculates and draws the range attack count."""
+        
         # Render the text for displaying the remaining ranged attacks count
         text_count = f"{10 - self.ranged_attack_count}"
         text_surface_count = self.font.render(text_count, True, (255, 255, 255))  # White color text
@@ -388,7 +437,7 @@ class Player(pg.sprite.Sprite):
         # Blit the count onto the screen
         self.screen.blit(text_surface_count, (count_x, count_y))
 
-    def debug(self):
+    def _debug(self):
         text = \
       	f"""
      	Grounded: {self.on_ground}

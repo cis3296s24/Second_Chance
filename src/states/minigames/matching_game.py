@@ -16,6 +16,8 @@ blue = (0, 0, 255)
 
 
 class Matching(Minigame):
+    """A minigame where you must match """
+    
     def __init__(self):
         instructions = "The goal of this minigame is to select the boxes with matching numbers. You must get 5 matches within 25 turns"
         super().__init__(instructions)
@@ -88,6 +90,8 @@ class Matching(Minigame):
     
 
     def generate_board(self):
+        """Randomly generates the board."""
+        
         for item in range(self.rows * self.cols // 2):
             self.options_list.append(item)
 
@@ -102,6 +106,15 @@ class Matching(Minigame):
 
     
     def check_guesses(self, first, second):
+        """
+        Adds to the score if the user picked the same number in both of
+        their guesses.
+
+        Args:
+            first (int): The first guess the user picked.
+            second (int): The second guess the user picked.
+        """
+        
         if self.spaces[first] == self.spaces[second]:
             col1 = first // self.rows
             col2 = second // self.rows
@@ -139,6 +152,8 @@ class Matching(Minigame):
 
 
     def draw_backgrounds(self):
+        """Draws the minigame background and text."""
+
         top_menu = pg.draw.rect(self.screen, black, [0, 0, SCREEN_WIDTH, 100])
         title_text = self.title_font.render('The matching game!', True, white)
         self.screen.blit(title_text, (80, 20))
@@ -148,6 +163,12 @@ class Matching(Minigame):
         self.screen.blit(score_text, (550, 520))
     
     def draw_board(self):
+        """Draws the board onto the screen.
+
+        Returns:
+            list[pygame.Rect]: List of `Rect` objects for each piece on the 
+                board.
+        """
         board_list = []
         for i in range(self.cols):
             for j in range(self.rows):

@@ -5,6 +5,17 @@ from src.entities.enemies.enemy import Enemy as enemy
 
 arrows_group = pg.sprite.Group()
 class MeleeAttack(pg.sprite.Sprite):
+    """Sprite to represent a melee attack performed by the player.
+
+    Args:
+        x (int): x position of the attack,
+        y (int): y position of the attack.
+        player_direction (str): Direction that the player is currently
+            facing. 
+        damage_value (int, optional): Amount of damage that this attack does. 
+            Defaults to 25.
+    """
+    
     def __init__(self, x, y, player_direction, damage_value=25):
         super().__init__()
         self.screen = pg.display.get_surface()
@@ -24,6 +35,8 @@ class MeleeAttack(pg.sprite.Sprite):
         return imageLoad
 
     def update(self):
+        """Animates the attack."""
+                
         # Animate the attack
         self.animation_timer += 1
         if self.animation_timer >= self.animation_speed:
@@ -35,9 +48,21 @@ class MeleeAttack(pg.sprite.Sprite):
                 self.animation_timer = 0
 
     def draw(self):
+        """Draws the attack onto the screen."""
+        
         self.screen.blit(self.image, self.rect.topleft)
 
 class RangeAttack(pg.sprite.Sprite):
+    """Sprite to represent a range attack performed by the player.
+
+    Args:
+        x (int): x position of the attack,
+        y (int): y position of the attack.
+        player_direction (str): Direction that the player is currently
+            facing. 
+        damage_value (int, optional): Amount of damage that this attack does. 
+            Defaults to 25.
+    """
     
     def __init__(self, x, y, player_direction, damage_value=25):
         super().__init__()
@@ -50,8 +75,9 @@ class RangeAttack(pg.sprite.Sprite):
         self.rect.center = (x, y)
 
     def update(self):
+        """Updates the position of the attack."""
         self.rect.x += (self.direction * self.speed)
                 
     def draw(self):
+        """Draws the attack onto the screen."""
         self.screen.blit(self.image,self.rect.topleft)
-
