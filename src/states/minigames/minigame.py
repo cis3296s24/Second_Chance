@@ -11,14 +11,18 @@ class Minigame(State):
 
     def __init__(self, instructions: str, img=None):
         super().__init__(img)
+        
         self.instructions = instructions
         self.instructions_enabled = True
         self.won = None
+        self.countdown_over = False
+
         self.level = self.manager.get_prev_state()
         self.minigame_state = self # The current minigame state
         self.timer = Timer()
         self.timer_text = self.get_text_surface(
             f"Time: {self.timer.get_time(ms=True)}", "white", 36)
+
 
     def handle_events(self, events):
         for event in events:
@@ -119,7 +123,8 @@ class Countdown(State):
 
     def __init__(self, img=None):
         super().__init__(img)
-        self.minigame_timer = self.manager.get_prev_state().timer
+        self.prev_state = self.manager.get_prev_state()
+        self.minigame_timer = self.prev_state.timer
         self.timer = Timer(start_time=1, start=True)
         self.text = self.get_text_surface(str(3), "white", font_size=72)
         self.pos = (self.screen.get_width() / 2, self.screen.get_height() / 2)
@@ -131,6 +136,7 @@ class Countdown(State):
         if time > 3.5:
             self.manager.pop_state() # Go back to minigame
             self.minigame_timer.start()
+            self.prev_state.countdown_over = True
         elif time > 2:
             text = "GO!"
             self.pos = ((self.screen.get_width() / 2)-40, self.pos[1]) # Readjust when it displays GO
@@ -140,5 +146,5 @@ class Countdown(State):
         self.text = self.get_text_surface(text, "white", font_size=72)
 
     def draw(self):
-        self.manager.get_prev_state().draw()
+        self.prev_state.draw()
         self.screen.blit(self.text, self.pos)
