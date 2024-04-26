@@ -11,7 +11,6 @@ from src.utils.timer import Timer
 
 pg.mixer.init()
 
-
 class ButtonMemory(Minigame):
     """A minigame to test your memory."""
 
@@ -24,6 +23,9 @@ class ButtonMemory(Minigame):
         img = "button_memory.jpg"
 
         super().__init__(instructions, img=os.path.join("minigames", img))
+
+        self.key_press_sound = pg.mixer.Sound(os.path.join(self.game.sounds_dir, "key_press.wav"))
+        
 
         # Minigame specific attributes
         self.categories = ["normal", "green", "red"]
@@ -81,7 +83,7 @@ class ButtonMemory(Minigame):
                 if self.key:
                     self.has_pressed = True
                     self.sequence_current_index += 1
-                    play_key_sound()
+                    self.play_key_sound()
 
     def update(self, events):
         super().update(events)
@@ -92,6 +94,7 @@ class ButtonMemory(Minigame):
             self.should_display_buttons = False
             self.manager.set_state(
                 ButtonDisplayer(
+                    self,
                     self.random_sequence,
                     self.arrows,
                     self.display_time,
@@ -206,6 +209,11 @@ class ButtonMemory(Minigame):
             list[str]: A random sequence of arrows.
         """
         return random.choices(self.arrow_types, k=length)
+    
+    def play_key_sound(self):
+        """Plays a sound when an arrow key is pressed."""
+        self.key_press_sound.play()
+
 
 
 class ButtonDisplayer(State):
@@ -219,9 +227,10 @@ class ButtonDisplayer(State):
         minigame_timer (Timer): Timer from minigame.
     """
 
-    def __init__(self, sequence, arrows, time_delay, minigame_timer):
+    def __init__(self, minigame, sequence, arrows, time_delay, minigame_timer):
 
         super().__init__()
+        self.minigame = minigame
         self.sequence = sequence
         self.arrows = arrows
         self.colored_arrow = None
@@ -255,7 +264,7 @@ class ButtonDisplayer(State):
             if self.category == "green":
                 self.current_sequence_index += 1
                 if self.current_sequence_index < len(self.sequence):
-                    play_key_sound()
+                    self.minigame.play_key_sound()
 
         if 0 <= self.current_sequence_index <= len(self.sequence) - 1:
             current_arrow = self.sequence[self.current_sequence_index]
@@ -275,11 +284,3 @@ class ButtonDisplayer(State):
             self.screen.blit(self.colored_arrow.surface, self.colored_arrow.rect)
 
         self.screen.blit(self.text, (310, 300))
-
-
-key_press_sound = pg.mixer.Sound("assets/soundeffects/key_press.wav")
-
-
-def play_key_sound():
-    """Plays a sound when an arrow key is pressed."""
-    key_press_sound.play()

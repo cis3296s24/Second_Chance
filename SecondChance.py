@@ -59,6 +59,8 @@ class Game:
         self.character_dir = os.path.join(self.assets_dir, "characters")
         self.background_dir = os.path.join(self.assets_dir, "backgrounds")
         self.resources_dir = os.path.join("resources")
+        self.sounds_dir = os.path.join(self.assets_dir, "soundeffects")
+        self.music = os.path.join(self.assets_dir, "music")
 
 
 if __name__ == "__main__":
