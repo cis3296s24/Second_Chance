@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>states.levels package &#8212; Second_Chance 5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=ee801c84"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="states-levels-package">
+<h1>states.levels package<a class="headerlink" href="#states-levels-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-states.levels.level">
+<span id="states-levels-level-module"></span><h2>states.levels.level module<a class="headerlink" href="#module-states.levels.level" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.levels.level.Level">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.levels.level.</span></span><span class="sig-name descname"><span class="pre">Level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">music_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imgArr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>General level class.</p>
+<p>Contains all of the attributes and behavior that a level should contain.</p>
+<dl>
+<dt>Args:</dt><dd><p>level (int): Level number.
+music_file (str): Music file name for the current level.
+imgArr (list[str], optional): List of background image paths. Defaults</p>
+<blockquote>
+<div><p>to None.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.draw_bg">
+<span class="sig-name descname"><span class="pre">draw_bg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.draw_bg" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the background images according to the player’s scroll value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.draw_health_bar">
+<span class="sig-name descname"><span class="pre">draw_health_bar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.draw_health_bar" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the player’s health bar.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.draw_text_surfaces">
+<span class="sig-name descname"><span class="pre">draw_text_surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.draw_text_surfaces" title="Link to this definition">¶</a></dt>
+<dd><p>Draws all of the visible text surfaces within the level.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.init_attributes">
+<span class="sig-name descname"><span class="pre">init_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.init_attributes" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes level attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.init_background">
+<span class="sig-name descname"><span class="pre">init_background</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgArr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.init_background" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes level background.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>imgArr (list[str]): List of background image paths.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.init_music">
+<span class="sig-name descname"><span class="pre">init_music</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">music_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.init_music" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes level music.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>music_file (str): Music file name to load.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.init_sprites">
+<span class="sig-name descname"><span class="pre">init_sprites</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.init_sprites" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes level sprites.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.init_tiles">
+<span class="sig-name descname"><span class="pre">init_tiles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.init_tiles" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes level tiles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.Level.update_text">
+<span class="sig-name descname"><span class="pre">update_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.Level.update_text" title="Link to this definition">¶</a></dt>
+<dd><p>Updates all text surfaces displayed within the level.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.levels.level.World">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.levels.level.</span></span><span class="sig-name descname"><span class="pre">World</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tile_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemy_group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.World" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The World class is responsible for loading all of the tiles within the
+level.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tile_list (list[pygame.Surface]): List of tiles.
+objects (pygame.sprite.Group): Group of objects.
+tiles (pygame.sprite.Group): Group of tiles.
+platform_group (pygame.sprite.Group): Group of platforms.
+enemy_group (pygame.sprite.Group): Group of enemies.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level.World.process_data">
+<span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level.World.process_data" title="Link to this definition">¶</a></dt>
+<dd><p>Adds all platforms, tiles, and enemies to their corresponding
+group at their specified spawn position.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>data (list[list[int]]): 2D list of integers that represent</dt><dd><p>different sprites.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.levels.level1_1">
+<span id="states-levels-level1-1-module"></span><h2>states.levels.level1_1 module<a class="headerlink" href="#module-states.levels.level1_1" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.levels.level1_1.Level1_1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.levels.level1_1.</span></span><span class="sig-name descname"><span class="pre">Level1_1</span></span><a class="headerlink" href="#states.levels.level1_1.Level1_1" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#states.levels.level.Level" title="states.levels.level.Level"><code class="xref py py-class docutils literal notranslate"><span class="pre">Level</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.levels.level1_1.Level1_1.add_portal">
+<span class="sig-name descname"><span class="pre">add_portal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.levels.level1_1.Level1_1.add_portal" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.levels">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-states.levels" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Second_Chance</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Michael Pagano, Victor Tran, Ben Stephenson, Enes Mance, Chung Ying Lee.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/states.levels.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

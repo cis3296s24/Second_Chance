@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>states package &#8212; Second_Chance 5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=ee801c84"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="states-package">
+<h1>states package<a class="headerlink" href="#states-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="states.levels.html">states.levels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="states.levels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="states.levels.html#module-states.levels.level">states.levels.level module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.levels.html#states.levels.level.Level"><code class="docutils literal notranslate"><span class="pre">Level</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.draw"><code class="docutils literal notranslate"><span class="pre">Level.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.draw_bg"><code class="docutils literal notranslate"><span class="pre">Level.draw_bg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.draw_health_bar"><code class="docutils literal notranslate"><span class="pre">Level.draw_health_bar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.draw_text_surfaces"><code class="docutils literal notranslate"><span class="pre">Level.draw_text_surfaces()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.handle_events"><code class="docutils literal notranslate"><span class="pre">Level.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.init_attributes"><code class="docutils literal notranslate"><span class="pre">Level.init_attributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.init_background"><code class="docutils literal notranslate"><span class="pre">Level.init_background()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.init_music"><code class="docutils literal notranslate"><span class="pre">Level.init_music()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.init_sprites"><code class="docutils literal notranslate"><span class="pre">Level.init_sprites()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.init_tiles"><code class="docutils literal notranslate"><span class="pre">Level.init_tiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.update"><code class="docutils literal notranslate"><span class="pre">Level.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.Level.update_text"><code class="docutils literal notranslate"><span class="pre">Level.update_text()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.levels.html#states.levels.level.World"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level.World.process_data"><code class="docutils literal notranslate"><span class="pre">World.process_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.levels.html#module-states.levels.level1_1">states.levels.level1_1 module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.levels.html#states.levels.level1_1.Level1_1"><code class="docutils literal notranslate"><span class="pre">Level1_1</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.levels.html#states.levels.level1_1.Level1_1.add_portal"><code class="docutils literal notranslate"><span class="pre">Level1_1.add_portal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.levels.html#module-states.levels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="states.menu.html">states.menu package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="states.menu.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="states.menu.html#module-states.menu.menus">states.menu.menus module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.LoseScreen"><code class="docutils literal notranslate"><span class="pre">LoseScreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.LoseScreen.draw"><code class="docutils literal notranslate"><span class="pre">LoseScreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.LoseScreen.update"><code class="docutils literal notranslate"><span class="pre">LoseScreen.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.MinigameMenu_WinScreen"><code class="docutils literal notranslate"><span class="pre">MinigameMenu_WinScreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.MinigameMenu_WinScreen.draw"><code class="docutils literal notranslate"><span class="pre">MinigameMenu_WinScreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.MinigameMenu_WinScreen.update"><code class="docutils literal notranslate"><span class="pre">MinigameMenu_WinScreen.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu"><code class="docutils literal notranslate"><span class="pre">PauseMenu</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.back_to_pause_menu"><code class="docutils literal notranslate"><span class="pre">PauseMenu.back_to_pause_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.decrease_volume"><code class="docutils literal notranslate"><span class="pre">PauseMenu.decrease_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.draw"><code class="docutils literal notranslate"><span class="pre">PauseMenu.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.handle_events"><code class="docutils literal notranslate"><span class="pre">PauseMenu.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.increase_volume"><code class="docutils literal notranslate"><span class="pre">PauseMenu.increase_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.options_menu"><code class="docutils literal notranslate"><span class="pre">PauseMenu.options_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.PauseMenu.resume"><code class="docutils literal notranslate"><span class="pre">PauseMenu.resume()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu"><code class="docutils literal notranslate"><span class="pre">StartMenu</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.decrease_volume"><code class="docutils literal notranslate"><span class="pre">StartMenu.decrease_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.draw"><code class="docutils literal notranslate"><span class="pre">StartMenu.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.handle_events"><code class="docutils literal notranslate"><span class="pre">StartMenu.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.increase_volume"><code class="docutils literal notranslate"><span class="pre">StartMenu.increase_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.instructions_menu"><code class="docutils literal notranslate"><span class="pre">StartMenu.instructions_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.leaderboard_menu"><code class="docutils literal notranslate"><span class="pre">StartMenu.leaderboard_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.main_menu"><code class="docutils literal notranslate"><span class="pre">StartMenu.main_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.minigames_menu"><code class="docutils literal notranslate"><span class="pre">StartMenu.minigames_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.options_menu"><code class="docutils literal notranslate"><span class="pre">StartMenu.options_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.StartMenu.toggle"><code class="docutils literal notranslate"><span class="pre">StartMenu.toggle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.UsernamePrompt"><code class="docutils literal notranslate"><span class="pre">UsernamePrompt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.UsernamePrompt.draw"><code class="docutils literal notranslate"><span class="pre">UsernamePrompt.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.UsernamePrompt.draw_gradient_background"><code class="docutils literal notranslate"><span class="pre">UsernamePrompt.draw_gradient_background()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.UsernamePrompt.handle_events"><code class="docutils literal notranslate"><span class="pre">UsernamePrompt.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.UsernamePrompt.update"><code class="docutils literal notranslate"><span class="pre">UsernamePrompt.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.WinScreen"><code class="docutils literal notranslate"><span class="pre">WinScreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.WinScreen.draw"><code class="docutils literal notranslate"><span class="pre">WinScreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.menus.WinScreen.update"><code class="docutils literal notranslate"><span class="pre">WinScreen.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.load_theme_config"><code class="docutils literal notranslate"><span class="pre">load_theme_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.menus.save_theme_config"><code class="docutils literal notranslate"><span class="pre">save_theme_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.menu.html#module-states.menu.title_screen">states.menu.title_screen module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.title_screen.TitleScreen"><code class="docutils literal notranslate"><span class="pre">TitleScreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.title_screen.TitleScreen.draw"><code class="docutils literal notranslate"><span class="pre">TitleScreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.title_screen.TitleScreen.handle_events"><code class="docutils literal notranslate"><span class="pre">TitleScreen.handle_events()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.menu.html#module-states.menu.winscreen">states.menu.winscreen module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.menu.html#states.menu.winscreen.WinScreen"><code class="docutils literal notranslate"><span class="pre">WinScreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.winscreen.WinScreen.draw"><code class="docutils literal notranslate"><span class="pre">WinScreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.menu.html#states.menu.winscreen.WinScreen.handle_events"><code class="docutils literal notranslate"><span class="pre">WinScreen.handle_events()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.menu.html#module-states.menu">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="states.minigames.html">states.minigames package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.button_memory">states.minigames.button_memory module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonDisplayer"><code class="docutils literal notranslate"><span class="pre">ButtonDisplayer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonDisplayer.draw"><code class="docutils literal notranslate"><span class="pre">ButtonDisplayer.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonDisplayer.update"><code class="docutils literal notranslate"><span class="pre">ButtonDisplayer.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory"><code class="docutils literal notranslate"><span class="pre">ButtonMemory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.draw"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.generate_random_sequence"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.generate_random_sequence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.get_arrow_dict"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.get_arrow_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.get_arrow_spritesheet"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.get_arrow_spritesheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.handle_events"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.play_key_sound"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.play_key_sound()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.button_memory.ButtonMemory.update"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.calculate">states.minigames.calculate module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.calculate.Calculate"><code class="docutils literal notranslate"><span class="pre">Calculate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.calculate.Calculate.check_win_condition"><code class="docutils literal notranslate"><span class="pre">Calculate.check_win_condition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.calculate.Calculate.draw"><code class="docutils literal notranslate"><span class="pre">Calculate.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.calculate.Calculate.generate_random_question"><code class="docutils literal notranslate"><span class="pre">Calculate.generate_random_question()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.calculate.Calculate.handle_events"><code class="docutils literal notranslate"><span class="pre">Calculate.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.calculate.Calculate.update"><code class="docutils literal notranslate"><span class="pre">Calculate.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.flying_green">states.minigames.flying_green module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.FlyingGreen"><code class="docutils literal notranslate"><span class="pre">FlyingGreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.FlyingGreen.draw"><code class="docutils literal notranslate"><span class="pre">FlyingGreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.FlyingGreen.handle_events"><code class="docutils literal notranslate"><span class="pre">FlyingGreen.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.FlyingGreen.update"><code class="docutils literal notranslate"><span class="pre">FlyingGreen.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.TargetCircle"><code class="docutils literal notranslate"><span class="pre">TargetCircle</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.TargetCircle.draw"><code class="docutils literal notranslate"><span class="pre">TargetCircle.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.TargetCircle.is_clicked"><code class="docutils literal notranslate"><span class="pre">TargetCircle.is_clicked()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.flying_green.TargetCircle.update"><code class="docutils literal notranslate"><span class="pre">TargetCircle.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.matching_game">states.minigames.matching_game module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching"><code class="docutils literal notranslate"><span class="pre">Matching</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.check_guesses"><code class="docutils literal notranslate"><span class="pre">Matching.check_guesses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.draw"><code class="docutils literal notranslate"><span class="pre">Matching.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.draw_backgrounds"><code class="docutils literal notranslate"><span class="pre">Matching.draw_backgrounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.draw_board"><code class="docutils literal notranslate"><span class="pre">Matching.draw_board()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.generate_board"><code class="docutils literal notranslate"><span class="pre">Matching.generate_board()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.handle_events"><code class="docutils literal notranslate"><span class="pre">Matching.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.matching_game.Matching.update"><code class="docutils literal notranslate"><span class="pre">Matching.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.memory">states.minigames.memory module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.memory.Memory"><code class="docutils literal notranslate"><span class="pre">Memory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.memory.Memory.check_win_condition"><code class="docutils literal notranslate"><span class="pre">Memory.check_win_condition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.memory.Memory.draw"><code class="docutils literal notranslate"><span class="pre">Memory.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.memory.Memory.generate_random_string"><code class="docutils literal notranslate"><span class="pre">Memory.generate_random_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.memory.Memory.handle_events"><code class="docutils literal notranslate"><span class="pre">Memory.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.memory.Memory.update"><code class="docutils literal notranslate"><span class="pre">Memory.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.minigame">states.minigames.minigame module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Countdown"><code class="docutils literal notranslate"><span class="pre">Countdown</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Countdown.draw"><code class="docutils literal notranslate"><span class="pre">Countdown.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Countdown.update"><code class="docutils literal notranslate"><span class="pre">Countdown.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Minigame"><code class="docutils literal notranslate"><span class="pre">Minigame</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Minigame.draw"><code class="docutils literal notranslate"><span class="pre">Minigame.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Minigame.handle_events"><code class="docutils literal notranslate"><span class="pre">Minigame.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Minigame.lose"><code class="docutils literal notranslate"><span class="pre">Minigame.lose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Minigame.update"><code class="docutils literal notranslate"><span class="pre">Minigame.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.Minigame.win"><code class="docutils literal notranslate"><span class="pre">Minigame.win()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.MinigameInstructions"><code class="docutils literal notranslate"><span class="pre">MinigameInstructions</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.MinigameInstructions.create_menu"><code class="docutils literal notranslate"><span class="pre">MinigameInstructions.create_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.MinigameInstructions.draw"><code class="docutils literal notranslate"><span class="pre">MinigameInstructions.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.minigame.MinigameInstructions.handle_events"><code class="docutils literal notranslate"><span class="pre">MinigameInstructions.handle_events()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.reaction_time">states.minigames.reaction_time module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.reaction_time.ReactionTime"><code class="docutils literal notranslate"><span class="pre">ReactionTime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reaction_time.ReactionTime.draw"><code class="docutils literal notranslate"><span class="pre">ReactionTime.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reaction_time.ReactionTime.generate_random_key"><code class="docutils literal notranslate"><span class="pre">ReactionTime.generate_random_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reaction_time.ReactionTime.get_timer"><code class="docutils literal notranslate"><span class="pre">ReactionTime.get_timer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reaction_time.ReactionTime.handle_events"><code class="docutils literal notranslate"><span class="pre">ReactionTime.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reaction_time.ReactionTime.update"><code class="docutils literal notranslate"><span class="pre">ReactionTime.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames.reflexes">states.minigames.reflexes module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.reflexes.Reflexes"><code class="docutils literal notranslate"><span class="pre">Reflexes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reflexes.Reflexes.draw"><code class="docutils literal notranslate"><span class="pre">Reflexes.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reflexes.Reflexes.generate_square"><code class="docutils literal notranslate"><span class="pre">Reflexes.generate_square()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reflexes.Reflexes.handle_events"><code class="docutils literal notranslate"><span class="pre">Reflexes.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.reflexes.Reflexes.update"><code class="docutils literal notranslate"><span class="pre">Reflexes.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="states.minigames.html#module-states.minigames">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory"><code class="docutils literal notranslate"><span class="pre">ButtonMemory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.draw"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.generate_random_sequence"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.generate_random_sequence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.get_arrow_dict"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.get_arrow_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.get_arrow_spritesheet"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.get_arrow_spritesheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.handle_events"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.play_key_sound"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.play_key_sound()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ButtonMemory.update"><code class="docutils literal notranslate"><span class="pre">ButtonMemory.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.Calculate"><code class="docutils literal notranslate"><span class="pre">Calculate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Calculate.check_win_condition"><code class="docutils literal notranslate"><span class="pre">Calculate.check_win_condition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Calculate.draw"><code class="docutils literal notranslate"><span class="pre">Calculate.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Calculate.generate_random_question"><code class="docutils literal notranslate"><span class="pre">Calculate.generate_random_question()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Calculate.handle_events"><code class="docutils literal notranslate"><span class="pre">Calculate.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Calculate.update"><code class="docutils literal notranslate"><span class="pre">Calculate.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.FlyingGreen"><code class="docutils literal notranslate"><span class="pre">FlyingGreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.FlyingGreen.draw"><code class="docutils literal notranslate"><span class="pre">FlyingGreen.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.FlyingGreen.handle_events"><code class="docutils literal notranslate"><span class="pre">FlyingGreen.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.FlyingGreen.update"><code class="docutils literal notranslate"><span class="pre">FlyingGreen.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.Matching"><code class="docutils literal notranslate"><span class="pre">Matching</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.check_guesses"><code class="docutils literal notranslate"><span class="pre">Matching.check_guesses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.draw"><code class="docutils literal notranslate"><span class="pre">Matching.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.draw_backgrounds"><code class="docutils literal notranslate"><span class="pre">Matching.draw_backgrounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.draw_board"><code class="docutils literal notranslate"><span class="pre">Matching.draw_board()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.generate_board"><code class="docutils literal notranslate"><span class="pre">Matching.generate_board()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.handle_events"><code class="docutils literal notranslate"><span class="pre">Matching.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Matching.update"><code class="docutils literal notranslate"><span class="pre">Matching.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.Memory"><code class="docutils literal notranslate"><span class="pre">Memory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Memory.check_win_condition"><code class="docutils literal notranslate"><span class="pre">Memory.check_win_condition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Memory.draw"><code class="docutils literal notranslate"><span class="pre">Memory.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Memory.generate_random_string"><code class="docutils literal notranslate"><span class="pre">Memory.generate_random_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Memory.handle_events"><code class="docutils literal notranslate"><span class="pre">Memory.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Memory.update"><code class="docutils literal notranslate"><span class="pre">Memory.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.ReactionTime"><code class="docutils literal notranslate"><span class="pre">ReactionTime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ReactionTime.draw"><code class="docutils literal notranslate"><span class="pre">ReactionTime.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ReactionTime.generate_random_key"><code class="docutils literal notranslate"><span class="pre">ReactionTime.generate_random_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ReactionTime.get_timer"><code class="docutils literal notranslate"><span class="pre">ReactionTime.get_timer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ReactionTime.handle_events"><code class="docutils literal notranslate"><span class="pre">ReactionTime.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.ReactionTime.update"><code class="docutils literal notranslate"><span class="pre">ReactionTime.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="states.minigames.html#states.minigames.Reflexes"><code class="docutils literal notranslate"><span class="pre">Reflexes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Reflexes.draw"><code class="docutils literal notranslate"><span class="pre">Reflexes.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Reflexes.generate_square"><code class="docutils literal notranslate"><span class="pre">Reflexes.generate_square()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Reflexes.handle_events"><code class="docutils literal notranslate"><span class="pre">Reflexes.handle_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="states.minigames.html#states.minigames.Reflexes.update"><code class="docutils literal notranslate"><span class="pre">Reflexes.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-states.state">
+<span id="states-state-module"></span><h2>states.state module<a class="headerlink" href="#module-states.state" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.state.State">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.state.</span></span><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state.State" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The State class represents all of the different states that the game
+can be in.</p>
+<dl class="simple">
+<dt>Note: </dt><dd><dl class="simple">
+<dt>If you want to create another state, that state should inherit from </dt><dd><p>this class. You should not manually instantiate a state.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>img (str, optional): Name of the image to load from the game’s </dt><dd><p>background images directory. Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Attributes:</dt><dd><p>game (Game): The main <cite>Game</cite> object.
+manager (StateManager): The <cite>Game</cite> object’s state manager.
+screen (pygame.Surface): The screen to draw to.
+surface (pygame.Surface): The surface to display a background image.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state.State.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.state.State.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="states.state.State.game">
+<span class="sig-name descname"><span class="pre">game</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#states.state.State.game" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state.State.get_text_surface">
+<span class="sig-name descname"><span class="pre">get_text_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">antialias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state.State.get_text_surface" title="Link to this definition">¶</a></dt>
+<dd><p>Helper method to return a pygame.Surface object for displaying text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state.State.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state.State.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="states.state.State.manager">
+<span class="sig-name descname"><span class="pre">manager</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#states.state.State.manager" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state.State.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state.State.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.state.TimedState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.state.</span></span><span class="sig-name descname"><span class="pre">TimedState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#states.state.State" title="states.state.State"><span class="pre">State</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state.TimedState" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#states.state.State" title="states.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a></p>
+<p>A TimedState is a state that automatically ends after a certain amount of time.</p>
+<dl>
+<dt>Args:</dt><dd><p>time (int): Amount of time in seconds before this state ends.
+next_state (State): The next state to switch to after this state</p>
+<blockquote>
+<div><p>ends.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>clear (bool, optional): Parameter passed to StateManager. </dt><dd><p>Defaults to False.</p>
+</dd>
+<dt>timer (Timer, optional): Timer from another state so that this</dt><dd><p>state can resume it. Defaults to None.</p>
+</dd>
+<dt>img (str, optional): Background image to pass to the <cite>State</cite> </dt><dd><p>superclass. Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>_timer (Timer): Used by the update method to end the state when it’s </dt><dd><p>time.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state.TimedState.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state.TimedState.update" title="Link to this definition">¶</a></dt>
+<dd><p>Switches to the next state if enough time has passed. Also resumes the
+timer that was passed into the constructor (usually for the minigame 
+timer).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.state_manager">
+<span id="states-state-manager-module"></span><h2>states.state_manager module<a class="headerlink" href="#module-states.state_manager" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.state_manager.StateManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.state_manager.</span></span><span class="sig-name descname"><span class="pre">StateManager</span></span><a class="headerlink" href="#states.state_manager.StateManager" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Responsible for updating the state of the game.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>state (State): The current game state.
+state_stack (list[State]): A list of states to keep track of when we</p>
+<blockquote>
+<div><p>want to return to one of them.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state_manager.StateManager.get_prev_state">
+<span class="sig-name descname"><span class="pre">get_prev_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.state_manager.StateManager.get_prev_state" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the previous state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state_manager.StateManager.pop_state">
+<span class="sig-name descname"><span class="pre">pop_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.state_manager.StateManager.pop_state" title="Link to this definition">¶</a></dt>
+<dd><p>Pops the last saved state from the state stack.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.state_manager.StateManager.set_state">
+<span class="sig-name descname"><span class="pre">set_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.state_manager.StateManager.set_state" title="Link to this definition">¶</a></dt>
+<dd><p>Sets the current game state to another state.</p>
+<dl>
+<dt>Args:</dt><dd><p>state (State): The class name of the state to switch to.
+save_prev (bool, optional): Whether to save the previous state to</p>
+<blockquote>
+<div><p>the state stack. Defaults to False.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>clear (bool, optional): Whether to clear the state stack after </dt><dd><p>changing state. Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-states" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Second_Chance</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Michael Pagano, Victor Tran, Ben Stephenson, Enes Mance, Chung Ying Lee.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/states.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

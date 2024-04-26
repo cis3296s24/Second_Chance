@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>states.minigames package &#8212; Second_Chance 5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=ee801c84"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="states-minigames-package">
+<h1>states.minigames package<a class="headerlink" href="#states-minigames-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-states.minigames.button_memory">
+<span id="states-minigames-button-memory-module"></span><h2>states.minigames.button_memory module<a class="headerlink" href="#module-states.minigames.button_memory" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonDisplayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.button_memory.</span></span><span class="sig-name descname"><span class="pre">ButtonDisplayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minigame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minigame_timer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonDisplayer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>This state shows the correct sequence of buttons to the player.</p>
+<dl>
+<dt>Args:</dt><dd><p>sequence (list[str]): A random sequence of arrows.
+arrows (dict[str, list[Sprite]]): Dictionary of arrow names to list of</p>
+<blockquote>
+<div><p>sprites.</p>
+</div></blockquote>
+<p>time_delay (float): Amount of time that between each arrow press.
+minigame_timer (Timer): Timer from minigame.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonDisplayer.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonDisplayer.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonDisplayer.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonDisplayer.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.button_memory.</span></span><span class="sig-name descname"><span class="pre">ButtonMemory</span></span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your memory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.generate_random_sequence">
+<span class="sig-name descname"><span class="pre">generate_random_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.generate_random_sequence" title="Link to this definition">¶</a></dt>
+<dd><p>Return a sequence of randomly generated arrow keys of a certain
+length (with replacement).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>length (int): Length of sequence.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list[str]: A random sequence of arrows.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.get_arrow_dict">
+<span class="sig-name descname"><span class="pre">get_arrow_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.get_arrow_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a dictionary containing the arrow type names as keys, and
+a list of arrow <cite>Sprite</cite> objects for each key.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict[str, list[Sprite]]: Dictionary of arrow names to list of </dt><dd><p>sprites.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.get_arrow_spritesheet">
+<span class="sig-name descname"><span class="pre">get_arrow_spritesheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.get_arrow_spritesheet" title="Link to this definition">¶</a></dt>
+<dd><p>Return a spritesheet of the arrow image in the folder it’s currently
+located in.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>image (str): Image file name.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Spritesheet object of the loaded arrow image.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.play_key_sound">
+<span class="sig-name descname"><span class="pre">play_key_sound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.play_key_sound" title="Link to this definition">¶</a></dt>
+<dd><p>Plays a sound when an arrow key is pressed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.button_memory.ButtonMemory.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.button_memory.ButtonMemory.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.calculate">
+<span id="states-minigames-calculate-module"></span><h2>states.minigames.calculate module<a class="headerlink" href="#module-states.minigames.calculate" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.calculate.Calculate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.calculate.</span></span><span class="sig-name descname"><span class="pre">Calculate</span></span><a class="headerlink" href="#states.minigames.calculate.Calculate" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your math skills.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.calculate.Calculate.check_win_condition">
+<span class="sig-name descname"><span class="pre">check_win_condition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.calculate.Calculate.check_win_condition" title="Link to this definition">¶</a></dt>
+<dd><p>Sets the win condition depending on what the user inputted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.calculate.Calculate.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.calculate.Calculate.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.calculate.Calculate.generate_random_question">
+<span class="sig-name descname"><span class="pre">generate_random_question</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.calculate.Calculate.generate_random_question" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a random math question.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: The math question to answer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.calculate.Calculate.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.calculate.Calculate.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.calculate.Calculate.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.calculate.Calculate.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.flying_green">
+<span id="states-minigames-flying-green-module"></span><h2>states.minigames.flying_green module<a class="headerlink" href="#module-states.minigames.flying_green" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.flying_green.FlyingGreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.flying_green.</span></span><span class="sig-name descname"><span class="pre">FlyingGreen</span></span><a class="headerlink" href="#states.minigames.flying_green.FlyingGreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame where you must click on a circle before time runs out.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.flying_green.FlyingGreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.flying_green.FlyingGreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.flying_green.FlyingGreen.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.flying_green.FlyingGreen.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.flying_green.FlyingGreen.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.flying_green.FlyingGreen.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.flying_green.TargetCircle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.flying_green.</span></span><span class="sig-name descname"><span class="pre">TargetCircle</span></span><a class="headerlink" href="#states.minigames.flying_green.TargetCircle" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents the moving green circle that the player must click.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.flying_green.TargetCircle.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.flying_green.TargetCircle.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draw the circle on the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.flying_green.TargetCircle.is_clicked">
+<span class="sig-name descname"><span class="pre">is_clicked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">click_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.flying_green.TargetCircle.is_clicked" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if the circle is clicked.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>click_pos: (x, y) position of where the mouse was clicked.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if the user clicked within the circle’s radius.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.flying_green.TargetCircle.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.flying_green.TargetCircle.update" title="Link to this definition">¶</a></dt>
+<dd><p>Update the position of the circle.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.matching_game">
+<span id="states-minigames-matching-game-module"></span><h2>states.minigames.matching_game module<a class="headerlink" href="#module-states.minigames.matching_game" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.matching_game.</span></span><span class="sig-name descname"><span class="pre">Matching</span></span><a class="headerlink" href="#states.minigames.matching_game.Matching" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame where you must match</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.check_guesses">
+<span class="sig-name descname"><span class="pre">check_guesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.check_guesses" title="Link to this definition">¶</a></dt>
+<dd><p>Adds to the score if the user picked the same number in both of
+their guesses.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>first (int): The first guess the user picked.
+second (int): The second guess the user picked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.draw_backgrounds">
+<span class="sig-name descname"><span class="pre">draw_backgrounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.draw_backgrounds" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the minigame background and text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.draw_board">
+<span class="sig-name descname"><span class="pre">draw_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.draw_board" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the board onto the screen.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>list[pygame.Rect]: List of <cite>Rect</cite> objects for each piece on the </dt><dd><p>board.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.generate_board">
+<span class="sig-name descname"><span class="pre">generate_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.generate_board" title="Link to this definition">¶</a></dt>
+<dd><p>Randomly generates the board.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.matching_game.Matching.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.matching_game.Matching.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.memory">
+<span id="states-minigames-memory-module"></span><h2>states.minigames.memory module<a class="headerlink" href="#module-states.minigames.memory" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.memory.Memory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.memory.</span></span><span class="sig-name descname"><span class="pre">Memory</span></span><a class="headerlink" href="#states.minigames.memory.Memory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your memory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.memory.Memory.check_win_condition">
+<span class="sig-name descname"><span class="pre">check_win_condition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.memory.Memory.check_win_condition" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if the input string matches the generated string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.memory.Memory.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.memory.Memory.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.memory.Memory.generate_random_string">
+<span class="sig-name descname"><span class="pre">generate_random_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.memory.Memory.generate_random_string" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a random 5-character string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.memory.Memory.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.memory.Memory.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.memory.Memory.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.memory.Memory.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.minigame">
+<span id="states-minigames-minigame-module"></span><h2>states.minigames.minigame module<a class="headerlink" href="#module-states.minigames.minigame" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.minigame.Countdown">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.minigame.</span></span><span class="sig-name descname"><span class="pre">Countdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Countdown" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>State to display a countdown before the minigame starts.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>img (str, optional): Name of image to pass to super() constructor. </dt><dd><p>Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Attributes:</dt><dd><p>prev_state (State): Previous state to draw to the screen.
+minigame_timer (Timer): Timer from the minigame to be resumed by this</p>
+<blockquote>
+<div><p>state.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>timer (Timer): Timer used to update the text surface after every </dt><dd><p>second.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Countdown.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Countdown.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Countdown.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Countdown.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.minigame.Minigame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.minigame.</span></span><span class="sig-name descname"><span class="pre">Minigame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Minigame" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>Base class for a minigame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Minigame.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Minigame.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Minigame.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Minigame.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Minigame.lose">
+<span class="sig-name descname"><span class="pre">lose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Minigame.lose" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the player to the title screen or start menu, depending on
+the previous state before the minigame started.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Minigame.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Minigame.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.Minigame.win">
+<span class="sig-name descname"><span class="pre">win</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.Minigame.win" title="Link to this definition">¶</a></dt>
+<dd><p>Sets the minigame to the <cite>WinScreen</cite> state when the player wins, which
+then returns the player to the previous state before they entered the 
+minigame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.minigame.MinigameInstructions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.minigame.</span></span><span class="sig-name descname"><span class="pre">MinigameInstructions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.MinigameInstructions" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>State that holds and displays a pygame_menu.Menu object, to not interfere
+with base Minigame class.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>instructions (str): Instructions to display on the menu.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.MinigameInstructions.create_menu">
+<span class="sig-name descname"><span class="pre">create_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.MinigameInstructions.create_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a <cite>pygame.menu.Menu</cite> object to display the instructions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>instructions (str): Instructions to display on the menu.</p>
+</dd>
+<dt>Returns:</dt><dd><p><cite>pygame.menu.Menu</cite>: The menu object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.MinigameInstructions.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.MinigameInstructions.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.minigame.MinigameInstructions.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.minigame.MinigameInstructions.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.reaction_time">
+<span id="states-minigames-reaction-time-module"></span><h2>states.minigames.reaction_time module<a class="headerlink" href="#module-states.minigames.reaction_time" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.reaction_time.ReactionTime">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.reaction_time.</span></span><span class="sig-name descname"><span class="pre">ReactionTime</span></span><a class="headerlink" href="#states.minigames.reaction_time.ReactionTime" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your reaction time.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reaction_time.ReactionTime.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reaction_time.ReactionTime.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reaction_time.ReactionTime.generate_random_key">
+<span class="sig-name descname"><span class="pre">generate_random_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reaction_time.ReactionTime.generate_random_key" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a random lowercase key from a-z.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: A random number representing a pygame.KEY constant.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reaction_time.ReactionTime.get_timer">
+<span class="sig-name descname"><span class="pre">get_timer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reaction_time.ReactionTime.get_timer" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the reaction timer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reaction_time.ReactionTime.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reaction_time.ReactionTime.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reaction_time.ReactionTime.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reaction_time.ReactionTime.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames.reflexes">
+<span id="states-minigames-reflexes-module"></span><h2>states.minigames.reflexes module<a class="headerlink" href="#module-states.minigames.reflexes" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.reflexes.Reflexes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.reflexes.</span></span><span class="sig-name descname"><span class="pre">Reflexes</span></span><a class="headerlink" href="#states.minigames.reflexes.Reflexes" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your reflexes</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reflexes.Reflexes.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reflexes.Reflexes.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reflexes.Reflexes.generate_square">
+<span class="sig-name descname"><span class="pre">generate_square</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reflexes.Reflexes.generate_square" title="Link to this definition">¶</a></dt>
+<dd><p>Generate three squares at random positions on the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reflexes.Reflexes.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reflexes.Reflexes.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.reflexes.Reflexes.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.reflexes.Reflexes.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.minigames">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-states.minigames" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">ButtonMemory</span></span><a class="headerlink" href="#states.minigames.ButtonMemory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your memory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.generate_random_sequence">
+<span class="sig-name descname"><span class="pre">generate_random_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.generate_random_sequence" title="Link to this definition">¶</a></dt>
+<dd><p>Return a sequence of randomly generated arrow keys of a certain
+length (with replacement).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>length (int): Length of sequence.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list[str]: A random sequence of arrows.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.get_arrow_dict">
+<span class="sig-name descname"><span class="pre">get_arrow_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.get_arrow_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a dictionary containing the arrow type names as keys, and
+a list of arrow <cite>Sprite</cite> objects for each key.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict[str, list[Sprite]]: Dictionary of arrow names to list of </dt><dd><p>sprites.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.get_arrow_spritesheet">
+<span class="sig-name descname"><span class="pre">get_arrow_spritesheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.get_arrow_spritesheet" title="Link to this definition">¶</a></dt>
+<dd><p>Return a spritesheet of the arrow image in the folder it’s currently
+located in.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>image (str): Image file name.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Spritesheet object of the loaded arrow image.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.play_key_sound">
+<span class="sig-name descname"><span class="pre">play_key_sound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.play_key_sound" title="Link to this definition">¶</a></dt>
+<dd><p>Plays a sound when an arrow key is pressed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ButtonMemory.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ButtonMemory.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.Calculate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">Calculate</span></span><a class="headerlink" href="#states.minigames.Calculate" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your math skills.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Calculate.check_win_condition">
+<span class="sig-name descname"><span class="pre">check_win_condition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Calculate.check_win_condition" title="Link to this definition">¶</a></dt>
+<dd><p>Sets the win condition depending on what the user inputted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Calculate.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Calculate.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Calculate.generate_random_question">
+<span class="sig-name descname"><span class="pre">generate_random_question</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Calculate.generate_random_question" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a random math question.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: The math question to answer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Calculate.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Calculate.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Calculate.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Calculate.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.FlyingGreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">FlyingGreen</span></span><a class="headerlink" href="#states.minigames.FlyingGreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame where you must click on a circle before time runs out.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.FlyingGreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.FlyingGreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.FlyingGreen.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.FlyingGreen.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.FlyingGreen.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.FlyingGreen.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.Matching">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">Matching</span></span><a class="headerlink" href="#states.minigames.Matching" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame where you must match</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.check_guesses">
+<span class="sig-name descname"><span class="pre">check_guesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.check_guesses" title="Link to this definition">¶</a></dt>
+<dd><p>Adds to the score if the user picked the same number in both of
+their guesses.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>first (int): The first guess the user picked.
+second (int): The second guess the user picked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.draw_backgrounds">
+<span class="sig-name descname"><span class="pre">draw_backgrounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.draw_backgrounds" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the minigame background and text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.draw_board">
+<span class="sig-name descname"><span class="pre">draw_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.draw_board" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the board onto the screen.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>list[pygame.Rect]: List of <cite>Rect</cite> objects for each piece on the </dt><dd><p>board.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.generate_board">
+<span class="sig-name descname"><span class="pre">generate_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.generate_board" title="Link to this definition">¶</a></dt>
+<dd><p>Randomly generates the board.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Matching.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Matching.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.Memory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">Memory</span></span><a class="headerlink" href="#states.minigames.Memory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your memory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Memory.check_win_condition">
+<span class="sig-name descname"><span class="pre">check_win_condition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Memory.check_win_condition" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if the input string matches the generated string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Memory.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Memory.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Memory.generate_random_string">
+<span class="sig-name descname"><span class="pre">generate_random_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Memory.generate_random_string" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a random 5-character string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Memory.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Memory.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Memory.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Memory.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.ReactionTime">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">ReactionTime</span></span><a class="headerlink" href="#states.minigames.ReactionTime" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your reaction time.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ReactionTime.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ReactionTime.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ReactionTime.generate_random_key">
+<span class="sig-name descname"><span class="pre">generate_random_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ReactionTime.generate_random_key" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a random lowercase key from a-z.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: A random number representing a pygame.KEY constant.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ReactionTime.get_timer">
+<span class="sig-name descname"><span class="pre">get_timer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ReactionTime.get_timer" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the reaction timer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ReactionTime.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ReactionTime.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.ReactionTime.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.ReactionTime.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.minigames.Reflexes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.minigames.</span></span><span class="sig-name descname"><span class="pre">Reflexes</span></span><a class="headerlink" href="#states.minigames.Reflexes" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minigame</span></code></p>
+<p>A minigame to test your reflexes</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Reflexes.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Reflexes.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Reflexes.generate_square">
+<span class="sig-name descname"><span class="pre">generate_square</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Reflexes.generate_square" title="Link to this definition">¶</a></dt>
+<dd><p>Generate three squares at random positions on the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Reflexes.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Reflexes.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.minigames.Reflexes.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.minigames.Reflexes.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Second_Chance</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Michael Pagano, Victor Tran, Ben Stephenson, Enes Mance, Chung Ying Lee.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/states.minigames.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

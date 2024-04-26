@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>states.menu package &#8212; Second_Chance 5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=ee801c84"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="states-menu-package">
+<h1>states.menu package<a class="headerlink" href="#states-menu-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-states.menu.menus">
+<span id="states-menu-menus-module"></span><h2>states.menu.menus module<a class="headerlink" href="#module-states.menu.menus" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.menus.LoseScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">LoseScreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">next_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.LoseScreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TimedState</span></code></p>
+<p>State for the lose screen after a minigame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.LoseScreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.LoseScreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.LoseScreen.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.LoseScreen.update" title="Link to this definition">¶</a></dt>
+<dd><p>Switches to the next state if enough time has passed. Also resumes the
+timer that was passed into the constructor (usually for the minigame 
+timer).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.menus.MinigameMenu_WinScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">MinigameMenu_WinScreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">next_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.MinigameMenu_WinScreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TimedState</span></code></p>
+<p>State for the win screen after a minigame.</p>
+<p>The only difference between this and the <cite>WinScreen</cite> state is that this
+state returns to the minigame menu.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.MinigameMenu_WinScreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.MinigameMenu_WinScreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.MinigameMenu_WinScreen.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.MinigameMenu_WinScreen.update" title="Link to this definition">¶</a></dt>
+<dd><p>Switches to the next state if enough time has passed. Also resumes the
+timer that was passed into the constructor (usually for the minigame 
+timer).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">PauseMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Timer</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>State for the pause menu</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>timer (Timer, optional): Timer passed from level or minigame so that</dt><dd><p>the pause menu can resume it. Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.back_to_pause_menu">
+<span class="sig-name descname"><span class="pre">back_to_pause_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.back_to_pause_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Returns to the pause menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.decrease_volume">
+<span class="sig-name descname"><span class="pre">decrease_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.decrease_volume" title="Link to this definition">¶</a></dt>
+<dd><p>Decreases game volume.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.increase_volume">
+<span class="sig-name descname"><span class="pre">increase_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.increase_volume" title="Link to this definition">¶</a></dt>
+<dd><p>Increases game volume.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.options_menu">
+<span class="sig-name descname"><span class="pre">options_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.options_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Opens the options menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.PauseMenu.resume">
+<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.PauseMenu.resume" title="Link to this definition">¶</a></dt>
+<dd><p>Resumes the level/minigame timer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">StartMenu</span></span><a class="headerlink" href="#states.menu.menus.StartMenu" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>State for the start menu.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.decrease_volume">
+<span class="sig-name descname"><span class="pre">decrease_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.decrease_volume" title="Link to this definition">¶</a></dt>
+<dd><p>Decreases game volume.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.increase_volume">
+<span class="sig-name descname"><span class="pre">increase_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.increase_volume" title="Link to this definition">¶</a></dt>
+<dd><p>Increases game volume.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.instructions_menu">
+<span class="sig-name descname"><span class="pre">instructions_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.instructions_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Opens the instructions menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.leaderboard_menu">
+<span class="sig-name descname"><span class="pre">leaderboard_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.leaderboard_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Opens the leaderboard menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.main_menu">
+<span class="sig-name descname"><span class="pre">main_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.main_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Opens the main menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.minigames_menu">
+<span class="sig-name descname"><span class="pre">minigames_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.minigames_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Opens the minigames menu and allows you to pick a specific minigame to 
+play.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.options_menu">
+<span class="sig-name descname"><span class="pre">options_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.options_menu" title="Link to this definition">¶</a></dt>
+<dd><p>Opens the options menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.StartMenu.toggle">
+<span class="sig-name descname"><span class="pre">toggle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.StartMenu.toggle" title="Link to this definition">¶</a></dt>
+<dd><p>Toggles the current menu theme.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.menus.UsernamePrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">UsernamePrompt</span></span><a class="headerlink" href="#states.menu.menus.UsernamePrompt" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></p>
+<p>State for the username prompt screen.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.UsernamePrompt.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.UsernamePrompt.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.UsernamePrompt.draw_gradient_background">
+<span class="sig-name descname"><span class="pre">draw_gradient_background</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.UsernamePrompt.draw_gradient_background" title="Link to this definition">¶</a></dt>
+<dd><p>Draws a colorful, constantly changing gradient background.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.UsernamePrompt.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.UsernamePrompt.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.UsernamePrompt.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.UsernamePrompt.update" title="Link to this definition">¶</a></dt>
+<dd><p>_summary_</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Some other states needed to use the <cite>events</cite> list, so that’s the</dt><dd><p>only reason why they are passed in here.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.menus.WinScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">WinScreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">next_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.WinScreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TimedState</span></code></p>
+<p>State for the win screen after a minigame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.WinScreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.WinScreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.menus.WinScreen.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.WinScreen.update" title="Link to this definition">¶</a></dt>
+<dd><p>Switches to the next state if enough time has passed. Also resumes the
+timer that was passed into the constructor (usually for the minigame 
+timer).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="states.menu.menus.load_theme_config">
+<span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">load_theme_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.load_theme_config" title="Link to this definition">¶</a></dt>
+<dd><p>Loads the menu theme from config file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="states.menu.menus.save_theme_config">
+<span class="sig-prename descclassname"><span class="pre">states.menu.menus.</span></span><span class="sig-name descname"><span class="pre">save_theme_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theme</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.menus.save_theme_config" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the current menu theme to config file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>theme: Theme to save.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-states.menu.title_screen">
+<span id="states-menu-title-screen-module"></span><h2>states.menu.title_screen module<a class="headerlink" href="#module-states.menu.title_screen" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.title_screen.TitleScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.title_screen.</span></span><span class="sig-name descname"><span class="pre">TitleScreen</span></span><a class="headerlink" href="#states.menu.title_screen.TitleScreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="states.html#states.state.State" title="states.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a></p>
+<p>State for the title screen.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.title_screen.TitleScreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.title_screen.TitleScreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.title_screen.TitleScreen.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Event</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.title_screen.TitleScreen.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.menu.winscreen">
+<span id="states-menu-winscreen-module"></span><h2>states.menu.winscreen module<a class="headerlink" href="#module-states.menu.winscreen" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="states.menu.winscreen.WinScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">states.menu.winscreen.</span></span><span class="sig-name descname"><span class="pre">WinScreen</span></span><a class="headerlink" href="#states.menu.winscreen.WinScreen" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="states.html#states.state.State" title="states.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a></p>
+<p>State for the win screen.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.winscreen.WinScreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.winscreen.WinScreen.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the <cite>surface</cite> image onto the screen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="states.menu.winscreen.WinScreen.handle_events">
+<span class="sig-name descname"><span class="pre">handle_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Event</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#states.menu.winscreen.WinScreen.handle_events" title="Link to this definition">¶</a></dt>
+<dd><p>All input events from are handled here.</p>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Every state that inherits from this class needs to implement the</dt><dd><p>loop to process input events. <cite>pygame.menu.Menu</cite> objects 
+require the entire list of events to update, so this is a 
+workaround for that for now.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>events (list[pygame.event.Event]): List of events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-states.menu">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-states.menu" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Second_Chance</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Michael Pagano, Victor Tran, Ben Stephenson, Enes Mance, Chung Ying Lee.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/states.menu.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
