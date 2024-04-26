@@ -20,7 +20,7 @@ from src.utils.timer import Timer
 
 
 # Necessary to access minigames from the minigames package
-
+from src.states.minigames import *
 
 class Level(State):
     """General level class.
